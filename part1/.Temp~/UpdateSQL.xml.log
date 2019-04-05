@@ -1,27 +1,35 @@
-[07 Mar 2019 15:43:30] DEBUG Executing SQL script
-[07 Mar 2019 15:43:30] INFO ================================================================================
-[07 Mar 2019 15:43:30] INFO outputPath= '/Users/vitorpeixoto/Documents/MIEI/EW/WebRatio/WebRatio/WebRatio.app/Contents/MacOS/workspace/BetESS/.Temp~/UpdateSQL.xml'
-[07 Mar 2019 15:43:30] INFO onError= 'stop'
-[07 Mar 2019 15:43:30] INFO statementSeparator= ';'
-[07 Mar 2019 15:43:30] INFO derby.system.home= '/Users/vitorpeixoto/Documents/MIEI/EW/WebRatio/WebRatio/WebRatio.app/Contents/MacOS/workspace/.metadata/.plugins/com.webratio.commons.db/derby'
-[07 Mar 2019 15:43:30] INFO password= 'mgrcp97dpp'
-[07 Mar 2019 15:43:30] INFO url= 'jdbc:mysql://localhost:3306/betess'
-[07 Mar 2019 15:43:30] INFO username= 'root'
-[07 Mar 2019 15:43:30] INFO autoCommit= 'false'
-[07 Mar 2019 15:43:30] INFO outputLogPath= '/Users/vitorpeixoto/Documents/MIEI/EW/WebRatio/WebRatio/WebRatio.app/Contents/MacOS/workspace/BetESS/.Temp~/UpdateSQL.xml.log'
-[07 Mar 2019 15:43:30] INFO driverClass= 'com.mysql.jdbc.Driver'
-[07 Mar 2019 15:43:30] INFO encoding= ''
-[07 Mar 2019 15:43:30] INFO eventSocketPort= '62680'
-[07 Mar 2019 15:43:30] INFO sqlScript= '/Users/vitorpeixoto/Documents/MIEI/EW/WebRatio/WebRatio/WebRatio.app/Contents/MacOS/workspace/BetESS/.Temp~/UpdateSQL.sql'
-[07 Mar 2019 15:43:30] INFO ================================================================================
-[07 Mar 2019 15:43:30] INFO Connecting to the Database...
-[07 Mar 2019 15:43:31] INFO Database connection estabilished
-[07 Mar 2019 15:43:31] INFO transaction isolation: 4
-[07 Mar 2019 15:43:31] DEBUG ================================================================================
-[07 Mar 2019 15:43:31] DEBUG Executing SQL script file: /Users/vitorpeixoto/Documents/MIEI/EW/WebRatio/WebRatio/WebRatio.app/Contents/MacOS/workspace/BetESS/.Temp~/UpdateSQL.sql
-[07 Mar 2019 15:43:31] DEBUG Executing statement:  create table `student` ( `oid`  integer  not null, `name`  varchar(255), `number`  varchar(255), primary key (`oid`) )
-[07 Mar 2019 15:43:31] DEBUG Executing statement:    create table `course` ( `oid`  integer  not null, `name`  varchar(255), `ects`  integer, primary key (`oid`) )
-[07 Mar 2019 15:43:31] DEBUG ================================================================================
-[07 Mar 2019 15:43:31] DEBUG SQL SCRIPT SUCCESSFULLY EXECUTED
-[07 Mar 2019 15:43:31] INFO Database connection closed
-[07 Mar 2019 15:43:31] DEBUG Total time: 273 milliseconds
+[05 Apr 2019 08:37:41] DEBUG Executing SQL script
+[05 Apr 2019 08:37:41] INFO ================================================================================
+[05 Apr 2019 08:37:41] INFO outputPath= '/Users/vitorpeixoto/Documents/MIEI/EW/projeto/part1/.Temp~/UpdateSQL.xml'
+[05 Apr 2019 08:37:41] INFO onError= 'stop'
+[05 Apr 2019 08:37:41] INFO statementSeparator= ';'
+[05 Apr 2019 08:37:41] INFO derby.system.home= '/Users/vitorpeixoto/Documents/MIEI/EW/webratio/.metadata/.plugins/com.webratio.commons.db/derby'
+[05 Apr 2019 08:37:41] INFO password= 'mgrcp97dpp'
+[05 Apr 2019 08:37:41] INFO url= 'jdbc:mysql://127.0.0.1:3306/betess'
+[05 Apr 2019 08:37:41] INFO username= 'root'
+[05 Apr 2019 08:37:41] INFO autoCommit= 'false'
+[05 Apr 2019 08:37:41] INFO outputLogPath= '/Users/vitorpeixoto/Documents/MIEI/EW/projeto/part1/.Temp~/UpdateSQL.xml.log'
+[05 Apr 2019 08:37:41] INFO driverClass= 'com.mysql.jdbc.Driver'
+[05 Apr 2019 08:37:41] INFO encoding= ''
+[05 Apr 2019 08:37:41] INFO eventSocketPort= '59816'
+[05 Apr 2019 08:37:41] INFO sqlScript= '/Users/vitorpeixoto/Documents/MIEI/EW/projeto/part1/.Temp~/UpdateSQL.sql'
+[05 Apr 2019 08:37:41] INFO ================================================================================
+[05 Apr 2019 08:37:41] INFO Connecting to the Database...
+[05 Apr 2019 08:37:41] INFO Database connection estabilished
+[05 Apr 2019 08:37:41] INFO transaction isolation: 4
+[05 Apr 2019 08:37:41] DEBUG ================================================================================
+[05 Apr 2019 08:37:41] DEBUG Executing SQL script file: /Users/vitorpeixoto/Documents/MIEI/EW/projeto/part1/.Temp~/UpdateSQL.sql
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `bet`  add column  `oid`  integer  not null
+[05 Apr 2019 08:37:41] DEBUG Executing statement:    alter table `event`  add column  `oddv`  double precision
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `event`  add column  `odde`  double precision
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `event`  add column  `oddd`  double precision
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `event`  add column  `status`  bit
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `event`  add column  `result`  integer
+[05 Apr 2019 08:37:41] DEBUG Executing statement:    alter table `competition`  add column  `name`  varchar(255)
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `competition`  add column  `country`  varchar(255)
+[05 Apr 2019 08:37:41] DEBUG Executing statement:    alter table `team`  add column  `name`  varchar(255)
+[05 Apr 2019 08:37:41] DEBUG Executing statement:  alter table `team`  add column  `simbolo`  varchar(255)
+[05 Apr 2019 08:37:41] DEBUG ================================================================================
+[05 Apr 2019 08:37:41] DEBUG SQL SCRIPT SUCCESSFULLY EXECUTED
+[05 Apr 2019 08:37:41] INFO Database connection closed
+[05 Apr 2019 08:37:41] DEBUG Total time: 438 milliseconds
