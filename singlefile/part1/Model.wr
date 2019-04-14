@@ -270,19 +270,22 @@
       </Area> 
     </SiteView>  
     <SiteView id="sv2" name="Login" protected="false" landmarks="area8" homePage="page18"> 
-      <OperationUnits> 
-        <SetUnit gr:x="580" gr:y="370" id="stu1" name="Set1"/> 
-      </OperationUnits>  
-      <Area gr:x="160" gr:y="145" id="area8" name="Inicio" landmark="true" defaultPage="page18"> 
+      <OperationUnits/>  
+      <Area gr:x="155" gr:y="155" id="area8" name="Inicio" landmark="true" defaultPage="page18"> 
         <OperationUnits> 
-          <LoginUnit gr:x="210" gr:y="155" id="lgu8" name="Login"> 
+          <LoginUnit gr:x="30" gr:y="260" id="lgu8" name="Login"> 
             <KOLink id="kln7" name="KOFlow7" to="mssu9" automaticCoupling="true"/> 
-          </LoginUnit> 
+          </LoginUnit>  
+          <CreateUnit gr:x="385" gr:y="35" id="cru6" name="CreateUser" entity="User"> 
+            <OKLink id="oln8" name="OKFlow8" to="page18" automaticCoupling="true" gr:bendpoints="-64,81,276,56;-203,81,117,56"/>  
+            <KOLink id="kln2" name="KOFlow2" to="page14" automaticCoupling="true" gr:bendpoints="31,97,86,-108"/> 
+          </CreateUnit> 
         </OperationUnits>  
         <Page gr:x="0" gr:y="0" id="page18" name="Bem-vindo"> 
           <ContentUnits> 
-            <MultiMessageUnit gr:x="0" gr:y="0" id="mssu8" name="Welcome message"> 
-              <Message xml:space="preserve">Henlo fren</Message> 
+            <MultiMessageUnit gr:x="0" gr:y="0" id="mssu8" name="Bem-vindo a BetESS" linkOrder="ln42"> 
+              <Message xml:space="preserve">A BetESS e uma plataforma de apostas online com a maior oferta de jogos e as melhores odds do mercado. Ganhe dinheiro ao prever os resultados de jogos de futebol das maiores ligas europeias. Se ainda nao tem conta, ainda vai a tempo de se registar. Boa sorte!</Message>  
+              <Link id="ln42" name="Registar" to="page13" type="normal" automaticCoupling="true" validate="true"/> 
             </MultiMessageUnit>  
             <EntryUnit gr:x="15" gr:y="70" id="enu13" name="Login" entity="User" linkOrder="ln18"> 
               <Field id="fld26" name="Username" type="string" modifiable="true" attribute="userName"> 
@@ -304,7 +307,9 @@
           <layout:Grid containerType="grid"> 
             <layout:Row> 
               <layout:Cell colspan="12"> 
-                <layout:Unit unitId="mssu8"/> 
+                <layout:Unit unitId="mssu8"> 
+                  <layout:Link link="ln42"/> 
+                </layout:Unit> 
               </layout:Cell>  
               <layout:Cell/>  
               <layout:Cell/>  
@@ -337,19 +342,135 @@
               <layout:Cell/>  
               <layout:Cell/>  
               <layout:Cell/> 
+            </layout:Row>  
+            <layout:Row> 
+              <layout:Cell colspan="12"/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/> 
             </layout:Row> 
           </layout:Grid> 
         </Page>  
-        <Page gr:x="40" gr:y="220" id="page19" name="Erro"> 
+        <Page gr:x="155" gr:y="225" id="page19" name="Erro"> 
           <ContentUnits> 
             <MultiMessageUnit gr:x="0" gr:y="0" id="mssu9" name="Erro login"> 
-              <Message xml:space="preserve">Credenciais erradas</Message> 
+              <Message xml:space="preserve">Credenciais incorretas.</Message> 
             </MultiMessageUnit> 
           </ContentUnits>  
           <layout:Grid containerType="grid"> 
             <layout:Row> 
               <layout:Cell colspan="12"> 
                 <layout:Unit unitId="mssu9"/> 
+              </layout:Cell>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/> 
+            </layout:Row> 
+          </layout:Grid> 
+        </Page>  
+        <Page gr:x="215" gr:y="0" id="page13" name="Registar"> 
+          <ContentUnits> 
+            <EntryUnit id="enu14" name="Registo" linkOrder="ln40" gr:x="0" gr:y="0" entity="User"> 
+              <Field id="fld32" name="Username" type="string" modifiable="true" attribute="userName"> 
+                <VRules> 
+                  <MandatoryValidationRule id="mnd29" name="Mandatory"/> 
+                </VRules> 
+              </Field>  
+              <Field id="fld33" name="Email" type="string" modifiable="true" attribute="email"> 
+                <VRules> 
+                  <MandatoryValidationRule id="mnd30" name="Mandatory"/> 
+                </VRules> 
+              </Field>  
+              <Field id="fld34" name="Nome" type="string" modifiable="true" attribute="att19"> 
+                <VRules> 
+                  <MandatoryValidationRule id="mnd31" name="Mandatory"/> 
+                </VRules> 
+              </Field>  
+              <Field id="fld35" name="Password" type="password" modifiable="true" attribute="password"> 
+                <VRules> 
+                  <MandatoryValidationRule id="mnd32" name="Mandatory"/> 
+                </VRules> 
+              </Field>  
+              <Field id="fld36" name="Saldo inicial" type="float" modifiable="true" attribute="att2"> 
+                <VRules> 
+                  <MandatoryValidationRule id="mnd33" name="Mandatory"/> 
+                </VRules> 
+              </Field>  
+              <SelectionField id="sfld12" name="Tipo de conta" type="string"> 
+                <Slot id="slot23" name="Label" label="true" output="false" value="Default|Premium"/>  
+                <Slot id="slot24" name="Output" label="false" output="true" value="1|2"/>  
+                <VRules> 
+                  <MandatoryValidationRule id="mnd34" name="Mandatory"/> 
+                </VRules> 
+              </SelectionField>  
+              <Link id="ln40" name="Registar" to="cru6" type="normal" validate="true"> 
+                <LinkParameter id="par114" name="Saldo inicial_coins" source="fld36" target="cru6.att2"/>  
+                <LinkParameter id="par115" name="Email_email" source="fld33" target="cru6.email"/>  
+                <LinkParameter id="par116" name="Tipo de conta_Group.oid(defaultGroup)" source="sfld12" target="cru6.User2DefaultGroup.groupOID"/>  
+                <LinkParameter id="par117" name="Nome_name" source="fld34" target="cru6.att19"/>  
+                <LinkParameter id="par118" name="Key [oid]_oid" source="key.userOID" target="cru6.userOID"/>  
+                <LinkParameter id="par119" name="Password_password" source="fld35" target="cru6.password"/>  
+                <LinkParameter id="par120" name="User Object_User Object" source="entityBean" target="cru6.entityBeans"/>  
+                <LinkParameter id="par121" name="Username_username" source="fld32" target="cru6.userName"/> 
+              </Link> 
+            </EntryUnit> 
+          </ContentUnits>  
+          <layout:Grid containerType="grid"> 
+            <layout:Row> 
+              <layout:Cell colspan="12"> 
+                <layout:Unit unitId="enu14"> 
+                  <layout:Field field="fld32"/>  
+                  <layout:Field field="fld33"/>  
+                  <layout:Field field="fld34"/>  
+                  <layout:Field field="fld35"/>  
+                  <layout:Field field="fld36"/>  
+                  <layout:Field field="sfld12"/>  
+                  <layout:Link link="ln40"/> 
+                </layout:Unit> 
+              </layout:Cell>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/>  
+              <layout:Cell/> 
+            </layout:Row> 
+          </layout:Grid> 
+        </Page>  
+        <Page gr:x="300" gr:y="225" id="page14" name="Erro"> 
+          <ContentUnits> 
+            <MultiMessageUnit gr:x="0" gr:y="0" id="mssu13" name="Erro ao registar" linkOrder="ln43"> 
+              <Message xml:space="preserve">Ja existe uma conta associada a estes dados no sistema.</Message>  
+              <Link id="ln43" name="Voltar" to="page18" automaticCoupling="true" type="normal" validate="true"/> 
+            </MultiMessageUnit> 
+          </ContentUnits>  
+          <layout:Grid containerType="grid"> 
+            <layout:Row> 
+              <layout:Cell colspan="12"> 
+                <layout:Unit unitId="mssu13"> 
+                  <layout:Link link="ln43"/> 
+                </layout:Unit> 
               </layout:Cell>  
               <layout:Cell/>  
               <layout:Cell/>  

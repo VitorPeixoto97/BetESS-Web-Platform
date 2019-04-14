@@ -59,6 +59,28 @@ SET NEW.odd=oddAposta;
 SET NEW.profit=oddAposta*NEW.amount;
 END;$$
 
+
+DELIMITER $$
+CREATE TRIGGER new_user BEFORE INSERT ON user_2
+FOR EACH ROW
+BEGIN
+DECLARE msg VARCHAR(200);
+IF (NEW.username IN
+	(SELECT username
+	 FROM user_2
+	 WHERE user_2.username = NEW.username))
+THEN SET msg = 'Username ja existe!';
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+END IF;
+IF (NEW.email IN
+	(SELECT email
+	 FROM user_2
+	 WHERE user_2.email = NEW.email))
+THEN SET msg = 'Email ja existe!';
+SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = msg;
+END IF;
+END;$$
+
 DELIMITER $$
 DROP TRIGGER bet_add_odd;
 $$
