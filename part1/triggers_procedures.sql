@@ -87,6 +87,36 @@ $$
 
 
 DELIMITER $$
+CREATE PROCEDURE rem_equipa_comp
+(IN equipa_id INT,
+ IN comp_id INT)
+BEGIN
+DECLARE erro BOOL DEFAULT 0;
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
+START TRANSACTION;
+	DELETE FROM betess.competition_team WHERE competition_oid=comp_id AND team_oid=equipa_id;
+IF erro
+THEN ROLLBACK;
+ELSE COMMIT;
+END IF;
+END;$$
+
+DELIMITER $$
+CREATE PROCEDURE add_equipa_comp
+(IN equipa_id INT,
+ IN comp_id INT)
+BEGIN
+DECLARE erro BOOL DEFAULT 0;
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
+START TRANSACTION;
+	INSERT INTO competition_team VALUES (comp_id, equipa_id);
+IF erro
+THEN ROLLBACK;
+ELSE COMMIT;
+END IF;
+END;$$
+
+DELIMITER $$
 CREATE PROCEDURE add_coins
 (IN user_id INT,
  IN cns INT)
@@ -100,6 +130,9 @@ THEN ROLLBACK;
 ELSE COMMIT;
 END IF;
 END;$$
+
+
+
 
 
 DELIMITER $$
