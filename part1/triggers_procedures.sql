@@ -170,7 +170,8 @@ DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
 START TRANSACTION;
 
 	IF ((SELECT COUNT(*) FROM competition_team WHERE competition_oid=competicao AND team_oid=eqcasa)=1 
-		AND (SELECT COUNT(*) FROM competition_team WHERE competition_oid=competicao AND team_oid=eqfora)=1)
+		AND (SELECT COUNT(*) FROM competition_team WHERE competition_oid=competicao AND team_oid=eqfora)=1
+        AND (eqcasa!=eqfora))
         THEN
 	INSERT INTO event VALUES (id+1, tipo, oddcasa, oddempate, oddfora, TRUE, ' ', eqcasa, competicao, eqfora);
     ELSE SIGNAL SQLSTATE '08006';
