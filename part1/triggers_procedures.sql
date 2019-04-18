@@ -87,6 +87,93 @@ $$
 
 
 DELIMITER $$
+CREATE PROCEDURE end_jogo
+(IN event_id INT,
+ IN resultado VARCHAR(255))
+BEGIN
+
+DECLARE erro BOOL DEFAULT 0;
+DECLARE bet_id INT DEFAULT 0;
+DECLARE ganhou BOOL DEFAULT 0;
+DECLARE mensagem TEXT DEFAULT 'Perdeu uma aposta.';
+DECLARE n INT DEFAULT 0;
+DECLARE i INT DEFAULT 0;
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
+
+START TRANSACTION;
+	
+    UPDATE betess.event SET event.result=resultado WHERE event.oid=event_id;
+    UPDATE betess.event SET event.status=false WHERE event.oid=event_id;
+
+SELECT COUNT(*) FROM bet INTO n;
+SET i=0;
+WHILE i<n DO 
+	IF ((SELECT event_oid FROM bet ORDER BY oid LIMIT i,1) = event_id)
+    THEN 
+		SET bet_id=(SELECT oid FROM bet ORDER BY oid LIMIT i,1);
+		IF ((SPLIT_STRING(resultado, '-', 1)) > (SPLIT_STRING(resultado, '-', 2)))
+		AND ((SELECT result FROM bet ORDER BY oid LIMIT i,1) = 1)
+		THEN
+			SET mensagem='Parabens! Ganhou uma aposta!';
+			UPDATE user_2 SET coins=coins+(SELECT profit FROM bet ORDER BY oid LIMIT i,1) WHERE user_2.oid=(SELECT user_2_oid FROM bet ORDER BY oid LIMIT i,1);
+            SET ganhou=1;
+		END IF;
+		IF ((SPLIT_STRING(resultado, '-', 1)) = (SPLIT_STRING(resultado, '-', 2)))
+		AND ((SELECT result FROM bet ORDER BY oid LIMIT i,1) = 2)
+		THEN
+			SET mensagem='Parabens! Ganhou uma aposta!';
+			UPDATE user_2 SET coins=coins+(SELECT profit FROM bet ORDER BY oid LIMIT i,1) WHERE user_2.oid=(SELECT user_2_oid FROM bet ORDER BY oid LIMIT i,1);
+            SET ganhou=1;
+		END IF;
+		IF ((SPLIT_STRING(resultado, '-', 1)) < (SPLIT_STRING(resultado, '-', 2)))
+		AND ((SELECT result FROM bet ORDER BY oid LIMIT i,1) = 3)
+		THEN 
+			SET mensagem='Parabens! Ganhou uma aposta!';
+			UPDATE user_2 SET coins=coins+(SELECT profit FROM bet ORDER BY oid LIMIT i,1) WHERE user_2.oid=(SELECT user_2_oid FROM bet ORDER BY oid LIMIT i,1);
+            SET ganhou=1;
+		END IF;
+        
+        IF(ganhou=0)
+        THEN
+			SET mensagem='Perdeu uma aposta.';
+            UPDATE bet SET profit=0 WHERE oid=bet_id;
+        END IF;
+        
+        INSERT INTO notification(oid, message, bet_oid, user_2_oid)
+		SELECT oid, mensagem, oid, user_2_oid FROM bet ORDER BY oid LIMIT i,1;
+	END IF;
+  SET i = i + 1;
+END WHILE;
+
+IF erro
+THEN ROLLBACK;
+ELSE COMMIT;
+END IF;
+END; $$
+
+DELIMITER $$
+CREATE PROCEDURE add_jogo
+(IN id INT,
+ IN competicao INT,
+ IN eqcasa INT,
+ IN eqfora INT,
+ IN oddcasa DOUBLE,
+ IN oddempate DOUBLE,
+ IN oddfora DOUBLE,
+ IN tipo INT)
+BEGIN
+DECLARE erro BOOL DEFAULT 0;
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
+START TRANSACTION;
+	INSERT INTO event VALUES (id, tipo, oddcasa, oddempate, oddfora, TRUE, ' ', eqcasa, competicao, eqfora);
+IF erro
+THEN ROLLBACK;
+ELSE COMMIT;
+END IF;
+END;$$
+
+
+DELIMITER $$
 CREATE PROCEDURE rem_equipa_comp
 (IN equipa_id INT,
  IN comp_id INT)
@@ -132,9 +219,6 @@ END IF;
 END;$$
 
 
-
-
-
 DELIMITER $$
 CREATE PROCEDURE rem_coins
 (IN user_id INT,
@@ -149,3 +233,21 @@ THEN ROLLBACK;
 ELSE COMMIT;
 END IF;
 END;$$
+
+
+
+
+CREATE FUNCTION `SPLIT_STRING`(
+	str VARCHAR(255) ,
+	delim VARCHAR(12) ,
+	pos INT
+) RETURNS VARCHAR(255) CHARSET utf8 RETURN REPLACE(
+	SUBSTRING(
+		SUBSTRING_INDEX(str , delim , pos) ,
+		CHAR_LENGTH(
+			SUBSTRING_INDEX(str , delim , pos - 1)
+		) + 1
+	) ,
+	delim ,
+	''
+);
