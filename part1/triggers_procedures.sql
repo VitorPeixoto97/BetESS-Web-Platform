@@ -102,14 +102,17 @@ DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
 
 START TRANSACTION;
 	
-    UPDATE betess.event SET event.result=resultado WHERE event.oid=event_id;
-    UPDATE betess.event SET event.status=false WHERE event.oid=event_id;
+UPDATE betess.event SET event.result=resultado WHERE event.oid=event_id;
+UPDATE betess.event SET event.status=false WHERE event.oid=event_id;
 
 SELECT COUNT(*) FROM bet INTO n;
 SET i=0;
 WHILE i<n DO 
+	
 	IF ((SELECT event_oid FROM bet ORDER BY oid LIMIT i,1) = event_id)
     THEN 
+		SET mensagem='Perdeu uma aposta';
+		SET ganhou=0;
 		SET bet_id=(SELECT oid FROM bet ORDER BY oid LIMIT i,1);
 		IF ((SPLIT_STRING(resultado, '-', 1)) > (SPLIT_STRING(resultado, '-', 2)))
 		AND ((SELECT result FROM bet ORDER BY oid LIMIT i,1) = 1)
@@ -165,9 +168,16 @@ BEGIN
 DECLARE erro BOOL DEFAULT 0;
 DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET erro = 1;
 START TRANSACTION;
-	INSERT INTO event VALUES (id, tipo, oddcasa, oddempate, oddfora, TRUE, ' ', eqcasa, competicao, eqfora);
+
+	IF ((SELECT COUNT(*) FROM competition_team WHERE competition_oid=competicao AND team_oid=eqcasa)=1 
+		AND (SELECT COUNT(*) FROM competition_team WHERE competition_oid=competicao AND team_oid=eqfora)=1)
+        THEN
+	INSERT INTO event VALUES (id+1, tipo, oddcasa, oddempate, oddfora, TRUE, ' ', eqcasa, competicao, eqfora);
+    ELSE SIGNAL SQLSTATE '08006';
+    END IF;
 IF erro
 THEN ROLLBACK;
+SIGNAL SQLSTATE '08006';
 ELSE COMMIT;
 END IF;
 END;$$
