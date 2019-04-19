@@ -5,7 +5,7 @@ INSERT INTO `module_2` (`oid`,`moduleid`,`modulename`) VALUES (3,'area15','Event
 
 INSERT INTO `group_2` (`oid`,`groupname`,`module_2_oid`) VALUES (0,'Admin',0);
 INSERT INTO `group_2` (`oid`,`groupname`,`module_2_oid`) VALUES (1,'User',1);
-INSERT INTO `group_2` (`oid`,`groupname`,`module_2_oid`) VALUES (2,'UserPremium',2);
+INSERT INTO `group_2` (`oid`,`groupname`,`module_2_oid`) VALUES (2,'UserPremium',1);
 
 INSERT INTO `group_module_2` (`group_2_oid`,`module_2_oid`) VALUES (1,1);
 INSERT INTO `group_module_2` (`group_2_oid`,`module_2_oid`) VALUES (1,3);
