@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'BetESS.urls'
+ROOT_URLCONF = 'UserService.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'BetESS.wsgi.application'
+WSGI_APPLICATION = 'UserService.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -106,9 +106,9 @@ JWT_AUTH = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'betess',
-        'USER': 'betess',
-        'PASSWORD': 'betess',
+        'NAME': 'matchesandteamsservice',
+        'USER': 'matchesandteamsservice',
+        'PASSWORD': 'matchesandteamsservice',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

@@ -24,7 +24,7 @@ from .routers import router
 
 urlpatterns = [
 
-    url(r'server/', include('server.urls')),
+    url(r'usermicroservice/', include('UserMicroservice.urls')),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('rest/', include(router.urls)),

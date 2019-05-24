@@ -6,7 +6,7 @@ register_converter(converters.BoolConverter, 'bool')
 register_converter(converters.DateConverter, 'date')
 register_converter(converters.TimeConverter, 'time')
 
-app_name = 'server'
+app_name = 'UserMicroservice'
 urlpatterns = [
 
     path('clubes/', TemplateView.as_view(template_name='clubes.html')),
