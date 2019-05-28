@@ -13,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 class IndexView(generic.ListView):
 	template_name = 'index.html'
-	context_object_name = 'club_list'
+	context_object_name = 'user_list'
 	#def get_queryset(self):
 		#return models.Clube.objects.order_by('-nome')[:5]
 
@@ -44,48 +44,25 @@ def logoutView(request):
     logout(request)
 '''
 
-# def infoUserView(request, email):
-#   user = models.User.objects.get(email=email)
+def infoUserView(request, email):
+  user = models.User.objects.get(email=email)
 
-#   return JsonResponse(model_to_dict(user))
-
-
-# @login_required
-# @permission_required('add_clube', raise_exception=True)
-# def clubeView(request, nome, cor, simbolo):
-#     existe = False
-#     for clube in models.Clube.objects.all():
-#         if clube.nome == nome:
-#             existe = True
-#     if not existe:
-#         models.Clube.objects.create(nome=nome, cor=cor, simbolo=simbolo)
-#         return HttpResponse('ok')
-#     else:
-#         return HttpResponseBadRequest(content='clube already exists')
+  return JsonResponse(model_to_dict(user))
 
 
-# @login_required
-# @permission_required('change_clube', raise_exception=True)
-# def cClubeView(request, id, cor, simbolo):
-#     models.Clube.objects.filter(id=id).update(cor=cor, simbolo=simbolo)
-#     return HttpResponse('ok')
+@login_required
+@permission_required('add_user', raise_exception=True)
+def userView(request, username, email, password, name, coins):
+    existe = False
+    for user in models.User.objects.all():
+        if user.email == email:
+            existe = True
+    if not existe:
+        models.User.objects.create(username=username, email=email, password=password, name=name, coins=coins)
+        return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='user already exists')
 
-
-# @login_required
-# @permission_required('view_clube', raise_exception=True)
-# def gClubeView(request, id):
-#     clube = get_object_or_404(models.Clube, id=id)
-#     return JsonResponse(model_to_dict(clube))
-
-
-# @login_required
-# @permission_required('view_clube', raise_exception=True)
-# def gClubesView(request):
-#     clubes = models.Clube.objects.all()
-#     aux = []
-#     for clube in clubes:
-#         aux.append(model_to_dict(clube))
-#     return JsonResponse(aux)
 
 
 # @login_required
