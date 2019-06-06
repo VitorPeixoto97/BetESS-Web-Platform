@@ -16,8 +16,8 @@ class Team(models.Model):
 class Event(models.Model):
     type = models.IntegerField()
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
-    equipaC = models.ForeignKey(Team, on_delete=models.CASCADE)
-    equipaV = models.ForeignKey(Team, on_delete=models.CASCADE)
+    equipaC = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='equipa_casa')
+    equipaV = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='equipa_visitante')
     oddV = models.FloatField()
     oddE = models.FloatField()
     oddD = models.FloatField()
