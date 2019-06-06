@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'server.apps.serverConfig',
+    'BettingApp.apps.BettingAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'UserService.urls'
+ROOT_URLCONF = 'BettingService.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'UserService.wsgi.application'
+WSGI_APPLICATION = 'BettingService.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

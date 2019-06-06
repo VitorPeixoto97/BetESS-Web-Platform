@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'server.apps.serverConfig',
+    'MatchesAndTeamsApp.apps.MatchesAndTeamsAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'UserService.urls'
+ROOT_URLCONF = 'MatchesAndTeamsService.urls'
 
 TEMPLATES = [
     {
@@ -77,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'UserService.wsgi.application'
+WSGI_APPLICATION = 'MatchesAndTeamsService.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
