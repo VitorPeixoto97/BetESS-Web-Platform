@@ -6,7 +6,7 @@
     <div>
       <div class="phone-viewport">
         <md-bottom-bar md-type="shift" :md-active-item="activeVal">
-          <div style="margin: 0 auto; width: 100%;">
+          <div style="margin: 0 auto; width: 100%; background-color:#FF5426;">
             <md-bottom-bar-item id="jogos" @click="jogos" md-label="Jogos" md-icon="menu"></md-bottom-bar-item>
             <md-bottom-bar-item id="jogo" @click="jogo" md-label="Jogo" md-icon="home"></md-bottom-bar-item>
             <md-bottom-bar-item id="settings" md-label="Definições" md-icon="settings"></md-bottom-bar-item>
@@ -38,7 +38,10 @@
       },
       jogo() {
         this.$session.set('activeTab',"jogo")
-        this.$router.push('/jogo')
+        if(this.$session.get('js')==1){
+          this.$router.push('/jogo')
+        }
+        else this.$router.push('/stats')
       }
     }
   }

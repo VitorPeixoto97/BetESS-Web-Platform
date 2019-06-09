@@ -25,5 +25,4 @@ urlpatterns = [
     path('auth/obtain/', obtain_jwt_token),
     path('auth/refresh/', refresh_jwt_token),
     path('accounts/', include('django.contrib.auth.urls')),
-
 ]

@@ -2,7 +2,7 @@
     <div class="container" id="app">    
       <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-          <img src="../../assets/hoqueistats.png" alt="HoqueiStats" style="width:70%; display: block;
+          <img src="../../assets/logo.png" alt="BetESS" style="width:70%; display: block;
   margin: auto; padding-top: 30px;">
           <div class="card card-signin my-5">
             <div class="card-body">
@@ -84,7 +84,7 @@ export default {
               this.loading = true;
               this.error = 0;
               this.$session.set('user_email', this.$refs.email.value);
-              axios.post('http://localhost:8000/auth/obtain/', this.credentials).then(res => {
+              axios.post('http://localhost:8005/login/', this.credentials).then(res => {
                 this.$session.start();
                 this.$session.set('token', res.data.token);
                 router.push('/jogos');

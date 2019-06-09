@@ -8,12 +8,10 @@ import VueSession from 'vue-session'
 import BootstrapVue from 'bootstrap-vue'
 import VueMaterial from 'vue-material'
 import mdbDatatable from 'mdbvue';
-import VueApexCharts from 'vue-apexcharts'
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
 
-import 'vuetify/dist/vuetify.min.css'
+//import 'vuetify/dist/vuetify.min.css'
 import 'jquery/dist/jquery.min.js';
-import 'bulma/css/bulma.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'vue-material/dist/vue-material.min.css';
@@ -29,7 +27,6 @@ Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.use(Vuetify)
 Vue.use(VueSession)
-Vue.component('apexchart', VueApexCharts)
 
 Vue.config.productionTip = false
 

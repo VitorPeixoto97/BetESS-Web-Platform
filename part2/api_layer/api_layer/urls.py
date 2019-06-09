@@ -16,11 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import include, path
 from django.contrib import admin
-from reverse_proxy.views import ReverseProxy
+from reverse_proxy.views import Gets, Login
 
 
 urlpatterns = [
-    #url(r'^admin/', admin.site.urls),
-    #url(r'bets/', BetsProxy.as_view()),
-    url(r'^(?P<path>.*)$', ReverseProxy.as_view()),
+	#POSTS
+    url(r'^(?P<path>.*)login/$', Login.as_view()),
+
+
+    #GETS
+    url(r'^(?P<path>.*)$', Gets.as_view()),
 ]

@@ -1,0 +1,13 @@
+npm install -g vue-cli
+npm install webpack-bundle-tracker --save-dev
+pip install django-webpack-loader
+
+vue add vuetify
+npm i vue bootstrap-vue bootstrap
+npm install vue-material --save
+npm install --save axios
+npm install jquery
+npm i mdbvue
+npm install node-sass sass-loader
+npm install --save sweetalert2 vue-session vuetify
+npm install cors

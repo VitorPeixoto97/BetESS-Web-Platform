@@ -1,7 +1,7 @@
 <template>
   <layout-basic>
     <div id="app">
-      <div>
+      <div style="background-color: #FFFFFF">
         <md-table v-model="searched" md-sort="name" md-sort-order="asc"  md-fixed-header>
           <md-table-toolbar>
             <div class="md-toolbar-section-start">
@@ -18,9 +18,9 @@
             :md-description="'Não foram encontrados jogos para a sua pesquisa.'">
           </md-table-empty-state>
 
-          <md-table-row slot="md-table-row" slot-scope="{ item }" style="cursor:pointer" @click="verJogo(item.id, item.resultado)">
-            <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-            <md-table-cell md-label="Local" md-sort-by="casa">{{ item.casa }}</md-table-cell>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" style="cursor:pointer" @click="verJogo(item.id, item.ativo)">
+            <md-table-cell md-label="#" md-sort-by="id" md-numeric>{{ item.numero }}</md-table-cell>
+            <md-table-cell md-label="Local" md-sort-by="casa">{{ item.c }}</md-table-cell>
             <md-table-cell md-label="Adversário" md-sort-by="adv_nome">{{ item.adv_nome }}</md-table-cell>
             <md-table-cell md-label="Resultado" md-sort-by="resultado">{{ item.resultado }}</md-table-cell>
             <md-table-cell md-label="Data" md-sort-by="data">{{ item.data }}</md-table-cell>
@@ -30,6 +30,7 @@
     </div>
   </layout-basic>
 </template>
+
 
 <script> 
 import router from "../../router";
@@ -80,14 +81,17 @@ export default {
       }
     },
 
-    verJogo(id, res) {
+    verJogo(id, jogo_ativo) {
       this.$session.set('jogoTab', id)
       this.$session.set('activeTab',"jogo")
-      if(res=="") {
-        this.$session.set('js', )
+      if (jogo_ativo){
+        this.$session.set('js', 1)
         router.push("/jogo");
       }
-      else router.push("/stats")
+      else {
+        this.$session.set('js', 0)
+        router.push("/stats")
+      }
     },
 
     newUser () {
@@ -101,9 +105,6 @@ export default {
 }
 </script>
 
+<style src="../../../dist/static/css/index.css">
 
-<style lang="scss" scoped>
-  .md-field {
-    max-width: 300px;
-  }
-</style>
+
