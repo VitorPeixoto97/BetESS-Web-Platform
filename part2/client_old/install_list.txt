@@ -1,4 +1,0 @@
-npm install webpack-dev-server -g
-npm link webpack
-
-npm install -g vue-cli
