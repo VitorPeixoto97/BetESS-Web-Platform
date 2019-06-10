@@ -60,36 +60,16 @@ def addBetView(request):
     if request.method=='POST':
         received = json.loads(request.body.decode('utf-8'))
 
-        #this.selected.amount = 1
-        #this.selected.bet = "V", "E", "D"
-        #this.selected.odd = 2.34
-        #this.selected.id = 6
-        #this.selected.equipa = "Benfica"
-        #this.selected.user = 0, 1, 2, 3, ...
+        if(received['bet']=="V"):
+            res=0
+        elif(received['bet']=="E"):
+            res=1
+        elif(received['bet']=="D"):
+            res=2
 
-        tp = get_object_or_404(models.TipoEvento, id=received['tipo'])
-        jg = get_object_or_404(models.Jogo, id=received['jogo'])
-        #inst = received['instante']
-        inst = '00:05:12'
-        eq = get_object_or_404(models.Formacao, id=received['equipa'])
-        at1 = get_object_or_404(models.Atleta, id=received['atleta1'])
-        at2 = received['atleta2']
-        zC = received['zonaC']
-        zB = received['zonaB']
-        novo = received['novoinst']
+        prof=received['odd']*received['amount']
 
-        if novo is not None:
-            models.Evento.objects.create(tipo=tp, jogo=jg, instante=inst, novoinstante=novo)
-        elif eq is not None and at1 is not None and at2 is not None:
-            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, atleta2=at2, instante=inst)
-            models.Convocado.objects.filter(atleta=at1, jogo=jg).update(emCampo=False)
-            models.Convocado.objects.filter(atleta=at2, jogo=jg).update(emCampo=True)
-        elif eq is not None and at1 is not None and zC is not None and zB is not None:
-            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, zonaCampo=zC, zonaBaliza=zB, instante=inst)
-        elif eq is not None and at1 is not None and zC is not None:
-            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, zonaCampo=zC, instante=inst)
-        elif eq is not None:
-            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, instante=inst)
+        models.Bet.objects.create(result=res, amount=received['amount'], odd=received['odd'], profit=prof, event=received['id'], user=received['user'])
 
         return HttpResponse('ok')
     else:
