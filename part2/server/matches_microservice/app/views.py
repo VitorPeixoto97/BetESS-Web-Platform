@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.forms.models import model_to_dict
 from . import models
-import pika
-import uuid
+from . import messaging
 
 def cTeamView(request, id, name, simbolo):
     models.Team.objects.filter(id=id).update(name=name, simbolo=simbolo)
@@ -40,12 +39,12 @@ def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, odd
     models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
                                                 oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
 
-    if status == False:
+"""    if status == False:
         endBets('end;' + id + ';' + result)
 
     return HttpResponse('ok')
 
-def endBets(message):
+    def endBets(message):
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost'))
 
@@ -76,7 +75,16 @@ def endBets(message):
         ),
         body=message)
     while response is None:
-        connection.process_data_events()
+        connection.process_data_events() """
+
+def endEventView(request, id, result, equipaC, equipaV):
+    models.Event.objects.filter(id=id).update(status=False, result=result)
+
+    message = 'bet_end;' + id + result + equipaC, equipaV
+
+    sender = messaging.RabbitMessaging()
+
+    sender.send_message(message)
 
 def gEventView(request, id):
     event = get_object_or_404(models.Event, id=id)

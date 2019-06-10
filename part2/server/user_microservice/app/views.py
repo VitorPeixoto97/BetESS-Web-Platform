@@ -72,3 +72,8 @@ def dUserView(request, id):
     user = get_object_or_404(models.User, id=id)
     user.delete()
     return HttpResponse('ok')
+
+def updateCoins(id, coins):
+    user = models.User.objects.filter(id=id)
+    models.User.objects.filter(id=id).update(user.coins + coins)
+    return HttpResponse('ok')

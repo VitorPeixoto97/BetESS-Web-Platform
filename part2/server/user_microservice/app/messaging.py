@@ -23,15 +23,20 @@ class RabbitMessaging:
 
 
     def callback(self, ch, method, properties, body):
+        # recebe mensagem
+        print('Mensagem recebida em user_queue')
         command = body.split(';')
-        response = HttpResponseBadRequest('comando não reconhecido')
-        print('callback iniciado')
+
+        # update de vencedores de apostas
         if(command[0] == 'bet_end'):
-            response = views.cUserView(command[1], command[2], command[3], command[4], command[5], command[6], command[7])
+            users = command[1].split(',')
+            for user in users:
+                userdata = user.split('-')
+                views.updateCoins(int(userdata[0]), float(userdata[1])) #id, coins
             
         self.channel.basic_publish(exchange='',
                         routing_key= properties.reply_to,
-                        body=response,
+                        body='confirmação de user_queue',
                         properties=pika.BasicProperties(
                             correlation_id=properties.correlation_id,
                             delivery_mode = 2, # make message persistent
