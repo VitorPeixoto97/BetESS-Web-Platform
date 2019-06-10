@@ -1,26 +1,29 @@
 import pika
+import uuid
 import threading
 from . import views
-from . import models
-import uuid
 from django.http import HttpResponseBadRequest
 
 class RabbitMessaging:
-    def __init__(self, queue):
+    def __init__(self, bet_queue, user_queue):
+        print('Rabbit thread starting')
+
         self.internal_lock = threading.Lock()
-        self.queue = queue
+        self.bet_queue = bet_queue
+        self.user_queue = user_queue
         self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters('localhost'))
+            pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue=self.queue, exclusive=True)
+        result = self.channel.queue_declare(queue=self.bet_queue, exclusive=True)
         self.callback_queue = result.method.queue
 
-        thread = threading.Thread(target='run')
+        self.channel.queue_declare(queue=self.user_queue, exclusive=True)
+
+        thread = threading.Thread(target=self.run)
         thread.setDaemon(True)
         thread.start()
 
-    #channel.queue_declare(queue='user_queue', durable=True, exclusive=True)
 
     def updateUsers(self, body):
         response = None
@@ -36,7 +39,7 @@ class RabbitMessaging:
 
         self.channel.basic_publish(
             exchange='',
-            routing_key='user_queue',
+            routing_key=self.user_queue,
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=str(uuid.uuid4()),
@@ -52,7 +55,7 @@ class RabbitMessaging:
         command = body.split(';')
         response = HttpResponseBadRequest('comando não reconhecido')
 
-        if(command[0] == 'end'):
+        if(command[0] == 'end_bet'):
             users = views.endBets(command[1], command[2])
 
             body = 'bet_end;' + command[1] + ';' + command[2] + ';'.join(map(str, users))
@@ -71,9 +74,6 @@ class RabbitMessaging:
 
     def run(self):
             self.channel.basic_qos(prefetch_count=1)
-            self.channel.basic_consume(queue=self.queue, on_message_callback='callback')
+            self.channel.basic_consume(queue=self.bet_queue, on_message_callback=self.callback)
 
             self.channel.start_consuming()
-
-if __name__ == '__main__':
-    rabbit = RabbitMessaging('user_queue')
