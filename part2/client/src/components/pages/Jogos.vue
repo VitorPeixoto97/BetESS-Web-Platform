@@ -35,11 +35,13 @@
 <script> 
 import router from "../../router";
 import LayoutBasic from '../layouts/Basic.vue'
+import PlusMinusField from '../helpers/PlusMinusField.vue'
 import axios from 'axios';
 export default {
   name: 'Jogos',
   components: {
     LayoutBasic,
+    'plusminsfield': PlusMinusField
   },
   data() {
       return {
