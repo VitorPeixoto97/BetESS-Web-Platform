@@ -12,6 +12,9 @@
               </div>
               <div class="column" style="width:40%; margin:auto">
                 <p class="teamname"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
+                <p style="font-size: x-large;">
+                  <plusminsfield style="margin-left:6%" v-model="amount" :min="1" :max="50"></plusminsfield>
+                </p>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="bet">{{jogo.oddV}}</button>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddE}}</button>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddD}}</button>
@@ -41,6 +44,7 @@ export default {
   data() {
       return {
           jogos: null,
+          amount: 1,
       }
   },
 
