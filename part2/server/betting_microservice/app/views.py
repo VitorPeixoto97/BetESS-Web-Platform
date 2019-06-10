@@ -101,11 +101,26 @@ def dNotificationView(request, id):
     notif.delete()
     return HttpResponse('ok')
 
-def endBets(event, result):
+def word(result):
+    word = 'undefined'
+    if result == 0:
+        word = 'ganhou'
+    if result == 1:
+        word = 'empatou'
+    if result == 2:
+        word = 'perdeu'
+
+def endBets(event, result, equipaC, equipaV):
+        models.Bet.objects.filter(event=event).update(result=result)
+
         users = []
         for bet in models.Bet.objects.filter(event=event):
-            users.append(bet.user + '-' + (bet.profit if bet.result == result else 0))
+            if bet.result == result:
+                message = equipaC + ' ' + word(result) + ' contra ' + equipaV + '! Ganhou ' + bet.profit + ' coins da sua aposta!'
+                users.append(bet.user + '-' + bet.profit)
+            else: 
+                message = equipaC + ' ' + word(result) + ' contra ' + equipaV + '! Perdeu a sua aposta...'
 
-        models.Bet.objects.filter(event=event).update(result=result)
+            models.Notification.objects.create(message=message, bet=bet.id, user=bet.user)
 
         return users

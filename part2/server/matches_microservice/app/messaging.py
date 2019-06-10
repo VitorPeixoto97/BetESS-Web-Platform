@@ -1,24 +1,30 @@
 import pika
 import uuid
 import threading
-from . import views
 from django.http import HttpResponseBadRequest
 
-class RabbitMessaging:
+def send_message(message, bet_queue='bet_queue'):
+    bet_queue = bet_queue
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
 
-    def callback(self, ch, method, properties, body):
-        command = body.split(';')
-        response = HttpResponseBadRequest('comando não reconhecido')
-        print('AQUI')
-        if(command[0] == 'bet_end'):
-            response = views.cUserView(command[1], command[2], command[3], command[4], command[5], command[6], command[7])
-            
-        self.channel.basic_publish(exchange='',
-                        routing_key= properties.reply_to,
-                        body=response,
-                        properties=pika.BasicProperties(
-                            correlation_id=properties.correlation_id,
-                            delivery_mode = 2, # make message persistent
-                        ))
+    channel = connection.channel()
 
-        ch.basic_ack(delivery_tag = method.delivery_tag)
+    result = channel.queue_declare(queue=bet_queue, exclusive=True)
+    callback_queue = result.method.queue
+
+    channel.basic_consume(
+        queue=callback_queue,
+        on_message_callback=print('confirmação de bet_queue'),
+        auto_ack=True)
+
+    corr_id = str(uuid.uuid4())        
+    channel.basic_publish(
+        exchange='',
+        routing_key=bet_queue,
+        properties=pika.BasicProperties(
+            reply_to=callback_queue,
+            correlation_id=corr_id,
+            delivery_mode = 2, # make message persistent
+        ),
+        body=message)
