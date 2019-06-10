@@ -3,6 +3,7 @@ import uuid
 import threading
 from . import views
 from django.http import HttpResponseBadRequest
+from decimal import Decimal
 
 class RabbitMessaging:
     def __init__(self, queue):
@@ -14,7 +15,7 @@ class RabbitMessaging:
             pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue=self.queue, exclusive=True)
+        result = self.channel.queue_declare(queue=self.queue, durable=True)
         self.callback_queue = result.method.queue
 
         thread = threading.Thread(target=self.run)
@@ -32,7 +33,7 @@ class RabbitMessaging:
             users = command[1].split(',')
             for user in users:
                 userdata = user.split('-')
-                views.updateCoins(int(userdata[0]), float(userdata[1])) #id, coins
+                views.updateCoins(int(userdata[0]), Decimal(userdata[1]), max_digits=10, decimal_places=2) #id, coins
             
         self.channel.basic_publish(exchange='',
                         routing_key= properties.reply_to,

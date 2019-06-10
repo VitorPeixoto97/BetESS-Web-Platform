@@ -15,10 +15,10 @@ class RabbitMessaging:
             pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue=self.bet_queue, exclusive=True)
+        result = self.channel.queue_declare(queue=self.bet_queue, durable=True)
         self.bet_callback_queue = result.method.queue
 
-        result = self.channel.queue_declare(queue=self.user_queue, exclusive=True)
+        result = self.channel.queue_declare(queue=self.user_queue, durable=True)
         self.user_callback_queue = result.method.queue
 
         thread = threading.Thread(target=self.run)

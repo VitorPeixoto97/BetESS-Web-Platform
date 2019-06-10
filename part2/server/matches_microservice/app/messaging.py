@@ -10,7 +10,7 @@ def send_message(message, bet_queue='bet_queue'):
 
     channel = connection.channel()
 
-    result = channel.queue_declare(queue=bet_queue, exclusive=True)
+    result = channel.queue_declare(queue=bet_queue, durable=True)
     callback_queue = result.method.queue
 
     channel.basic_consume(

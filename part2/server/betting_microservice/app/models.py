@@ -8,8 +8,8 @@ from django.db import models
 class Bet(models.Model):
     result = models.IntegerField()
     amount = models.IntegerField()
-    odd = models.FloatField()
-    profit = models.FloatField()
+    odd = models.DecimalField(max_digits=10, decimal_places=2)
+    profit = models.DecimalField(max_digits=10, decimal_places=2)
     event = models.IntegerField()
     user = models.IntegerField()
     def __str__(self):

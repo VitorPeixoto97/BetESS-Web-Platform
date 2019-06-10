@@ -50,7 +50,7 @@ def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, odd
 
     channel = connection.channel()
 
-    result = channel.queue_declare('bet_queue', durable=True, exclusive=True)
+    result = channel.queue_declare('bet_queue', durable=True, durable=True)
     callback_queue = result.method.queue
 
     response = None
