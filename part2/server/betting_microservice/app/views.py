@@ -44,17 +44,6 @@ def gBetsView(request):
         aux.append(model_to_dict(bet))
     return JsonResponse(aux, safe=False)
 
-def betView(request, result, amount, odd, profit):
-    existe = False
-    for bet in models.Bet.objects.all():
-        if bet.id == id:
-            existe = True
-    if not existe:
-        models.Bet.objects.create(result=result, amount=amount, odd=odd, profit=profit)
-        return HttpResponse('ok')
-    else:
-        return HttpResponseBadRequest(content='bet already exists')
-
 @csrf_exempt 
 def addBetView(request):
     if request.method=='POST':
