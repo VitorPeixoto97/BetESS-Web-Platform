@@ -9,7 +9,6 @@ class Competition(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=200)
     simbolo = models.TextField()
-    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 

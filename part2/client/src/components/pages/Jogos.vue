@@ -1,8 +1,10 @@
 <template>
   <layout-basic>
     <div id="app">
-      <div style="background-color: #FFFFFF">
-        <md-table v-model="searched" md-sort="name" md-sort-order="asc"  md-fixed-header>
+      
+
+      <div style="background-color: #FFFFFF; width:90%; margin:auto">
+        <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-fixed-header>
           <md-table-toolbar>
             <div class="md-toolbar-section-start">
               <h1 class="md-title"> </h1>
@@ -19,11 +21,12 @@
           </md-table-empty-state>
 
           <md-table-row slot="md-table-row" slot-scope="{ item }" style="cursor:pointer" @click="verJogo(item.id, item.ativo)">
-            <md-table-cell md-label="#" md-sort-by="id" md-numeric>{{ item.numero }}</md-table-cell>
-            <md-table-cell md-label="Local" md-sort-by="casa">{{ item.c }}</md-table-cell>
-            <md-table-cell md-label="Adversário" md-sort-by="adv_nome">{{ item.adv_nome }}</md-table-cell>
-            <md-table-cell md-label="Resultado" md-sort-by="resultado">{{ item.resultado }}</md-table-cell>
-            <md-table-cell md-label="Data" md-sort-by="data">{{ item.data }}</md-table-cell>
+            <md-table-cell md-label="Competição" md-sort-by="competition">{{ item.competition }}</md-table-cell>
+            <md-table-cell md-label="Casa" md-sort-by="casa">{{ item.equipaC }}</md-table-cell>
+            <md-table-cell md-label=" " md-sort-by="oddv">{{ item.oddV }}</md-table-cell>
+            <md-table-cell md-label="Odds" md-sort-by="odde">{{ item.oddE }}</md-table-cell>
+            <md-table-cell md-label=" " md-sort-by="oddd">{{ item.oddD }}</md-table-cell>
+            <md-table-cell md-label="Fora" md-sort-by="fora">{{ item.equipaF }}</md-table-cell>
           </md-table-row>
         </md-table>
       </div>
@@ -65,11 +68,11 @@ export default {
   methods: {
     FetchData: function() {
       var app = this;
-      axios.get(process.env.API_URL + "/server/info_user/" + this.$session.get('user_email') + "/").then(response => {
+      axios.get(process.env.API_URL + "http://localhost:8005/matches/events/" + this.$session.get('user_email') + "/").then(response => {
         this.$session.set('clube', response.data.nome)
         this.$session.set('clubeid', response.data.id)
       });
-      axios.get(process.env.API_URL + "/server/get_jogos/"+this.$session.get('clubeid')+"/").then(response => {
+      axios.get("http://localhost:8005/matches/events/").then(response => {
         app.jogos = response.data
         this.searched = this.jogos
       });
