@@ -60,7 +60,7 @@ export default {
             odd: 0,
             id: 0,
             equipa: "N",
-            user: this.$session.get('user_email')
+            user: 0,
           }
       }
   },
@@ -79,6 +79,7 @@ export default {
       })
       axios.get("http://localhost:8005/user/info/" + this.$session.get('user_email') + "/").then(response => {
         this.$session.set('user', response.data);
+        this.selected.user = response.data.id;
       });
     },
       

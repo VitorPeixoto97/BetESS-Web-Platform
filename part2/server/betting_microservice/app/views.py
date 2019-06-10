@@ -60,12 +60,12 @@ def addBetView(request):
     if request.method=='POST':
         received = json.loads(request.body.decode('utf-8'))
 
-        this.selected.amount = 1
-        this.selected.bet = "V", "E", "D"
-        this.selected.odd = 2.34
-        this.selected.id = 6
-        this.selected.equipa = "Benfica"
-        this.selected.user = vitor-peixoto@outlook.pt
+        #this.selected.amount = 1
+        #this.selected.bet = "V", "E", "D"
+        #this.selected.odd = 2.34
+        #this.selected.id = 6
+        #this.selected.equipa = "Benfica"
+        #this.selected.user = 0, 1, 2, 3, ...
 
         tp = get_object_or_404(models.TipoEvento, id=received['tipo'])
         jg = get_object_or_404(models.Jogo, id=received['jogo'])
