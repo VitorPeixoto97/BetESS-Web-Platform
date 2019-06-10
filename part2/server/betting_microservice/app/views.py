@@ -9,6 +9,7 @@ import json
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+import pika
 
 # Create your views here.
 
@@ -53,13 +54,12 @@ def betView(request, result, amount, odd, profit):
     else:
         return HttpResponseBadRequest(content='bet already exists')
 
-'''
 @login_required
 @permission_required('change_bet', raise_exception=True)
 def cBetView(request, result, amount, odd, profit):
     models.Bet.objects.filter(id=id).update(result=result, amount=amount, odd=odd, profit=profit)
     return HttpResponse('ok')
-'''
+
 
 def dBetView(request, id):
     bet = get_object_or_404(models.Bet, id=id)
@@ -84,20 +84,28 @@ def gNotificationsView(request):
         aux.append(model_to_dict(notif))
     return JsonResponse(aux, safe=False)
 
-def notifView(request, message):
+#def notifView(request, message):
+def notifView(user, message):
     existe = False
     for notif in models.Notification.objects.all():
         if notif.id == id:
             existe = True
     if not existe:
-        models.Notification.objects.create(message=message)
-        return HttpResponse('ok')
-    else:
-        return HttpResponseBadRequest(content='notif already exists')
+        models.Notification.objects.create(user=user, message=message)
+        #return HttpResponse('ok')
+    #else:
+        #return HttpResponseBadRequest(content='notif already exists')
 
 def dNotificationView(request, id):
     notif = get_object_or_404(models.Notification, id=id)
     notif.delete()
     return HttpResponse('ok')
 
+def endBets(event, result):
+        users = []
+        for bet in models.Bet.objects.filter(event=event):
+            users.append(bet.user + '-' + (bet.profit if bet.result == result else 0))
 
+        models.Bet.objects.filter(event=event).update(result=result)
+
+        return users

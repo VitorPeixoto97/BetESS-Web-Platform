@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.forms.models import model_to_dict
 from . import models
+import pika
+import uuid
 
 def cTeamView(request, id, name, simbolo):
     models.Team.objects.filter(id=id).update(name=name, simbolo=simbolo)
@@ -34,9 +36,47 @@ def gCompetitionsView(request):
         aux.append(model_to_dict(competition))
     return JsonResponse(aux)
 
-def cEventView(request, id, name, country):
-    models.Event.objects.filter(id=id).update(name=name, country=country)
+def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, oddD, status, result):
+    models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
+                                                oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
+
+    if status == False:
+        endBets('end;' + id + ';' + result)
+
     return HttpResponse('ok')
+
+def endBets(message):
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
+
+    channel = connection.channel()
+
+    result = channel.queue_declare('bet_queue', durable=True, exclusive=True)
+    callback_queue = result.method.queue
+
+    response = None
+        
+    def on_response(self, ch, method, props, body):
+        if corr_id == props.correlation_id:
+            self.response = body
+
+    channel.basic_consume(
+        queue=callback_queue,
+        on_message_callback=on_response,
+        auto_ack=True)
+
+    response = None
+    corr_id = str(uuid.uuid4())
+    channel.basic_publish(
+        exchange='',
+        routing_key='bet_queue',
+        properties=pika.BasicProperties(
+            reply_to=callback_queue,
+            correlation_id=corr_id,
+        ),
+        body=message)
+    while response is None:
+        connection.process_data_events()
 
 def gEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
