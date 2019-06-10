@@ -25,10 +25,6 @@
           </v-container>
         </div>
       </div>
-  
-
-      
-
     </div>
   </layout-basic>
 </template>

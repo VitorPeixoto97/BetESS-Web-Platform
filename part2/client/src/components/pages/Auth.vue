@@ -42,6 +42,7 @@
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block text-uppercase" :disabled="!valid" @click="login">Login</button>
+                <h6 class="text-center" style=" margin-top:20px;">Ainda não tem conta? <a @click="register" style="cursor: pointer; color:#FF5426">Registe-se aqui</a></h6>
                 <div v-if="error==1">
                   <h2 class="card-login-failed text-center">Credenciais incorretas</h2>
                 </div>
@@ -101,6 +102,9 @@ export default {
                 })
               })
             }
+        },
+        register(){
+
         }
     }
 }
