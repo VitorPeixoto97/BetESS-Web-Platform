@@ -90,7 +90,9 @@ def gEventsView(request):
         new_event['type'] = event.type
         new_event['competition'] = event.competition.name
         new_event['equipaC'] = event.equipaC.name
+        new_event['equipaCsimb'] = event.equipaC.simbolo
         new_event['equipaF'] = event.equipaF.name
+        new_event['equipaFsimb'] = event.equipaF.simbolo
         new_event['oddV'] = event.oddV
         new_event['oddE'] = event.oddE
         new_event['oddD'] = event.oddD

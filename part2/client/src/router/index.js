@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Auth from '@/components/pages/Auth'
 import Jogos from '@/components/pages/Jogos'
 import Jogo from '@/components/pages/Jogo'
-import Stats from '@/components/pages/Stats'
 
 
 Vue.use(Router)
@@ -25,11 +24,6 @@ export default new Router({
       path: '/jogo',
       name: 'Jogo',
       component: Jogo
-    },
-    {
-      path: '/stats',
-      name: 'Stats',
-      component: Stats
     }
   ]
 })
