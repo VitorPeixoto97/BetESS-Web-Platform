@@ -11,7 +11,7 @@
                 <p primary-title class="teamname" style="margin-top:5px"><b>{{jogo.equipaC}}</b></p>
               </div>
               <div class="column" style="width:40%; margin:auto">
-                <p class="datahora"><b>{{jogo.competition}}</b></p>
+                <p class="teamname"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="bet">{{jogo.oddV}}</button>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddE}}</button>
                 <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddD}}</button>

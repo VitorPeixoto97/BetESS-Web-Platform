@@ -83,7 +83,7 @@ def gEventView(request, id):
     return JsonResponse(model_to_dict(event))
 
 def gEventsView(request):
-    events = models.Event.objects.all()
+    events = models.Event.objects.all().order_by('date')
     aux = []
     for event in events:
         new_event = {}
@@ -96,6 +96,8 @@ def gEventsView(request):
         new_event['oddV'] = event.oddV
         new_event['oddE'] = event.oddE
         new_event['oddD'] = event.oddD
+        new_event['date'] = event.date.strftime('%d %b')
+        new_event['time'] = event.time.strftime('%Hh%M')
         new_event['status'] = event.status
         new_event['result'] = event.result
         aux.append(new_event)
