@@ -11,17 +11,17 @@
                 <p primary-title class="teamname" style="margin-top:5px"><b>{{jogo.equipaC}}</b></p>
               </div>
               <div class="column" style="width:40%; margin:auto">
-                <p class="teamname" v-if="selected_bet=='N' || jogo.id!=selected_id"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
-                <p class="teamname" v-if="selected_bet!='N' && jogo.id==selected_id"><b>{{selected_equipa}}</b> | {{selected_odd}}</p>
+                <p class="teamname" v-if="selected.bet=='N' || jogo.id!=selected.id"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
+                <p class="teamname" v-if="selected.bet!='N' && jogo.id==selected.id"><b>{{selected.equipa}}</b> | {{selected.odd}}</p>
 
-                <div class="row" v-if="selected_bet!='N' && jogo.id==selected_id">
+                <div class="row" v-if="selected.bet!='N' && jogo.id==selected.id">
                   <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountminus()">‒</button>
-                  <input ref="valor" v-model="amount" class="amount" label="Valor da aposta"/>
+                  <input ref="valor" v-model="selected.amount" class="amount" label="Valor da aposta"/>
                   <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountplus()">+</button>
 
-                  <button class="btn btn-lg text-uppercase btn-bet">APOSTAR</button>
+                  <button class="btn btn-lg text-uppercase btn-bet" @click="apostar()">APOSTAR</button>
                 </div>
-                <div class="row" v-if="selected_bet=='N' || jogo.id!=selected_id">
+                <div class="row" v-if="selected.bet=='N' || jogo.id!=selected.id">
                   <button class="btn btn-lg text-uppercase btn-odd" @click="betselectV(jogo.oddV, jogo.id, jogo.equipaC)">{{jogo.oddV}}</button>
                   <button class="btn btn-lg text-uppercase btn-odd" @click="betselectE(jogo.oddE, jogo.id)">{{jogo.oddE}}</button>
                   <button class="btn btn-lg text-uppercase btn-odd" @click="betselectD(jogo.oddD, jogo.id, jogo.equipaF)">{{jogo.oddD}}</button>
@@ -54,11 +54,14 @@ export default {
   data() {
       return {
           jogos: null,
-          amount: 1,
-          selected_bet: "N",
-          selected_odd: 0,
-          selected_id: 0,
-          selected_equipa: "N",
+          selected: {
+            amount: 1,
+            bet: "N",
+            odd: 0,
+            id: 0,
+            equipa: "N",
+            user: this.$session.get('user_email')
+          }
       }
   },
 
@@ -74,6 +77,9 @@ export default {
         app.jogos = response.data
         this.$session.set('eventos', response.data);
       })
+      axios.get("http://localhost:8005/user/info/" + this.$session.get('user_email') + "/").then(response => {
+        this.$session.set('user', response.data);
+      });
     },
       
     checkLoggedIn() {
@@ -88,34 +94,42 @@ export default {
     },
 
     betselectV(odd, jogoid, equipa){
-      this.amount = 1
-      this.selected_bet = "V"
-      this.selected_odd = odd
-      this.selected_id = jogoid
-      this.selected_equipa = equipa
+      this.selected.amount = 1
+      this.selected.bet = "V"
+      this.selected.odd = odd
+      this.selected.id = jogoid
+      this.selected.equipa = equipa
     },
     betselectE(odd, jogoid){
-      this.amount = 1
-      this.selected_bet = "E"
-      this.selected_odd = odd
-      this.selected_id = jogoid
-      this.selected_equipa = "Empate"
+      this.selected.amount = 1
+      this.selected.bet = "E"
+      this.selected.odd = odd
+      this.selected.id = jogoid
+      this.selected.equipa = "Empate"
     },
     betselectD(odd, jogoid, equipa){
-      this.amount = 1
-      this.selected_bet = "D"
-      this.selected_odd = odd
-      this.selected_id = jogoid
-      this.selected_equipa = equipa
+      this.selected.amount = 1
+      this.selected.bet = "D"
+      this.selected.odd = odd
+      this.selected.id = jogoid
+      this.selected.equipa = equipa
     },
 
     amountminus(){
-      if(this.amount>1)
-        this.amount = this.amount-1
+      if(this.selected.amount>1)
+        this.selected.amount = this.selected.amount-1
     },
     amountplus(){
-      if(this.amount<50)
-        this.amount = this.amount+1
+      if(this.selected.amount<50)
+        this.selected.amount = this.selected.amount+1
+    },
+
+    apostar() {
+      axios.post("http://localhost:8005/bet/", JSON.stringify(this.selected)).then(response => {
+
+        }).catch(e => {});
+        
+        console.log("refreshh");
     }
   } 
 }

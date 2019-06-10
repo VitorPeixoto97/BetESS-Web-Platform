@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import include, path
 from django.contrib import admin
-from reverse_proxy.views import Gets, Login
+from reverse_proxy.views import Gets, Login, Bet
 
 
 urlpatterns = [
 	#POSTS
     url(r'^(?P<path>.*)login/$', Login.as_view()),
+    url(r'^(?P<path>.*)bet/$', Bet.as_view()),
 
 
     #GETS

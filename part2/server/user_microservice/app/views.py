@@ -50,7 +50,6 @@ def gUsersView(request):
 
 def infoUserView(request, email):
   user = models.User.objects.get(email=email)
-
   return JsonResponse(model_to_dict(user))
 
 def userView(request, username, email, password, name, coins):

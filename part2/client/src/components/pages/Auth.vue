@@ -68,9 +68,8 @@ export default {
         error:0,
         rules: {
           username: [
-            v => !!v || "Um nome de utilizador é necessário.",
-            v => (v && v.length > 3) || "Um nome de utilizador deve conter mais do que 3 carateres.",
-            v => /^[a-z0-9_]+$/.test(v) || "Um nome de utilizador deve conter apenas letras e dígitos."
+            v => !!v || "Um email é necessário.",
+            v => (v && v.length > 3) || "Um email deve conter mais do que 3 carateres.",
           ],
           password: [
             v => !!v || "Uma palavra-passe é necessária.",

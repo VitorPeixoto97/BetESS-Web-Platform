@@ -5,6 +5,8 @@ from revproxy.views import ProxyView
 class Login(ProxyView):
 	upstream = 'http://127.0.0.1:8002/auth/obtain/'
 
+class Bet(ProxyView):
+	upstream = 'http://127.0.0.1:8000/betting/add_bet/'
 
 
 

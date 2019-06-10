@@ -7,6 +7,7 @@ urlpatterns = [
     #path('bet/<str:result>/<int:amount>/<float:odd>/<float:profit>/', views.betView, name='bet'),
     #path('change_bet/<int:id>/<str:result>/<int:amount>/<float:odd>/<float:profit>/', views.cBetView, name='cbet'),
     path('bets/', views.gBetsView, name='gbets'),
+    path('add_bet/', views.addBetView, name='addBet'),
     #path('get_bets/<str:id>/', views.gBetView, name='gbet'),
     path('notifs/', views.gNotificationsView, name='notifs'),
     path('notifs/<int:user>/', views.gNotificationUserView, name='notif_user'),

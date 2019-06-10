@@ -2,14 +2,15 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.forms.models import model_to_dict
-from . import models
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required, permission_required
-import json
+from django.forms.models import model_to_dict
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from . import models
 import pika
+import json
 
 # Create your views here.
 
@@ -53,6 +54,46 @@ def betView(request, result, amount, odd, profit):
         return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bet already exists')
+
+@csrf_exempt 
+def addBetView(request):
+    if request.method=='POST':
+        received = json.loads(request.body.decode('utf-8'))
+
+        this.selected.amount = 1
+        this.selected.bet = "V", "E", "D"
+        this.selected.odd = 2.34
+        this.selected.id = 6
+        this.selected.equipa = "Benfica"
+        this.selected.user = vitor-peixoto@outlook.pt
+
+        tp = get_object_or_404(models.TipoEvento, id=received['tipo'])
+        jg = get_object_or_404(models.Jogo, id=received['jogo'])
+        #inst = received['instante']
+        inst = '00:05:12'
+        eq = get_object_or_404(models.Formacao, id=received['equipa'])
+        at1 = get_object_or_404(models.Atleta, id=received['atleta1'])
+        at2 = received['atleta2']
+        zC = received['zonaC']
+        zB = received['zonaB']
+        novo = received['novoinst']
+
+        if novo is not None:
+            models.Evento.objects.create(tipo=tp, jogo=jg, instante=inst, novoinstante=novo)
+        elif eq is not None and at1 is not None and at2 is not None:
+            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, atleta2=at2, instante=inst)
+            models.Convocado.objects.filter(atleta=at1, jogo=jg).update(emCampo=False)
+            models.Convocado.objects.filter(atleta=at2, jogo=jg).update(emCampo=True)
+        elif eq is not None and at1 is not None and zC is not None and zB is not None:
+            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, zonaCampo=zC, zonaBaliza=zB, instante=inst)
+        elif eq is not None and at1 is not None and zC is not None:
+            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, atleta1=at1, zonaCampo=zC, instante=inst)
+        elif eq is not None:
+            models.Evento.objects.create(tipo=tp, jogo=jg, equipa=eq, instante=inst)
+
+        return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='bad form')
 
 @login_required
 @permission_required('change_bet', raise_exception=True)
