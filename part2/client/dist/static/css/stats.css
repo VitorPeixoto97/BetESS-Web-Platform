@@ -83,6 +83,17 @@ body {
   color: #66CC00 !important;
 }
 
+.amount{
+  width:40px;
+  margin-left:4px;
+  margin-right:4px;
+  border: 0px;
+  text-align:center;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding:0px;
+}
+
 .btn-minusplus{
   width:38px;
   text-align: center;
@@ -92,10 +103,6 @@ body {
   border-radius: 5rem;
   font-weight: bold;
   padding: 0.5rem;
-}
-
-.amount{
-  width:50px;
 }
 
 .btn-odd:hover {

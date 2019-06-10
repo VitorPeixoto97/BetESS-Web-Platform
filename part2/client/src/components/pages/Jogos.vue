@@ -16,7 +16,7 @@
 
                 <div class="row" v-if="selected_bet!='N' && jogo.id==selected_id">
                   <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountminus()">‒</button>
-                  <input ref="valor" v-model="amount" class="form-control amount" label="Valor da aposta"/>
+                  <input ref="valor" v-model="amount" class="amount" label="Valor da aposta"/>
                   <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountplus()">+</button>
 
                   <button class="btn btn-lg text-uppercase btn-bet">APOSTAR</button>
