@@ -49,7 +49,9 @@ body {
 }
 
 .btn-odd{
-  width:32%;
+  margin-left: 2px;
+  margin-right: 2px;
+  width:31%;
   border-color: #222222 !important;
   background-color: #222222 !important;
   color: #FF5426 !important;
@@ -59,6 +61,41 @@ body {
   font-weight: bold;
   padding: 0.5rem;
   transition: all 0.3s;
+}
+
+.btn-bet{
+  margin-left: 6px;
+  width:40%;
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #FF5426 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-bet:hover {
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #66CC00 !important;
+}
+
+.btn-minusplus{
+  width:38px;
+  text-align: center;
+  background-color: #DDD !important;
+  color: #222222 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+
+.amount{
+  width:50px;
 }
 
 .btn-odd:hover {

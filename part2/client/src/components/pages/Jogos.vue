@@ -11,13 +11,21 @@
                 <p primary-title class="teamname" style="margin-top:5px"><b>{{jogo.equipaC}}</b></p>
               </div>
               <div class="column" style="width:40%; margin:auto">
-                <p class="teamname"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
-                <p style="font-size: x-large;">
-                  <plusminsfield style="margin-left:6%" v-model="amount" :min="1" :max="50"></plusminsfield>
-                </p>
-                <button class="btn btn-lg text-uppercase btn-odd" @click="bet">{{jogo.oddV}}</button>
-                <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddE}}</button>
-                <button class="btn btn-lg text-uppercase btn-odd" @click="login">{{jogo.oddD}}</button>
+                <p class="teamname" v-if="selected_bet=='N' || jogo.id!=selected_id"><b>{{jogo.competition}}</b> | {{jogo.date}} | {{jogo.time}}</p>
+                <p class="teamname" v-if="selected_bet!='N' && jogo.id==selected_id"><b>{{selected_equipa}}</b> | {{selected_odd}}</p>
+
+                <div class="row" v-if="selected_bet!='N' && jogo.id==selected_id">
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountminus()">‒</button>
+                  <input ref="valor" v-model="amount" class="form-control amount" label="Valor da aposta"/>
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountplus()">+</button>
+
+                  <button class="btn btn-lg text-uppercase btn-bet">APOSTAR</button>
+                </div>
+                <div class="row" v-if="selected_bet=='N' || jogo.id!=selected_id">
+                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectV(jogo.oddV, jogo.id, jogo.equipaC)">{{jogo.oddV}}</button>
+                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectE(jogo.oddE, jogo.id)">{{jogo.oddE}}</button>
+                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectD(jogo.oddD, jogo.id, jogo.equipaF)">{{jogo.oddD}}</button>
+                </div>
               </div>
               <div class="column" style="width:30%; margin:7px auto auto auto">
                 <img class="crest" :src="jogo.equipaFsimb">
@@ -47,6 +55,10 @@ export default {
       return {
           jogos: null,
           amount: 1,
+          selected_bet: "N",
+          selected_odd: 0,
+          selected_id: 0,
+          selected_equipa: "N",
       }
   },
 
@@ -75,10 +87,36 @@ export default {
       router.push("/jogo")
     },
 
-    bet(){
-
+    betselectV(odd, jogoid, equipa){
+      this.amount = 1
+      this.selected_bet = "V"
+      this.selected_odd = odd
+      this.selected_id = jogoid
+      this.selected_equipa = equipa
+    },
+    betselectE(odd, jogoid){
+      this.amount = 1
+      this.selected_bet = "E"
+      this.selected_odd = odd
+      this.selected_id = jogoid
+      this.selected_equipa = "Empate"
+    },
+    betselectD(odd, jogoid, equipa){
+      this.amount = 1
+      this.selected_bet = "D"
+      this.selected_odd = odd
+      this.selected_id = jogoid
+      this.selected_equipa = equipa
     },
 
+    amountminus(){
+      if(this.amount>1)
+        this.amount = this.amount-1
+    },
+    amountplus(){
+      if(this.amount<50)
+        this.amount = this.amount+1
+    }
   } 
 }
 </script>

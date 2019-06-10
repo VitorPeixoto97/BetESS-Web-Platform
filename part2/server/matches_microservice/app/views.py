@@ -95,6 +95,7 @@ def gEventsView(request):
     aux = []
     for event in events:
         new_event = {}
+        new_event['id'] = event.id
         new_event['type'] = event.type
         new_event['competition'] = event.competition.name
         new_event['equipaC'] = event.equipaC.name
