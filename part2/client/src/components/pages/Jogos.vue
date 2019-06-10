@@ -121,7 +121,7 @@ export default {
         this.selected.amount = this.selected.amount-1
     },
     amountplus(){
-      if(this.selected.amount<50)
+      if(this.selected.amount<50 && this.selected.amount<this.$session.get('user').coins)
         this.selected.amount = this.selected.amount+1
     },
 
@@ -131,6 +131,7 @@ export default {
         }).catch(e => {});
         
         console.log("refreshh");
+        this.FetchData();
     }
   } 
 }
