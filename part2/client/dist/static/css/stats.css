@@ -7,47 +7,6 @@ body {
   background-image: linear-gradient(to right, #111111, #252525) !important;
 }
 
-.card-signin {
-  border: 0;
-  border-radius: 2rem;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
-}
-
-.card-signin .card-title {
-  margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 1.5rem;
-}
-
-.card-login-failed {
-  margin-top: 2rem;
-  font-weight: 200;
-  font-size: 1.1rem;
-  color: #F01530;
-}
-
-.card-signin .card-body {
-  padding: 2rem;
-}
-
-.form-signin {
-  width: 100%;
-}
-
-.form-signin .btn {
-  font-size: 80%;
-  border-radius: 5rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
-  padding: 1rem;
-  transition: all 0.2s;
-}
-
-.form-label-group {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
 .btn-odd{
   margin-left: 2px;
   margin-right: 2px;
@@ -131,161 +90,50 @@ body {
   box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
 }
 
-.background{
-  position: absolute;
-  margin-top:60px;
-  margin-left:-50%;
-}
+
 
 
 @media only screen and (min-width: 0px) {
-  .dist{
-    margin: auto !important;
-    width: 98%;
-  }
-  .chart{
-    width:100%;
+  .main-row{
     margin:auto;
-    position: relative;
-  }
-  .score{
     width:100%;
-    height:160px;
-    background-color:#FFFFFF;
+  }
+  .main-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .left-event{
+     width:20%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:20%;
+    margin:7px auto auto auto;
+  }
+  .center-event{
+    width:40%;
+    margin:auto;
+  }
+  .event{
+    width:100%;
+    height:100px;
+    margin:auto;
+    background-color: #FFF;
   }
   .crest{
-    height: 80px !important;
-    display:inline-flex;
-  }
-  .resultado{
-    top:-30px;
-    color: #121212;
-    font-size:3em !important;
-  }
-  .time{
-    margin-top:-10px;
-    color: #121212;
-    font-size:1.5em !important;
-  }
-  .datahora{
-    margin-top:-10px;
-    color: #121212;
-    font-size:1em !important;
+    max-height: 40px !important;
+    height: auto !important;
+    max-width:80px !important;
+    margin:auto;
+    display:block;
   }
   .teamname{
     top:-50px;
-    color: #121212;
-    font-size:1em !important;
-  }
-  .timer{
-    width:100%;
-  }
-  .btn-timer{
-    width:90%;
-    padding:0.7rem;
-  }
-  .eventos-table{
-    width:95%;
-    margin: auto;
-  }
-  .v-column{
-    width:100%;
-  }
-  .v-row{
-    display:block !important;
-  }
-}
-@media only screen and (min-width: 400px) {
-  .dist{
-    margin: auto !important;
-    width: 98%;
-  }
-  .chart{
-    width:100%;
-    margin:auto;
-    position: relative;
-  }
-  .score{
-    width:60%;
-    margin:auto;
-    height:100px;
-  }
-  .crest{
-    height: 80px !important;
-    display:inline-flex;
-  }
-  .resultado{
-    top:-30px;
-    color: #121212;
-    font-size:3em !important;
-  }
-  .time{
-    margin-top:-10px;
-    color: #121212;
-    font-size:1.5em !important;
-  }
-  .datahora{
-    margin-top:-10px;
-    color: #121212;
-    font-size:1em !important;
-  }
-  .teamname{
-    top:-50px;
-    color: #121212;
-    font-size:1em !important;
-  }
-  .timer{
-    width: 60%;
-    margin: auto;
-  }
-  .btn-timer{
-    width:90%;
-    padding:0.7rem;
-  }
-  .eventos-table{
-    width:100%;
-    margin: auto;
-  }
-  .v-column{
-    width:100%;
-  }
-  .v-row{
-    display:block !important;
-  }
-}
-@media only screen and (min-width: 780px) {
-  .distleft{
-    width:30%;
-    min-width:95%;
-  }
-  .chart{
-    width:100%;
-    margin:auto;
-    position: relative;
-  }
-  .score{
-    width:50%;
-    height:100px;
-    margin:auto;
-  }
-  .crest{
-    height:20%;
-    display:inline-flex;
-  }
-  .distright{
-    width:30%;
-    min-width:95%;
-  }
-  .eventos-table{
-    width:100%;
-    margin:auto;
-  }
-  .timer{
-    width:50%;
-  }
-  .btn-timer{
-    width:90%;
-    padding:0.7rem;
+    color: #222222;
+    font-size:1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+    margin-top:0px;
   }
   .v-column{
     width:100%;
@@ -294,20 +142,76 @@ body {
     display:flex !important;
   }
 }
-
-@media only screen and (min-width: 1500px) {
-  .distleft{
-    min-width:100%;
-  }
-  .chart{
-    width:100%;
+@media only screen and (min-width: 750px) {
+  .main-row{
     margin:auto;
-    position: relative;
+    width:100%;
   }
-  .distright{
-    min-width:100%;
+  .main-column{
+    width:50%;
+    margin:30px auto auto auto;
   }
-  .score{
+  .left-event{
+     width:20%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:20%;
+    margin:7px auto auto auto;
+  }
+  .center-event{
+    width:45%;
+    margin:auto;
+  }
+  .event{
+    width:100%;
+    height:100px;
+    margin:auto;
+  }
+  .crest{
+    max-height: 50px !important;
+    height: auto !important;
+    max-width:80px !important;
+    margin:auto;
+    display:block;
+  }
+  .teamname{
+    top:-50px;
+    color: #222222;
+    font-size:1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+    margin-top:0px;
+  }
+  .v-column{
+    width:100%;
+  }
+  .v-row{
+    display:flex !important;
+  }
+}
+@media only screen and (min-width: 1500px) {
+  .main-row{
+    margin:auto;
+    width:60%;
+  }
+  .main-column{
+    width:50%;
+    margin:30px auto auto auto;
+  }
+  .left-event{
+     width:30%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:30%;
+    margin:7px auto auto auto;
+  }
+  .center-event{
+    width:40%;
+    margin:auto;
+  }
+  .event{
     width:100%;
     height:90px;
   }
@@ -318,40 +222,12 @@ body {
     margin:auto;
     display:block;
   }
-  .resultado{
-    top:-30px;
-    color: #121212;
-    font-size:3em !important;
-  }
-  .time{
-    margin-top:-10px;
-    color: #121212;
-    font-size:2em !important;
-  }
-  .datahora{
-    margin-top:-15px;
-    color: #121212;
-    font-size:1.2em !important;
-    text-align:center;
-  }
   .teamname{
-    top:-50px;
     color: #222222;
     font-size:1.1em !important;
     text-align: center;
     white-space: nowrap;
-  }
-  .timer{
-    width:50%;
-    margin:auto;
-  }
-  .btn-timer{
-    width:80%;
-    padding:0.9rem;
-  }
-  .eventos-table{
-    width:100%;
-    margin:auto;
+    margin-top:0px;
   }
   .v-column{
     width:100%;

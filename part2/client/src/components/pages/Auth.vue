@@ -87,8 +87,8 @@ export default {
               axios.post('http://localhost:8005/login/', this.credentials).then(res => {
                 this.$session.start();
                 this.$session.set('token', res.data.token);
-                this.$session.set('activeTab',"jogos")
-                router.push('/jogos');
+                this.$session.set('activeTab',"eventos")
+                router.push('/eventos');
               }).catch(e => {
                 this.loading = false;
                 this.error = 1;

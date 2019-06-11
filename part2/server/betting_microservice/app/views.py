@@ -44,6 +44,19 @@ def gBetsView(request):
         aux.append(model_to_dict(bet))
     return JsonResponse(aux, safe=False)
 
+def getUserBetsView(request, user):
+
+    #FILTRAR APOSTAS DO USER COM EMAIL='user'. 
+    
+    #FILTRAR APOSTAS CUJOS EVENTOS JA TENHAM SIDO TERMINADOS.
+
+
+    bets = models.Bet.objects.all()
+    aux = []
+    for bet in bets:
+        aux.append(model_to_dict(bet))
+    return JsonResponse(aux, safe=False)
+
 @csrf_exempt 
 def addBetView(request):
     if request.method=='POST':

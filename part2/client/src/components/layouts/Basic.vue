@@ -7,7 +7,7 @@
       <div class="phone-viewport">
         <md-bottom-bar md-type="shift" :md-active-item="activeVal">
           <div style="margin: 0 auto; width:100%; background-color:#FF5426;">
-            <md-bottom-bar-item id="jogos"     @click="jogos"   md-label="Eventos"       md-icon="explore"></md-bottom-bar-item>
+            <md-bottom-bar-item id="eventos"   @click="eventos" md-label="Eventos"       md-icon="explore"></md-bottom-bar-item>
             <md-bottom-bar-item id="apostas"   @click="apostas" md-label="Apostas"       md-icon="bookmark"></md-bottom-bar-item>
             <md-bottom-bar-item id="notifs"                     md-label="Notificações"  md-icon="notifications"></md-bottom-bar-item>
             <md-bottom-bar-item id="historico" @click=""        md-label="Histórico"     md-icon="history"></md-bottom-bar-item>
@@ -34,13 +34,13 @@
           this.$router.push("/auth");
         }
       },
-      jogos() {
-        this.$session.set('activeTab',"jogos")
-        this.$router.push('/jogos')
+      eventos() {
+        this.$session.set('activeTab',"eventos")
+        this.$router.push('/eventos')
       },
       apostas() {
         this.$session.set('activeTab',"apostas")
-        //this.$router.push('/apostas')
+        this.$router.push('/apostas')
       }
     }
   }
