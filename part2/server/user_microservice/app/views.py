@@ -68,10 +68,10 @@ def cUserView(request, id, email, username, password, name, coins):
     return HttpResponse('ok')
 
 def removeCoinsView(request, userid, amount):
-    usr = jogo = get_object_or_404(models.User, id=userid)
+    usr = get_object_or_404(models.User, id=userid)
 
     if(usr.coins<amount):
-        return HttpResponseBadRequest('Não tem saldo suficiente para realizar a aposta!')
+        return HttpResponseBadRequest('Não tem saldo suficiente!')
     else: 
         models.User.objects.filter(id=userid).update(coins=usr.coins-amount)
     return HttpResponse('ok')

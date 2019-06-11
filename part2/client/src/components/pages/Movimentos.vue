@@ -5,7 +5,7 @@
         <div class="column full-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
-            <div class="row">
+            <div class="row" style="height:100%;">
               <div class="column left-event">
                 <img class="crest" src=" ">
                 <p primary-title class="teamname"><b> </b></p>
@@ -20,8 +20,8 @@
                 </div>
               </div>
               <div class="column right-event">
-                <img class="crest" src=" ">
-                <p primary-title class="teamname"><b>eqF</b></p>
+                <h5 class="teamname"><b>O seu saldo</b></h5>
+                <h1 class="balance"><b>{{this.$session.get('coins')}}€</b></h1>
               </div>
             </div>
           </v-card>
@@ -29,34 +29,36 @@
         </div>
       </div>
       <div class="row main-row">
-        <div v-for="evento in eventos" class="column main-column">
+        <div class="column main-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
             <div class="row">
               <div class="column left-event">
-                <img class="crest" :src="evento.equipaCsimb">
-                <p primary-title class="teamname"><b>{{evento.equipaC}}</b></p>
+                <p primary-title class="teamname"><b>eC</b></p>
               </div>
               <div class="column center-event">
-                <p class="teamname" v-if="selected.bet=='N' || evento.id!=selected.id"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
-                <p class="teamname" v-if="selected.bet!='N' && evento.id==selected.id"><b>{{selected.equipa}}</b> | {{selected.odd}}</p>
 
-                <div class="row" v-if="selected.bet!='N' && evento.id==selected.id">
-                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountminus()">‒</button>
-                  <input ref="valor" v-model="selected.amount" class="amount" label="Valor da aposta"/>
-                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountplus()">+</button>
-
-                  <button class="btn btn-lg text-uppercase btn-bet" @click="apostar()">APOSTAR</button>
-                </div>
-                <div class="row" v-if="selected.bet=='N' || evento.id!=selected.id">
-                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectV(evento.oddV, evento.id, evento.equipaC)">{{evento.oddV}}</button>
-                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectE(evento.oddE, evento.id)">{{evento.oddE}}</button>
-                  <button class="btn btn-lg text-uppercase btn-odd" @click="betselectD(evento.oddD, evento.id, evento.equipaF)">{{evento.oddD}}</button>
-                </div>
               </div>
               <div class="column right-event">
-                <img class="crest" :src="evento.equipaFsimb">
-                <p primary-title class="teamname"><b>{{evento.equipaF}}</b></p>
+                <p primary-title class="teamname"><b>eF</b></p>
+              </div>
+            </div>
+          </v-card>
+          </v-container>
+        </div>
+
+        <div class="column main-column">
+          <v-container text-xs-center>
+          <v-card color="white" class="my-card event">
+            <div class="row">
+              <div class="column left-event">
+                <p primary-title class="teamname"><b>eC</b></p>
+              </div>
+              <div class="column center-event">
+
+              </div>
+              <div class="column right-event">
+                <p primary-title class="teamname"><b>eF</b></p>
               </div>
             </div>
           </v-card>
@@ -72,22 +74,13 @@ import router from "../../router";
 import LayoutBasic from '../layouts/Basic.vue'
 import axios from 'axios';
 export default {
-  name: 'Eventos',
+  name: 'Movimentos',
   components: {
     LayoutBasic,
   },
   data() {
       return {
-          eventos: null,
-          selected: {
-            amount: 1,
-            bet: "N",
-            odd: 0,
-            id: 0,
-            equipa: "N",
-            user: null,
-          },
-          coins: 0,
+
       }
   },
 
@@ -98,11 +91,7 @@ export default {
 
   methods: {
     FetchData: function() {
-      this.selected.user = this.$session.get('user');
-      this.coins = this.$session.get('user').coins;
-      axios.get("http://localhost:8005/matches/events/" + this.$session.get('user').type + "/").then(response => {
-        this.eventos = response.data;
-      })
+      axios.get("http://localhost:8005/user/info/" + this.$session.get('user').email + "/").then(response => {this.$session.set('user', response.data);});
     },
       
     checkLoggedIn() {
@@ -110,68 +99,6 @@ export default {
         router.push("/auth");
       }
     },
-
-    betselectV(odd, eventoid, equipa){
-      this.selected.amount = 1
-      this.selected.bet = "V"
-      this.selected.odd = odd
-      this.selected.id = eventoid
-      this.selected.equipa = equipa
-    },
-    betselectE(odd, eventoid){
-      this.selected.amount = 1
-      this.selected.bet = "E"
-      this.selected.odd = odd
-      this.selected.id = eventoid
-      this.selected.equipa = "Empate"
-    },
-    betselectD(odd, eventoid, equipa){
-      this.selected.amount = 1
-      this.selected.bet = "D"
-      this.selected.odd = odd
-      this.selected.id = eventoid
-      this.selected.equipa = equipa
-    },
-
-    amountminus(){
-      if(this.selected.amount>1)
-        this.selected.amount = this.selected.amount-1
-    },
-    amountplus(){
-      if(this.selected.amount<50 && this.selected.amount<this.$session.get('user').coins)
-        this.selected.amount = this.selected.amount+1
-    },
-
-    apostar() {
-      if(this.coins<this.selected.amount){
-        this.$notify({
-          group: 'foo',
-          type: 'error',
-          title: 'Erro',
-          text: 'Não tem saldo suficiente para realizar a aposta!'
-        });
-      }
-      else{
-        axios.post("http://localhost:8005/bet/", JSON.stringify(this.selected)).then(response => {
-          axios.get("http://localhost:8005/user/remove_coins/" + this.$session.get('user').id + "/" + this.selected.amount + "/").then(response => {}).catch(e => {});
-          this.$notify({
-            group: 'foo',
-            type: 'success',
-            title: 'Notificação',
-            text: 'Aposta registada!'
-          });
-        }).catch(e => {
-          this.$notify({
-            group: 'foo',
-            type: 'error',
-            title: 'Erro',
-            text: e.response.data
-          });
-        });
-
-      }
-      this.coins= this.coins-this.selected.amount
-    }
   } 
 }
 </script>
