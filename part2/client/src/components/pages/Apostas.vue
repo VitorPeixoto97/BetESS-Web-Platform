@@ -56,12 +56,9 @@ export default {
   methods: {
     FetchData: function() {
       var app = this;
-      axios.get("http://localhost:8005/betting/bets/" + this.$session.get('user_email') + "/").then(response => {
+      axios.get("http://localhost:8005/betting/bets/" + this.$session.get('user').id + "/").then(response => {
         app.apostas = response.data
       })
-      axios.get("http://localhost:8005/user/info/" + this.$session.get('user_email') + "/").then(response => {
-        this.$session.set('user', response.data);
-      });
     },
       
     checkLoggedIn() {

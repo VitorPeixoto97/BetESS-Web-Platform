@@ -45,17 +45,18 @@ def gBetsView(request):
     return JsonResponse(aux, safe=False)
 
 def getUserBetsView(request, user):
+    aux = getUserBets(user)
 
-    #FILTRAR APOSTAS DO USER COM EMAIL='user'. 
-    
     #FILTRAR APOSTAS CUJOS EVENTOS JA TENHAM SIDO TERMINADOS.
 
+    return JsonResponse(aux, safe=False)
 
-    bets = models.Bet.objects.all()
-    aux = []
+def getUserBets(userid):
+    bets = models.Bet.objects.filter(user=userid)
+    aux=[]
     for bet in bets:
         aux.append(model_to_dict(bet))
-    return JsonResponse(aux, safe=False)
+    return aux
 
 @csrf_exempt 
 def addBetView(request):
@@ -69,11 +70,21 @@ def addBetView(request):
         elif(received['bet']=="D"):
             res=2
 
-        prof=received['odd']*received['amount']
+        usr = received['user']
+        bets = getUserBets(usr['id'])
 
-        models.Bet.objects.create(result=res, amount=received['amount'], odd=received['odd'], profit=prof, event=received['id'], user=received['user'])
+        jaapostou=False
+        for bet in bets:
+            if(bet['event']==received['id']):
+                jaapostou=True
+        if(jaapostou):
+            return HttpResponseBadRequest(content='ja apostou nesse evento')
 
-        messaging.send_message('bet_made;' + received['user'] + ';' + received['amount'])
+        odd = float(received['odd']) 
+        amount = int(received['amount'])
+        prof = odd*amount
+
+        models.Bet.objects.create(result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
 
         return HttpResponse('ok')
     else:

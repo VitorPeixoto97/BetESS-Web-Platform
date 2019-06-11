@@ -58,7 +58,7 @@ export default {
             odd: 0,
             id: 0,
             equipa: "N",
-            user: 0,
+            user: null,
           }
       }
   },
@@ -70,7 +70,7 @@ export default {
 
   methods: {
     FetchData: function() {
-      this.selected.user = this.$session.get('user').id;
+      this.selected.user = this.$session.get('user');
       axios.get("http://localhost:8005/matches/events/" + this.$session.get('user').type + "/").then(response => {
         this.eventos = response.data;
       })

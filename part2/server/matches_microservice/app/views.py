@@ -56,8 +56,8 @@ def getEventsView(request, usertype):
 
     #FILTRAR EVENTOS PREMIUM PARA USERS NAO PREMIUM
     if(usertype == 1):
-        events = models.Event.objects.all().order_by('date')
-    else: events = models.Event.objects.filter(type=0).order_by('date')
+        events = models.Event.objects.filter(status=True).order_by('date')
+    else: events = models.Event.objects.filter(type=0, status=True).order_by('date')
 
     #FILTRAR EVENTOS ONDE O USER JA TENHA APOSTADO
 
