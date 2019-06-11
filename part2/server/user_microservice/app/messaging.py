@@ -3,7 +3,7 @@ import uuid
 import threading
 from . import views
 from django.http import HttpResponseBadRequest
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 class RabbitMessaging:
     def __init__(self, queue):
@@ -33,8 +33,16 @@ class RabbitMessaging:
             users = command[1].split(',')
             for user in users:
                 userdata = user.split('-')
-                views.updateCoins(int(userdata[0]), Decimal(userdata[1]), max_digits=10, decimal_places=2) #id, coins
+                views.updateCoins(int(userdata[0]), Decimal(userdata[1]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)) #id, coins
             
+        # update de aposta efetuada
+        if(command[0] == 'bet_made'):
+            views.updateCoins(int(command[1]), -Decimal(command[2]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
+        
+        # update de aposta cancelada
+        if(command[0] == 'bet_cancel'):
+            views.updateCoins(int(command[1]), Decimal(command[2]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)s)
+
         self.channel.basic_publish(exchange='',
                         routing_key= properties.reply_to,
                         body='confirmação de user_queue',

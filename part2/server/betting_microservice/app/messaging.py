@@ -57,7 +57,7 @@ class RabbitMessaging:
         if(command[0] == 'bet_end'):
             users = views.endBets(int(command[1]), int(command[2]), command[3], command[4]) # event, result, equipaC vs equipaV
 
-            body = 'bet_end' + ';'.join(map(str, users)) # bet_end;users
+            body = body = 'bet_end' + ';' + ','.join(map(str, users)) # bet_end;users
 
             # envia comando de update a users
             response = self.updateUsers(body)
@@ -79,3 +79,28 @@ class RabbitMessaging:
             self.channel.basic_consume(queue=self.bet_queue, on_message_callback=self.callback)
 
             self.channel.start_consuming()
+
+def send_message(message, user_queue='user_queue'):
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
+
+    channel = connection.channel()
+
+    result = channel.queue_declare(queue=user_queue, durable=True)
+    callback_queue = result.method.queue
+
+    channel.basic_consume(
+        queue=callback_queue,
+        on_message_callback=print('confirmação de user_queue'),
+        auto_ack=True)
+
+    corr_id = str(uuid.uuid4())        
+    channel.basic_publish(
+        exchange='',
+        routing_key=user_queue,
+        properties=pika.BasicProperties(
+            reply_to=callback_queue,
+            correlation_id=corr_id,
+            delivery_mode = 2, # make message persistent
+        ),
+        body=message)

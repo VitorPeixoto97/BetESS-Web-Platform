@@ -4,7 +4,6 @@ import threading
 from django.http import HttpResponseBadRequest
 
 def send_message(message, bet_queue='bet_queue'):
-    bet_queue = bet_queue
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost'))
 

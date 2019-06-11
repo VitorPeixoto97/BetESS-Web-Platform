@@ -9,8 +9,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import models
-import pika
 import json
+from . import messaging
 
 # Create your views here.
 
@@ -60,6 +60,8 @@ def addBetView(request):
 
         models.Bet.objects.create(result=res, amount=received['amount'], odd=received['odd'], profit=prof, event=received['id'], user=received['user'])
 
+        messaging.send_message('bet_made;' + received['user'] + ';' + received['amount'])
+
         return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bad form')
@@ -74,6 +76,10 @@ def cBetView(request, result, amount, odd, profit):
 def dBetView(request, id):
     bet = get_object_or_404(models.Bet, id=id)
     bet.delete()
+
+    if(bet.result == -1):
+        messaging.send_message('bet_cancel;' + bet.user + ';' + bet.amount)
+
     return HttpResponse('ok')
 
 def gNotificationView(request, id):
