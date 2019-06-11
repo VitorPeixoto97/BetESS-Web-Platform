@@ -73,20 +73,19 @@ def addBetView(request):
         usr = received['user']
         bets = getUserBets(usr['id'])
 
+        odd = float(received['odd']) 
+        amount = int(received['amount'])
+        prof = odd*amount
+
         jaapostou=False
         for bet in bets:
             if(bet['event']==received['id']):
                 jaapostou=True
         if(jaapostou):
-            return HttpResponseBadRequest(content='ja apostou nesse evento')
-
-        odd = float(received['odd']) 
-        amount = int(received['amount'])
-        prof = odd*amount
-
-        models.Bet.objects.create(result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
-
-        return HttpResponse('ok')
+            return HttpResponseBadRequest('Já apostou nesse evento!')
+        else:
+            models.Bet.objects.create(result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
+            return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bad form')
 

@@ -7,6 +7,7 @@ import Vuetify from 'vuetify'
 import VueSession from 'vue-session'
 import BootstrapVue from 'bootstrap-vue'
 import VueMaterial from 'vue-material'
+import Notifications from 'vue-notification'
 import mdbDatatable from 'mdbvue';
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
 
@@ -27,6 +28,8 @@ Vue.use(VueMaterial)
 Vue.use(BootstrapVue)
 Vue.use(Vuetify)
 Vue.use(VueSession)
+Vue.use(Notifications)
+
 
 Vue.config.productionTip = false
 

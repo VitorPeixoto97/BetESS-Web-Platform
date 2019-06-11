@@ -115,11 +115,23 @@ export default {
 
     apostar() {
       axios.post("http://localhost:8005/bet/", JSON.stringify(this.selected)).then(response => {
-
-        }).catch(e => {});
+        this.$notify({
+          group: 'foo',
+          type: 'success',
+          title: 'Notificação',
+          text: 'Aposta registada!'
+        });
+      }).catch(e => {
+        console.log(e.response)
+        this.$notify({
+          group: 'foo',
+          type: 'error',
+          title: 'Erro',
+          text: e.response.data
+        });
+      });
         
-        console.log("refreshh");
-        this.FetchData();
+      this.FetchData();
     }
   } 
 }

@@ -3,3 +3,7 @@ part2/server/\.DS_Store
 
 part2/\.DS_Store
 *.pyc
+
+part2/server/matches_microservice/app/migrations/
+
+part2/server/user_microservice/app/migrations/
