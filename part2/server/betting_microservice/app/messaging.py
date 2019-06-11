@@ -27,31 +27,22 @@ class RabbitMessaging:
 
 
     def updateUsers(self, body):
-        response = None
-
-        self.channel.basic_consume(
-            queue=self.user_callback_queue,
-            on_message_callback=print('confirmação de user_queue'),
-            auto_ack=True)
 
         self.channel.basic_publish(
             exchange='',
             routing_key=self.user_queue,
             properties=pika.BasicProperties(
-                reply_to=self.user_callback_queue,
-                correlation_id=str(uuid.uuid4()),
                 delivery_mode= 2,
             ),
             body=body)
-        while response is None:
-            self.connection.process_data_events()
-        
-        return response
+
+    def user_callback(self, ch, method, properties, body):
+        print('confirmação de user_queue')
 
     def callback(self, ch, method, properties, body):
         # recebe mensagem
-        print('mensagem recebida: ' + body)
-        command = body.split(';')
+        print('mensagem recebida: ' + body.decode("utf-8"))
+        command = body.decode("utf-8").split(';')
 
         # efetua comando da mensagem
         if(command[0] == 'bet_end'):
@@ -60,17 +51,9 @@ class RabbitMessaging:
             body = body = 'bet_end' + ';' + ','.join(map(str, users)) # bet_end;users
 
             # envia comando de update a users
-            response = self.updateUsers(body)
+            self.updateUsers(body)
 
-        
-        # responde ao matches
-        self.channel.basic_publish(exchange='',
-            routing_key= properties.reply_to,
-            body=response,
-            properties=pika.BasicProperties(
-                correlation_id=properties.correlation_id,
-                delivery_mode = 2, # make message persistent
-            ))
+        else: print('comando não reconhecido')
 
         ch.basic_ack(delivery_tag = method.delivery_tag)
 
@@ -78,7 +61,10 @@ class RabbitMessaging:
             self.channel.basic_qos(prefetch_count=1)
             self.channel.basic_consume(queue=self.bet_queue, on_message_callback=self.callback)
 
-            self.channel.start_consuming()
+            try: 
+                self.channel.start_consuming()
+            except KeyboardInterrupt:
+                self.channel.stop_consuming()
 
 def send_message(message, user_queue='user_queue'):
     connection = pika.BlockingConnection(
@@ -86,21 +72,12 @@ def send_message(message, user_queue='user_queue'):
 
     channel = connection.channel()
 
-    result = channel.queue_declare(queue=user_queue, durable=True)
-    callback_queue = result.method.queue
+    channel.queue_declare(queue=user_queue, durable=True)
 
-    channel.basic_consume(
-        queue=callback_queue,
-        on_message_callback=print('confirmação de user_queue'),
-        auto_ack=True)
-
-    corr_id = str(uuid.uuid4())        
     channel.basic_publish(
         exchange='',
         routing_key=user_queue,
         properties=pika.BasicProperties(
-            reply_to=callback_queue,
-            correlation_id=corr_id,
             delivery_mode = 2, # make message persistent
         ),
         body=message)

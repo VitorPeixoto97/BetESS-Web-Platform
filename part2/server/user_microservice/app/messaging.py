@@ -25,8 +25,8 @@ class RabbitMessaging:
 
     def callback(self, ch, method, properties, body):
         # recebe mensagem
-        print('Mensagem recebida em user_queue')
-        command = body.split(';')
+        print('Mensagem recebida em user_queue: ' + body.decode("utf-8"))
+        command = body.decode("utf-8").split(';')
 
         # update de vencedores de apostas
         if(command[0] == 'bet_end'):
@@ -36,20 +36,14 @@ class RabbitMessaging:
                 views.updateCoins(int(userdata[0]), Decimal(userdata[1]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)) #id, coins
             
         # update de aposta efetuada
-        if(command[0] == 'bet_made'):
+        elif(command[0] == 'bet_made'):
             views.updateCoins(int(command[1]), -Decimal(command[2]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
         
         # update de aposta cancelada
-        if(command[0] == 'bet_cancel'):
-            views.updateCoins(int(command[1]), Decimal(command[2]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)s)
+        elif(command[0] == 'bet_cancel'):
+            views.updateCoins(int(command[1]), Decimal(command[2]).quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
 
-        self.channel.basic_publish(exchange='',
-                        routing_key= properties.reply_to,
-                        body='confirmação de user_queue',
-                        properties=pika.BasicProperties(
-                            correlation_id=properties.correlation_id,
-                            delivery_mode = 2, # make message persistent
-                        ))
+        else: print('comando não reconhecido')
 
         ch.basic_ack(delivery_tag = method.delivery_tag)
         
@@ -58,4 +52,7 @@ class RabbitMessaging:
         self.channel.basic_qos(prefetch_count=1)
         self.channel.basic_consume(queue=self.queue, on_message_callback=self.callback)
 
-        self.channel.start_consuming()
+        try: 
+           self.channel.start_consuming()
+        except KeyboardInterrupt:
+           self.channel.stop_consuming()
