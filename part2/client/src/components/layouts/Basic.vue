@@ -6,11 +6,13 @@
     <div>
       <div class="phone-viewport">
         <md-bottom-bar md-type="shift" :md-active-item="activeVal">
-          <div style="margin: 0 auto; width: 100%; background-color:#FF5426;">
-            <md-bottom-bar-item id="jogos" @click="jogos" md-label="Jogos" md-icon="menu"></md-bottom-bar-item>
-            <md-bottom-bar-item id="jogo" @click="jogo" md-label="Jogo" md-icon="home"></md-bottom-bar-item>
-            <md-bottom-bar-item id="settings" md-label="Definições" md-icon="settings"></md-bottom-bar-item>
-            <md-bottom-bar-item id="logout" @click="logout" md-label="Logout" md-icon="power_settings_new"></md-bottom-bar-item>
+          <div style="margin: 0 auto; width:100%; background-color:#FF5426;">
+            <md-bottom-bar-item id="jogos"     @click="jogos"   md-label="Eventos"       md-icon="explore"></md-bottom-bar-item>
+            <md-bottom-bar-item id="apostas"   @click="apostas" md-label="Apostas"       md-icon="bookmark"></md-bottom-bar-item>
+            <md-bottom-bar-item id="notifs"                     md-label="Notificações"  md-icon="notifications"></md-bottom-bar-item>
+            <md-bottom-bar-item id="historico" @click=""        md-label="Histórico"     md-icon="history"></md-bottom-bar-item>
+            <md-bottom-bar-item id="cash"                       md-label="Movimentações" md-icon="credit_card"></md-bottom-bar-item>
+            <md-bottom-bar-item id="logout"    @click="logout"  md-label="Sair"          md-icon="power_settings_new"></md-bottom-bar-item>
           </div>
         </md-bottom-bar>
       </div>
@@ -36,12 +38,9 @@
         this.$session.set('activeTab',"jogos")
         this.$router.push('/jogos')
       },
-      jogo() {
-        this.$session.set('activeTab',"jogo")
-        if(this.$session.get('js')==1){
-          this.$router.push('/jogo')
-        }
-        else this.$router.push('/stats')
+      apostas() {
+        this.$session.set('activeTab',"apostas")
+        //this.$router.push('/apostas')
       }
     }
   }
