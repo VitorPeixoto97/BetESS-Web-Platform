@@ -46,7 +46,7 @@ class RabbitMessaging:
 
         # efetua comando da mensagem
         if(command[0] == 'bet_end'):
-            users = views.endBets(int(command[1]), int(command[2]), command[3], command[4]) # event, result, equipaC vs equipaV
+            users = views.endBets(int(command[1]), int(command[2]), command[3], command[4]) # event, result, equipaC vs equipaF
 
             body = body = 'bet_end' + ';' + ','.join(map(str, users)) # bet_end;users
 

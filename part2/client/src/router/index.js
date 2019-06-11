@@ -5,6 +5,7 @@ import Auth from '@/components/pages/Auth'
 import Eventos from '@/components/pages/Eventos'
 import Apostas from '@/components/pages/Apostas'
 import Movimentos from '@/components/pages/Movimentos'
+import Admin from '@/components/pages/Admin'
 
 Vue.use(Router)
 
