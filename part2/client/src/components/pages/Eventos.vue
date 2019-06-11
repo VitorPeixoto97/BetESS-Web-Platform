@@ -70,14 +70,10 @@ export default {
 
   methods: {
     FetchData: function() {
-      var app = this;
-      axios.get("http://localhost:8005/matches/events/" + this.$session.get('user_email') + "/").then(response => {
-        app.eventos = response.data
+      this.selected.user = this.$session.get('user').id;
+      axios.get("http://localhost:8005/matches/events/" + this.$session.get('user').type + "/").then(response => {
+        this.eventos = response.data;
       })
-      axios.get("http://localhost:8005/user/info/" + this.$session.get('user_email') + "/").then(response => {
-        this.$session.set('user', response.data);
-        this.selected.user = response.data.id;
-      });
     },
       
     checkLoggedIn() {

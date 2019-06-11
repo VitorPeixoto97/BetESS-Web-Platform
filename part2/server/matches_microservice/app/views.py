@@ -52,13 +52,12 @@ def gEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
     return JsonResponse(model_to_dict(event))
 
-def getEventsView(request, user):
+def getEventsView(request, usertype):
 
     #FILTRAR EVENTOS PREMIUM PARA USERS NAO PREMIUM
-    #if(user.type != 1):
-    #    events = models.Event.objects.filter(type=0).order_by('date')
-    #else: 
-    events = models.Event.objects.all().order_by('date')
+    if(usertype == 1):
+        events = models.Event.objects.all().order_by('date')
+    else: events = models.Event.objects.filter(type=0).order_by('date')
 
     #FILTRAR EVENTOS ONDE O USER JA TENHA APOSTADO
 
