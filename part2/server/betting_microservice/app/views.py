@@ -125,6 +125,7 @@ def word(result):
         word = 'empatou'
     if result == 2:
         word = 'perdeu'
+    return word
 
 def endBets(event, result, equipaC, equipaV):
         models.Bet.objects.filter(event=event).update(result=result)
