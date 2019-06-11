@@ -4,6 +4,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, Http
 from django.forms.models import model_to_dict
 from . import models
 from . import messaging
+import json
 
 def cTeamView(request, id, name, simbolo):
     models.Team.objects.filter(id=id).update(name=name, simbolo=simbolo)
@@ -35,14 +36,38 @@ def gCompetitionsView(request):
         aux.append(model_to_dict(competition))
     return JsonResponse(aux)
 
+def addEventView(request):
+    if request.method=='POST':
+        received = json.loads(request.body.decode('utf-8'))
+
+        if(received['premium']):
+            type = 1,
+        else: type = 0
+
+        models.Event.objects.create(type=type, competition=received['competition'], equipaC=received['equipaC'], equipaF=received['equipaF'],
+        oddV=received['oddV'], oddE=received['oddE'], oddD=received['oddD'], status=True, date=received['date'], time=received['time'])
+
+        return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='bad form')
+
 def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, oddD, status, result):
     models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
                                                 oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
 
-def endEventView(request, id, result, equipaC, equipaV):
+def endEventView(request, id, result, equipaC, equipaF):
     models.Event.objects.filter(id=id).update(status=False, result=result)
 
-    message = 'bet_end;' + id + result + equipaC, equipaV
+    aux = result.split('-')
+
+    if(aux[0] > aux[1]):
+        res=0
+    elif(aux[0] == aux[1]):
+        res=1
+    elif(aux[0] < aux[1]):
+        res=2
+
+    message = 'bet_end;' + id + res + equipaC, equipaF
 
     sender = messaging.RabbitMessaging()
 
