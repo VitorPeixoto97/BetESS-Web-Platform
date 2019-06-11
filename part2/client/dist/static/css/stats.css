@@ -165,6 +165,7 @@ body {
   }
   .right-event{
     width:20%;
+    height:100%;
     margin:7px auto auto auto;
   }
   .center-event{
@@ -190,6 +191,15 @@ body {
     text-align: center;
     white-space: nowrap;
     margin-top:0px;
+  }
+  .balance{
+    color: #222222;
+    font-size:3em !important;
+    height: 55%; 
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
   }
   .v-column{
     width:100%;

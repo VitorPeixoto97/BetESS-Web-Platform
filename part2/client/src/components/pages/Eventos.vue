@@ -59,8 +59,7 @@ export default {
             id: 0,
             equipa: "N",
             user: null,
-          },
-          coins: 0,
+          }
       }
   },
 
@@ -72,7 +71,8 @@ export default {
   methods: {
     FetchData: function() {
       this.selected.user = this.$session.get('user');
-      this.coins = this.$session.get('user').coins;
+      axios.get("http://localhost:8005/user/info/" + this.$session.get('user').email + "/").then(response => {this.$session.set('user', response.data);});
+      this.$session.set('coins', this.$session.get('user').coins);
       axios.get("http://localhost:8005/matches/events/" + this.$session.get('user').type + "/").then(response => {
         this.eventos = response.data;
       })
@@ -116,7 +116,7 @@ export default {
     },
 
     apostar() {
-      if(this.coins<this.selected.amount){
+      if(this.$session.get('coins')<this.selected.amount){
         this.$notify({
           group: 'foo',
           type: 'error',
@@ -133,6 +133,7 @@ export default {
             title: 'Notificação',
             text: 'Aposta registada!'
           });
+          this.$session.set('coins', this.$session.get('coins') - this.selected.amount)
         }).catch(e => {
           this.$notify({
             group: 'foo',
@@ -141,9 +142,7 @@ export default {
             text: e.response.data
           });
         });
-
       }
-      this.coins= this.coins-this.selected.amount
     }
   } 
 }
