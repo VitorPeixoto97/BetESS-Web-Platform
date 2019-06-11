@@ -73,7 +73,7 @@ export default {
   methods: {
     FetchData: function() {
       var app = this;
-      axios.get("http://localhost:8005/matches/events/").then(response => {
+      axios.get("http://localhost:8005/matches/events/" + this.$session.get('user_email') + "/").then(response => {
         app.jogos = response.data
         this.$session.set('eventos', response.data);
       })

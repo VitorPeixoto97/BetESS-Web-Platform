@@ -90,7 +90,33 @@ def gEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
     return JsonResponse(model_to_dict(event))
 
-def gEventsView(request):
+def getEventsView(request, user):
+    events = models.Event.objects.all().order_by('date')
+
+    #FILTRAR EVENTOS PREMIUM PARA USERS NAO PREMIUM
+    #FILTRAR EVENTOS ONDE O USER JA TENHA APOSTADO
+
+    aux = []
+    for event in events:
+        new_event = {}
+        new_event['id'] = event.id
+        new_event['type'] = event.type
+        new_event['competition'] = event.competition.name
+        new_event['equipaC'] = event.equipaC.name
+        new_event['equipaCsimb'] = event.equipaC.simbolo
+        new_event['equipaF'] = event.equipaF.name
+        new_event['equipaFsimb'] = event.equipaF.simbolo
+        new_event['oddV'] = event.oddV
+        new_event['oddE'] = event.oddE
+        new_event['oddD'] = event.oddD
+        new_event['date'] = event.date.strftime('%d %b')
+        new_event['time'] = event.time.strftime('%Hh%M')
+        new_event['status'] = event.status
+        new_event['result'] = event.result
+        aux.append(new_event)
+    return JsonResponse(aux, safe=False)
+
+def getAllEventsView(request):
     events = models.Event.objects.all().order_by('date')
     aux = []
     for event in events:
