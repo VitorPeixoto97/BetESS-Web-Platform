@@ -36,6 +36,20 @@ body {
   transition: all 0.3s;
 }
 
+.btn-movim{
+  margin-left: 8px;
+  width:40%;
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #FF5426 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
 .btn-bet:hover {
   border-color: #222222 !important;
   background-color: #222222 !important;
@@ -113,6 +127,10 @@ body {
   .right-event{
     width:20%;
     margin:7px auto auto auto;
+  }
+  .deposit{
+    width:57%;
+    margin:auto;
   }
   .center-event{
     width:40%;
@@ -199,6 +217,14 @@ body {
     width:100%;
     display:flex;
     align-items: center;
+    justify-content: center;
+  }
+  .user-name{
+    color: #222222;
+    font-size:2em !important;
+    height: 75%; 
+    width:100%;
+    display:flex;
     justify-content: center;
   }
   .v-column{

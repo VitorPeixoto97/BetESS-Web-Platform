@@ -76,6 +76,13 @@ def removeCoinsView(request, userid, amount):
         models.User.objects.filter(id=userid).update(coins=usr.coins-amount)
     return HttpResponse('ok')
 
+def addCoinsView(request, userid, amount):
+    usr = get_object_or_404(models.User, id=userid)
+
+    models.User.objects.filter(id=userid).update(coins=usr.coins+amount)
+    return HttpResponse('ok')
+
+
 def dUserView(request, id):
     user = get_object_or_404(models.User, id=id)
     user.delete()
