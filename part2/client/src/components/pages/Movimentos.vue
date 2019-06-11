@@ -2,6 +2,33 @@
   <layout-basic>
     <div id="app">
       <div class="row main-row">
+        <div class="column full-column">
+          <v-container text-xs-center>
+          <v-card color="white" class="my-card event">
+            <div class="row">
+              <div class="column left-event">
+                <img class="crest" src=" ">
+                <p primary-title class="teamname"><b> </b></p>
+              </div>
+              <div class="column center-event">
+  
+              
+                <div class="row">
+                  <button class="btn btn-lg text-uppercase btn-odd">odd</button>
+                  <button class="btn btn-lg text-uppercase btn-odd">odd</button>
+                  <button class="btn btn-lg text-uppercase btn-odd">odd</button>
+                </div>
+              </div>
+              <div class="column right-event">
+                <img class="crest" src=" ">
+                <p primary-title class="teamname"><b>eqF</b></p>
+              </div>
+            </div>
+          </v-card>
+          </v-container>
+        </div>
+      </div>
+      <div class="row main-row">
         <div v-for="evento in eventos" class="column main-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">

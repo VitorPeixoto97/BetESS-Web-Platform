@@ -102,6 +102,10 @@ body {
     width:100%;
     margin:30px auto auto auto;
   }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
   .left-event{
      width:20%;
      margin:7px auto auto auto;
@@ -151,6 +155,10 @@ body {
     width:50%;
     margin:30px auto auto auto;
   }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
   .left-event{
      width:20%;
      margin:7px auto auto auto;
@@ -197,6 +205,10 @@ body {
   }
   .main-column{
     width:50%;
+    margin:30px auto auto auto;
+  }
+  .full-column{
+    width:100%;
     margin:30px auto auto auto;
   }
   .left-event{

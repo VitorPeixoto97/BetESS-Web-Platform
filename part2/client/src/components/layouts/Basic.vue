@@ -11,7 +11,7 @@
             <md-bottom-bar-item id="apostas"   @click="apostas" md-label="Apostas"       md-icon="bookmark"></md-bottom-bar-item>
             <md-bottom-bar-item id="notifs"                     md-label="Notificações"  md-icon="notifications"></md-bottom-bar-item>
             <md-bottom-bar-item id="historico" @click=""        md-label="Histórico"     md-icon="history"></md-bottom-bar-item>
-            <md-bottom-bar-item id="cash"                       md-label="Movimentações" md-icon="credit_card"></md-bottom-bar-item>
+            <md-bottom-bar-item id="movims"    @click="movims"  md-label="Movimentações" md-icon="credit_card"></md-bottom-bar-item>
             <md-bottom-bar-item id="logout"    @click="logout"  md-label="Sair"          md-icon="power_settings_new"></md-bottom-bar-item>
           </div>
         </md-bottom-bar>
@@ -41,6 +41,10 @@
       apostas() {
         this.$session.set('activeTab',"apostas")
         this.$router.push('/apostas')
+      },
+      movims() {
+        this.$session.set('activeTab',"movims")
+        this.$router.push('/movimentos')
       }
     }
   }

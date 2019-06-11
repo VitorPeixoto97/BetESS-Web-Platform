@@ -7,3 +7,5 @@ part2/\.DS_Store
 part2/server/matches_microservice/app/migrations/
 
 part2/server/user_microservice/app/migrations/
+
+part2/server/user_microservice/app/__pycache__/
