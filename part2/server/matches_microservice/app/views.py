@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import JsonResponse, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.forms.models import model_to_dict
+from django.views.decorators.csrf import csrf_exempt
 from . import models
 from . import messaging
 import json
@@ -36,7 +37,7 @@ def gCompetitionsView(request):
     aux = []
     for competition in competitions:
         aux.append(model_to_dict(competition))
-    return JsonResponse(aux)
+    return JsonResponse(aux, safe=False)
 
 def addEventView(request):
     if request.method=='POST':
@@ -56,7 +57,7 @@ def addEventView(request):
         datetime = datetime.datetime.strptime(received['date'] + ' ' + received['time'] , '%Y-%m-%d %H:%M')
 
         models.Event.objects.create(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF,
-        oddV=oddV, oddE=oddE, oddD=oddD, status=True, date=received['date'], time=received['time'])
+        oddV=oddV, oddE=oddE, oddD=oddD, status=True, date=datetime.date(), time=datetime.time())
 
         return HttpResponse('ok')
     else:
@@ -66,23 +67,35 @@ def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, odd
     models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
                                                 oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
 
-def endEventView(request, id, result, equipaC, equipaF):
-    models.Event.objects.filter(id=id).update(status=False, result=result)
+@csrf_exempt 
+def endEventView(request):
+    if request.method=='POST':
+        received = json.loads(request.body.decode('utf-8'))
 
-    aux = result.split('-')
+        id = received['id']
+        result = received['result']
+        equipaC = received['equipaC']
+        equipaF = received['equipaF']
 
-    if(aux[0] > aux[1]):
-        res=0
-    elif(aux[0] == aux[1]):
-        res=1
-    elif(aux[0] < aux[1]):
-        res=2
+        models.Event.objects.get(id=id).update(status=False, result=result)
 
-    message = 'bet_end;' + id + res + equipaC, equipaF
+        aux = result.split('-')
 
-    sender = messaging.RabbitMessaging()
+        if(aux[0] > aux[1]):
+            res=0
+        elif(aux[0] == aux[1]):
+            res=1
+        elif(aux[0] < aux[1]):
+            res=2
 
-    sender.send_message(message)
+        message = 'bet_end;' + id + ';' + res + ';' + equipaC + ';' + equipaF
+
+        messaging.send_message(message)
+
+        return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='bad form')
+            
 
 def getEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
@@ -136,6 +149,28 @@ def getEventsView(request, usertype):
 
 def getAllEventsView(request):
     events = models.Event.objects.all().order_by('date')
+    aux = []
+    for event in events:
+        new_event = {}
+        new_event['id'] = event.id
+        new_event['type'] = event.type
+        new_event['competition'] = event.competition.name
+        new_event['equipaC'] = event.equipaC.name
+        new_event['equipaCsimb'] = event.equipaC.simbolo
+        new_event['equipaF'] = event.equipaF.name
+        new_event['equipaFsimb'] = event.equipaF.simbolo
+        new_event['oddV'] = event.oddV
+        new_event['oddE'] = event.oddE
+        new_event['oddD'] = event.oddD
+        new_event['date'] = event.date.strftime('%d %b')
+        new_event['time'] = event.time.strftime('%Hh%M')
+        new_event['status'] = event.status
+        new_event['result'] = event.result
+        aux.append(new_event)
+    return JsonResponse(aux, safe=False)
+
+def getActiveEventsView(request):
+    events = models.Event.objects.filter(status=True).order_by('date')
     aux = []
     for event in events:
         new_event = {}

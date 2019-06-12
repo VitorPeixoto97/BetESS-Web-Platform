@@ -49,13 +49,16 @@ def gUsersView(request):
     return JsonResponse(aux, safe=False)
 
 def infoUserView(request, email):
-  user = models.User.objects.get(email=email)
+  user = get_object_or_404(models.User, email=email)
   return JsonResponse(model_to_dict(user))
 
 def userView(request, username, email, password, name, coins):
     existe = False
     for user in models.User.objects.all():
         if user.email == email:
+            existe = True
+    for admin in models.Admin.objects.all():
+        if admin.email == email:
             existe = True
     if not existe:
         models.User.objects.create(username=username, email=email, password=password, name=name, coins=coins+10)

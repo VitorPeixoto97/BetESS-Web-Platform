@@ -86,12 +86,21 @@ export default {
               axios.get("http://localhost:8005/user/info/" + this.$refs.email.value + "/").then(response => {
                 this.$session.set('user_mail', response.data.email);
                 this.$session.set('user', response.data);
+
+              }).catch(e => {
+                axios.get("http://localhost:8005/user/admin_info/" + this.$refs.email.value + "/").then(response => {
+                  this.$session.set('admin', response.data);
+                });
               });
               axios.post('http://localhost:8005/login/', this.credentials).then(res => {
                 this.$session.start();
                 this.$session.set('token', res.data.token);
                 this.$session.set('activeTab',"eventos")
-                router.push('/eventos');
+
+                if(this.$session.has('user'))
+                  router.push('/eventos');
+                else if(this.$session.has('admin'))
+                  router.push('/adminpage')
               }).catch(e => {
                 this.loading = false;
                 this.error = 1;
