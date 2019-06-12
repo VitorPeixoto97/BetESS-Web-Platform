@@ -62,7 +62,10 @@ import router from '../../router';
 export default {
     name: 'Auth',
     data: () => ({
-        credentials: {},
+        credentials: {
+          username: '',
+          password: ''
+        },
         valid:true,
         loading:false,
         error:0,
@@ -86,10 +89,11 @@ export default {
               axios.get("http://localhost:8005/user/info/" + this.$refs.email.value + "/").then(response => {
                 this.$session.set('user_mail', response.data.email);
                 this.$session.set('user', response.data);
-
+                this.$session.set('is_admin', false);
               }).catch(e => {
                 axios.get("http://localhost:8005/user/admin_info/" + this.$refs.email.value + "/").then(response => {
                   this.$session.set('admin', response.data);
+                  this.$session.set('is_admin', true);
                 });
               });
               axios.post('http://localhost:8005/login/', this.credentials).then(res => {
@@ -97,9 +101,10 @@ export default {
                 this.$session.set('token', res.data.token);
                 this.$session.set('activeTab',"eventos")
 
-                if(this.$session.has('user'))
+                if(!this.$session.get('is_admin')){
                   router.push('/eventos');
-                else if(this.$session.has('admin'))
+                }
+                else
                   router.push('/adminpage')
               }).catch(e => {
                 this.loading = false;
