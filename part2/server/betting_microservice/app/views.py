@@ -11,6 +11,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import models
 import json
 from . import messaging
+from decimal import Decimal
 
 # Create your views here.
 
@@ -164,8 +165,12 @@ def endBets(event, result, equipaC, equipaF):
                 message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Ganhou ' + str(bet.profit) + ' coins da sua aposta!'
                 users.append(str(bet.user) + '-' + str(bet.profit))
             else: 
+                print('loser: ' + str(bet.id))
                 message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Perdeu a sua aposta...'
+                bet.profit=Decimal('0.00')
+                bet.save()
 
-            models.Notification.objects.create(message=message, bet=models.Bet.objects.get(id=bet.id), user=bet.user)
+            models.Notification.objects.create(message=message, bet=bet, user=bet.user)
+
 
         return users

@@ -178,6 +178,10 @@ export default {
         this.selected.equipaF = equipaF
     },
 
+    eventCancel() {
+      axios.get("http://localhost:8005/matches/bets/" + this.$session.get('user').id + "/").then(response => {})
+    },
+
     eventEnd(){
 
         axios.post("http://localhost:8005/end_event/", JSON.stringify(this.selected)).then(response => {
@@ -195,7 +199,7 @@ export default {
             text: e.response.data
             });
         });
-        router.push('/adminpage')
+        this.$router.go()
     },
 
     checkform() {
@@ -235,6 +239,7 @@ export default {
             title: 'Notificação',
             text: 'Evento registado.'
           });
+          this.$router.go()
         }).catch(e => {
           this.$notify({
             group: 'foo',
