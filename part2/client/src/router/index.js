@@ -30,6 +30,11 @@ export default new Router({
       path: '/movimentos',
       name: 'Movimentos',
       component: Movimentos
+    },
+    {
+      path: '/adminpage',
+      name: 'Admin',
+      component: Admin
     }
   ]
 })

@@ -165,7 +165,7 @@ export default {
         this.selected.equipaC = equipaC
         this.selected.equipaF = equipaF
 
-        axios.post("http://localhost:8005/matches/end_event" + this.selected.id + "/" + this.selected.result + "/" + this.selected.equipaC + "/" + this.selected.equipaF, JSON.stringify(this.selected)).then(response => {
+        axios.post("http://localhost:8005/matches/end_event/" + this.selected.id + "/" + this.selected.result + "/" + this.selected.equipaC + "/" + this.selected.equipaF, JSON.stringify(this.selected)).then(response => {
             this.$notify({
             group: 'foo',
             type: 'success',

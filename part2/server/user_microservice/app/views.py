@@ -88,6 +88,10 @@ def dUserView(request, id):
     return HttpResponse('ok')
 
 def updateCoins(id, coins):
-    user = models.User.objects.filter(id=id)
-    models.User.objects.filter(id=id).update(user.coins + coins)
+    user = models.User.objects.get(id=id)
+    models.User.objects.filter(id=id).update(coins=user.coins + coins)
     return HttpResponse('ok')
+
+def infoAdminView(request, email):
+  user = models.Admin.objects.get(email=email)
+  return JsonResponse(model_to_dict(user))

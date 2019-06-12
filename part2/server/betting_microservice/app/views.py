@@ -151,16 +151,16 @@ def word(result):
     return word
 
 def endBets(event, result, equipaC, equipaF):
-        models.Bet.objects.filter(event=event).update(result=result)
+        models.Bet.objects.filter(event=event)
 
         users = []
         for bet in models.Bet.objects.filter(event=event):
             if bet.result == result:
-                message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Ganhou ' + bet.profit + ' coins da sua aposta!'
-                users.append(bet.user + '-' + bet.profit)
+                message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Ganhou ' + str(bet.profit) + ' coins da sua aposta!'
+                users.append(str(bet.user) + '-' + str(bet.profit))
             else: 
                 message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Perdeu a sua aposta...'
 
-            models.Notification.objects.create(message=message, bet=bet.id, user=bet.user)
+            models.Notification.objects.create(message=message, bet=models.Bet.objects.get(id=bet.id), user=bet.user)
 
         return users
