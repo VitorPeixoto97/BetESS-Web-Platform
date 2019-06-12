@@ -7,6 +7,7 @@ urlpatterns = [
     path('teams/', views.gTeamsView, name='All Teams'),
     path('events/', views.getAllEventsView, name='All Events'),
     path('events/<int:usertype>/', views.getEventsView, name='Events'),
+    path('event/<int:id>/', views.getEventView, name='Event'),
     path('add_event/', views.addEventView, name='addEvent'),
     path('end_event/', views.endEventView, name='endEvent'),
     path('competitions/', views.gCompetitionsView, name='All Competitions'),

@@ -73,9 +73,26 @@ def endEventView(request, id, result, equipaC, equipaF):
 
     sender.send_message(message)
 
-def gEventView(request, id):
+def getEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
-    return JsonResponse(model_to_dict(event))
+
+    new_event = {}
+    new_event['id'] = event.id
+    new_event['type'] = event.type
+    new_event['competition'] = event.competition.name
+    new_event['equipaC'] = event.equipaC.name
+    new_event['equipaCsimb'] = event.equipaC.simbolo
+    new_event['equipaF'] = event.equipaF.name
+    new_event['equipaFsimb'] = event.equipaF.simbolo
+    new_event['oddV'] = event.oddV
+    new_event['oddE'] = event.oddE
+    new_event['oddD'] = event.oddD
+    new_event['date'] = event.date.strftime('%d %b')
+    new_event['time'] = event.time.strftime('%Hh%M')
+    new_event['status'] = event.status
+    new_event['result'] = event.result
+
+    return JsonResponse(new_event, safe=False)
 
 def getEventsView(request, usertype):
 

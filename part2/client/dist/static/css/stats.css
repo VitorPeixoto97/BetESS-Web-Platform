@@ -22,6 +22,28 @@ body {
   transition: all 0.3s;
 }
 
+.btn-cancelbet{
+  width:30px;
+  height:30px;
+  border-color: #BBB !important;
+  background-color: #BBB !important;
+  color: #222222 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0rem;
+  transition: all 0.3s;
+  position:absolute;
+  margin-left:-7px;
+  margin-top:-7px;
+}
+
+.btn-cancelbet:hover{
+  border-color: #FF5426 !important;
+  background-color: #FF5426 !important;
+  color: #111111 !important;
+}
+
 .btn-bet{
   margin-left: 8px;
   width:40%;
