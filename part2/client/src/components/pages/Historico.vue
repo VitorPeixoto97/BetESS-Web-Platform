@@ -3,30 +3,30 @@
   <layout-basic>
     <div id="app">
       <div class="row main-row">
-        <div v-for="aposta in apostas" class="column main-column">
+        <div v-for="aposta in apostas" v-if="get(aposta.event).status==false" class="column main-column">
           <v-container text-xs-center>
-          <v-card color="white" class="my-card event">
-            <button class="btn btn-lg text-uppercase btn-cancelbet" @click="cancelBet(aposta)">✕</button>
-            <div class="row">
-              <div class="column left-event">
-                <img class="crest" :src="get(aposta.event).equipaCsimb">
-                <p primary-title class="teamname"><b>{{get(aposta.event).equipaC}}</b></p>
-              </div>
-              <div class="column center-event">
-                <h5 class="teamname" style="color:#888;">{{get(aposta.event).competition}} | {{get(aposta.event).date}} | {{get(aposta.event).time}}</h5>
+            <v-card color="white" class="my-card event">
+              <button v-if="aposta.profit==0" class="btn btn-lg text-uppercase btn-red"></button>
+              <button v-if="aposta.profit>0" class="btn btn-lg text-uppercase btn-green"></button>
+              <div class="row">
+                <div class="column left-event">
+                  <img class="crest" :src="get(aposta.event).equipaCsimb">
+                  <p primary-title class="teamname"><b>{{get(aposta.event).equipaC}}</b></p>
+                </div>
+                <div class="column center-event">
+                  <h5 class="teamname" style="color:#888;">{{get(aposta.event).competition}} | {{get(aposta.event).date}} | {{get(aposta.event).time}}</h5>
+                  <h5 style="text-align:center; font-size:35px; padding:0px; margin:-10px 0px -5px 0px;"><b>{{get(aposta.event).result}}</b></h5>
+                  <h5 class="teamname" v-if="aposta.result==0">{{get(aposta.event).equipaC}} | {{aposta.amount}}€ x {{aposta.odd}} = <b>{{aposta.profit}}€</b></h5>
+                  <h5 class="teamname" v-if="aposta.result==1">Empate | {{aposta.amount}}€ x {{aposta.odd}} = <b>{{aposta.profit}}€</b></h5>
+                  <h5 class="teamname" v-if="aposta.result==2">{{get(aposta.event).equipaF}} | {{aposta.amount}}€ x {{aposta.odd}} = <b>{{aposta.profit}}€</b></h5>
                 
-                <h5 class="teamname" v-if="aposta.result==0"><b>{{get(aposta.event).equipaC}} | {{aposta.amount}}€ | {{aposta.odd}}</b></h5>
-                <h5 class="teamname" v-if="aposta.result==1"><b>Empate | {{aposta.amount}}€ | {{aposta.odd}}</b></h5>
-                <h5 class="teamname" v-if="aposta.result==2"><b>{{get(aposta.event).equipaF}} | {{aposta.amount}}€ | {{aposta.odd}}</b></h5>
-                
-                <h5 class="teamname">Lucros possíveis: {{aposta.profit}}€</h5>
+                </div>
+                <div class="column right-event">
+                  <img class="crest" :src="get(aposta.event).equipaFsimb">
+                  <p primary-title class="teamname"><b>{{get(aposta.event).equipaF}}</b></p>
+                </div>
               </div>
-              <div class="column right-event">
-                <img class="crest" :src="get(aposta.event).equipaFsimb">
-                <p primary-title class="teamname"><b>{{get(aposta.event).equipaF}}</b></p>
-              </div>
-            </div>
-          </v-card>
+            </v-card>
           </v-container>
         </div>
       </div>

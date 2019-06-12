@@ -13,3 +13,7 @@ part2/server/user_microservice/app/__pycache__/
 part2/server/matches_microservice/app/__pycache__/
 
 part2/server/betting_microservice/app/__pycache__/
+
+part2/api_layer/reverse_proxy/__pycache__/
+
+part2/api_layer/api_layer/__pycache__/

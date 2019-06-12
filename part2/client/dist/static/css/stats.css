@@ -38,6 +38,40 @@ body {
   margin-top:-7px;
 }
 
+.btn-red{
+  cursor:default;
+  width:30px;
+  height:30px;
+  border-color: #CC2030 !important;
+  background-color: #CC2030 !important;
+  color: #FFF !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0rem;
+  transition: all 0.3s;
+  position:absolute;
+  margin-left:-7px;
+  margin-top:-7px;
+}
+
+.btn-green{
+  cursor:default;
+  width:30px;
+  height:30px;
+  border-color: #20BB50 !important;
+  background-color: #20BB50 !important;
+  color: #FFF !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0rem;
+  transition: all 0.3s;
+  position:absolute;
+  margin-left:-7px;
+  margin-top:-7px;
+}
+
 .btn-cancelbet:hover{
   border-color: #FF5426 !important;
   background-color: #FF5426 !important;
