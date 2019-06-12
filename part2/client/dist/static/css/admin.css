@@ -1,0 +1,366 @@
+:root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: .75rem;
+}
+
+body {
+  background-image: linear-gradient(to right, #111111, #252525) !important;
+}
+
+.btn-odd{
+  margin-left: 2px;
+  margin-right: 2px;
+  width:31%;
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #FF5426 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-cancelbet{
+  width:30px;
+  height:30px;
+  border-color: #BBB !important;
+  background-color: #BBB !important;
+  color: #222222 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0rem;
+  transition: all 0.3s;
+  position:absolute;
+  margin-left:-7px;
+  margin-top:-7px;
+}
+
+.btn-cancelbet:hover{
+  border-color: #FF5426 !important;
+  background-color: #FF5426 !important;
+  color: #111111 !important;
+}
+
+.btn-bet{
+  margin-left: 8px;
+  width:40%;
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #FF5426 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-movim{
+  margin-left: 8px;
+  width:40%;
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #FF5426 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-bet:hover {
+  border-color: #222222 !important;
+  background-color: #222222 !important;
+  color: #66CC00 !important;
+}
+
+.amount{
+  width:40px;
+  margin-left:4px;
+  margin-right:4px;
+  border: 0px;
+  text-align:center;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding:0px;
+}
+
+.btn-minusplus{
+  width:38px;
+  text-align: center;
+  background-color: #DDD !important;
+  color: #222222 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+
+.btn-odd:hover {
+  border-color: #FF5426 !important;
+  background-color: #FF5426 !important;
+  color: #222222 !important;
+}
+
+.btn-secundary{
+  border-color: #aaaaaa !important;
+  background-color: #aaaaaa !important;
+  color: #222222 !important;
+}
+
+.form-label-group input {
+  width:100%;
+  border-width: 1px;
+  height: auto;
+  border-radius: 2rem;
+}
+
+.my-card{
+  border-radius:20px; 
+  -webkit-box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
+  -moz-box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
+  box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
+}
+
+
+
+
+@media only screen and (min-width: 0px) {
+  .main-row{
+    margin:auto;
+    width:100%;
+  }
+  .main-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .left-event{
+     width:20%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:20%;
+    margin:7px auto auto auto;
+  }
+  .deposit{
+    width:57%;
+    margin:auto;
+  }
+  .center-event{
+    width:40%;
+    margin:auto;
+  }
+  .event{
+    width:100%;
+    height:100px;
+    margin:auto;
+    background-color: #FFF;
+  }
+  .crest{
+    max-height: 40px !important;
+    height: auto !important;
+    max-width:80px !important;
+    margin:auto;
+    display:block;
+  }
+  .teamname{
+    top:-50px;
+    color: #222222;
+    font-size:1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+    margin-top:0px;
+  }
+  .v-column{
+    width:100%;
+  }
+  .v-row{
+    display:flex !important;
+  }
+}
+@media only screen and (min-width: 750px) {
+  .main-row{
+    margin:auto;
+    width:100%;
+  }
+  .main-column{
+    width:50%;
+    margin:30px auto auto auto;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .left-event{
+     width:20%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:20%;
+    height:100%;
+    margin:7px auto auto auto;
+  }
+  .center-event{
+    width:45%;
+    margin:auto;
+  }
+  .event{
+    width:100%;
+    height:100px;
+    margin:auto;
+  }
+  .crest{
+    max-height: 50px !important;
+    height: auto !important;
+    max-width:80px !important;
+    margin:auto;
+    display:block;
+  }
+  .teamname{
+    top:-50px;
+    color: #222222;
+    font-size:1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+    margin-top:0px;
+  }
+  .balance{
+    color: #222222;
+    font-size:3em !important;
+    height: 55%; 
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .user-name{
+    color: #222222;
+    font-size:2em !important;
+    height: 75%; 
+    width:100%;
+    display:flex;
+    justify-content: center;
+  }
+  .v-column{
+    width:100%;
+  }
+  .v-row{
+    display:flex !important;
+  }
+}
+@media only screen and (min-width: 1500px) {
+  .main-row{
+    margin:auto;
+    width:60%;
+  }
+  .main-column{
+    width:50%;
+    margin:30px auto auto auto;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .left-event{
+     width:30%;
+     margin:7px auto auto auto;
+  }
+  .right-event{
+    width:30%;
+    margin:7px auto auto auto;
+  }
+  .center-event{
+    width:40%;
+    margin:auto;
+  }
+  .event{
+    width:100%;
+    height:90px;
+  }
+  .crest{
+    max-height: 50px !important;
+    height: auto !important;
+    max-width:80px !important;
+    margin:auto;
+    display:block;
+  }
+  .teamname{
+    color: #222222;
+    font-size:1.1em !important;
+    text-align: center;
+    white-space: nowrap;
+    margin-top:0px;
+  }
+  .v-column{
+    width:100%;
+  }
+  .v-row{
+    display:flex !important;
+  }
+}
+
+.form-label-group>input,
+.form-label-group>label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+.form-label-group>label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-bottom: 0;
+  color: #798087;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+.btn-google {
+  color: white;
+  background-color: #ea4335;
+}
+
+.btn-facebook {
+  color: white;
+  background-color: #3b5998;
+}

@@ -47,11 +47,13 @@ class RabbitMessaging:
         # efetua comando da mensagem
         if(command[0] == 'bet_end'):
             users = views.endBets(int(command[1]), int(command[2]), command[3], command[4]) # event, result, equipaC vs equipaF
+            
+            print('users = ' + str(len(users)))
+            if(len(users) > 0):
+                body = body = 'bet_end' + ';' + ','.join(map(str, users)) # bet_end;users
 
-            body = body = 'bet_end' + ';' + ','.join(map(str, users)) # bet_end;users
-
-            # envia comando de update a users
-            self.updateUsers(body)
+                # envia comando de update a users
+                self.updateUsers(body)
 
         else: print('comando não reconhecido')
 

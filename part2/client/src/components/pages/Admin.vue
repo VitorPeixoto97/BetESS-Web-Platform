@@ -67,10 +67,11 @@
                 <p class="teamname"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
                 <div v-if="selected.id != 0 && evento.id == selected.id">
                     <input v-model="selected.result" placeholder="Resultado">
-                    <button class="btn btn-lg text-uppercase btn-bet" :disabled="!checkresult()" @click="matchEnd()">CONFIRMAR</button>
+                    <button class="btn btn-lg text-uppercase btn-bet" :disabled="!checkresult()" @click="eventEnd()">CONFIRMAR</button>
                 </div>
                 <div class="column center-event" v-if="selected.id == 0 || evento.id != selected.id">
-                    <button class="btn btn-lg text-uppercase btn-bet" @click="matchSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
+                    <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
+                    <button class="btn btn-lg text-uppercase btn-bet" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
                 </div>
               </div>
               <div class="column right-event">
@@ -171,15 +172,15 @@ export default {
       }
     },
 
-    matchSelect(id, equipaC, equipaF) {
+    eventSelect(id, equipaC, equipaF) {
         this.selected.id = id
         this.selected.equipaC = equipaC
         this.selected.equipaF = equipaF
     },
 
-    matchEnd(){
+    eventEnd(){
 
-        axios.post("http://localhost:8005/matches/end_event/", JSON.stringify(this.selected)).then(response => {
+        axios.post("http://localhost:8005/end_event/", JSON.stringify(this.selected)).then(response => {
             this.$notify({
             group: 'foo',
             type: 'success',
@@ -249,5 +250,5 @@ export default {
 }
 </script>
 
-<style src="../../../dist/static/css/stats.css">
+<style src="../../../dist/static/css/admin.css">
 

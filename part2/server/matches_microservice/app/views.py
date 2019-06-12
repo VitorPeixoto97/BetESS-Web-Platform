@@ -77,18 +77,18 @@ def endEventView(request):
         equipaC = received['equipaC']
         equipaF = received['equipaF']
 
-        models.Event.objects.get(id=id).update(status=False, result=result)
+        models.Event.objects.filter(id=id).update(status=False, result=result)
 
         aux = result.split('-')
 
         if(aux[0] > aux[1]):
-            res=0
+            res='0'
         elif(aux[0] == aux[1]):
-            res=1
+            res='1'
         elif(aux[0] < aux[1]):
-            res=2
+            res='2'
 
-        message = 'bet_end;' + id + ';' + res + ';' + equipaC + ';' + equipaF
+        message = 'bet_end;' + str(id) + ';' + res + ';' + equipaC + ';' + equipaF
 
         messaging.send_message(message)
 
