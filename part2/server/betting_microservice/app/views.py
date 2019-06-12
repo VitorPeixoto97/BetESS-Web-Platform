@@ -58,6 +58,11 @@ def getUserBets(userid):
         aux.append(model_to_dict(bet))
     return aux
 
+def delBetView(request, id):
+    bet = get_object_or_404(models.Bet, id=id)
+    bet.delete()
+    return HttpResponse('ok')
+
 @csrf_exempt 
 def addBetView(request):
     if request.method=='POST':

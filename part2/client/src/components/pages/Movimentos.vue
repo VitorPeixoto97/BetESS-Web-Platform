@@ -92,6 +92,10 @@ export default {
     this.FetchData();
   },
 
+  updated: function() {
+    this.FetchData();
+  },
+
   methods: {
     FetchData: function() {
       axios.get("http://localhost:8005/user/info/" + this.$session.get('user_mail') + "/").then(response => {
@@ -134,11 +138,12 @@ export default {
         this.$notify({
           group: 'foo',
           type: 'error',
-          title: 'Erro',
-          text: e.response.data
+          title: 'Notificação',
+          text: 'Ocorreu um erro. Tente mais tarde.'
         });
       });
-      this.FetchData();
+      this.$forceUpdate();
+      this.amountdep=1;
     },
     levantar(){
       axios.get("http://localhost:8005/user/remove_coins/" + this.$session.get('user').id + "/" + this.amountwit + "/").then(response => {
@@ -153,10 +158,11 @@ export default {
           group: 'foo',
           type: 'error',
           title: 'Erro',
-          text: e.response.data
+          text: 'Ocorreu um erro. Tente mais tarde.'
         });
       });
-      this.FetchData();
+      this.$forceUpdate();
+      this.amountwit=1;
     }
   } 
 }
