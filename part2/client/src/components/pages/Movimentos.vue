@@ -12,7 +12,7 @@
               <div class="column left-event"> </div>
               <div class="column right-event">
                 <h5 class="teamname"><b>O seu saldo</b></h5>
-                <h1 class="balance"><b>{{this.$session.get('coins')}}€</b></h1>
+                <h1 class="balance"><b>{{this.saldo}}€</b></h1>
               </div>
             </div>
           </v-card>
@@ -29,9 +29,9 @@
               </div>
               <div class="column deposit">
                 <div class="row">
-                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountminus()">‒</button>
-                  <input ref="valor" v-model="amount" class="amount" label="Valor"/>
-                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountplus()">+</button>
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountdepminus()">‒</button>
+                  <input ref="valor" v-model="amountdep" class="amount" label="Valor"/>
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountdepplus()">+</button>
 
                   <button class="btn btn-lg text-uppercase btn-movim" @click="depositar()">DEPOSITAR</button>
                 </div>
@@ -46,16 +46,21 @@
         <div class="column main-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
-            <div class="row">
+            <div class="row" style="height:100%;">
               <div class="column left-event">
                 <p primary-title class="teamname"><b>Levantar</b></p>
               </div>
-              <div class="column center-event">
+              <div class="column deposit">
+                <div class="row">
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountwitminus()">‒</button>
+                  <input ref="valor" v-model="amountwit" class="amount" label="Valor"/>
+                  <button class="btn btn-lg text-uppercase btn-minusplus" @click="amountwitplus()">+</button>
 
+                  <button class="btn btn-lg text-uppercase btn-movim" @click="levantar()">LEVANTAR</button>
+                </div>
               </div>
-              <div class="column right-event">
-                <p primary-title class="teamname"><b>eF</b></p>
-              </div>
+
+
             </div>
           </v-card>
           </v-container>
@@ -76,7 +81,9 @@ export default {
   },
   data() {
       return {
-        amount: 1,
+        amountdep: 1,
+        amountwit: 1,
+        saldo: 0,
       }
   },
 
@@ -87,7 +94,10 @@ export default {
 
   methods: {
     FetchData: function() {
-      axios.get("http://localhost:8005/user/info/" + this.$session.get('user').email + "/").then(response => {this.$session.set('user', response.data);});
+      axios.get("http://localhost:8005/user/info/" + this.$session.get('user_mail') + "/").then(response => {
+        this.$session.set('user', response.data);
+        this.saldo = response.data.coins;
+      });
     },
       
     checkLoggedIn() {
@@ -96,16 +106,24 @@ export default {
       }
     },
 
-    amountminus(){
-      if(this.amount>1)
-        this.amount = this.amount-1
+    amountdepminus(){
+      if(this.amountdep>1)
+        this.amountdep = this.amountdep-1
     },
-    amountplus(){
-      this.amount = this.amount+1
+    amountdepplus(){
+      this.amountdep = this.amountdep+1
+    },
+
+    amountwitminus(){
+      if(this.amountwit>1)
+        this.amountwit = this.amountwit-1
+    },
+    amountwitplus(){
+      this.amountwit = this.amountwit+1
     },
 
     depositar(){
-      axios.get("http://localhost:8005/user/add_coins/" + this.$session.get('user').id + "/" + this.amount + "/").then(response => {
+      axios.get("http://localhost:8005/user/add_coins/" + this.$session.get('user').id + "/" + this.amountdep + "/").then(response => {
         this.$notify({
           group: 'foo',
           type: 'success',
@@ -120,6 +138,25 @@ export default {
           text: e.response.data
         });
       });
+      this.FetchData();
+    },
+    levantar(){
+      axios.get("http://localhost:8005/user/remove_coins/" + this.$session.get('user').id + "/" + this.amountwit + "/").then(response => {
+        this.$notify({
+          group: 'foo',
+          type: 'success',
+          title: 'Notificação',
+          text: 'Quantia levantada!'
+        });
+      }).catch(e => {
+        this.$notify({
+          group: 'foo',
+          type: 'error',
+          title: 'Erro',
+          text: e.response.data
+        });
+      });
+      this.FetchData();
     }
   } 
 }

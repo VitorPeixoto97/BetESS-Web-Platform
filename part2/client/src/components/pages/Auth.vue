@@ -84,6 +84,7 @@ export default {
               this.loading = true;
               this.error = 0;
               axios.get("http://localhost:8005/user/info/" + this.$refs.email.value + "/").then(response => {
+                this.$session.set('user_mail', response.data.email);
                 this.$session.set('user', response.data);
               });
               axios.post('http://localhost:8005/login/', this.credentials).then(res => {
