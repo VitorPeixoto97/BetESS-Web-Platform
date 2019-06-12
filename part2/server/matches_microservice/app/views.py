@@ -5,6 +5,8 @@ from django.forms.models import model_to_dict
 from . import models
 from . import messaging
 import json
+from decimal import Decimal, ROUND_HALF_UP
+import datetime
 
 def cTeamView(request, id, name, simbolo):
     models.Team.objects.filter(id=id).update(name=name, simbolo=simbolo)
@@ -44,8 +46,17 @@ def addEventView(request):
             type = 1,
         else: type = 0
 
-        models.Event.objects.create(type=type, competition=received['competition'], equipaC=received['equipaC'], equipaF=received['equipaF'],
-        oddV=received['oddV'], oddE=received['oddE'], oddD=received['oddD'], status=True, date=received['date'], time=received['time'])
+        competition = models.Competition.objects.get(id=int(received['competition']))
+        equipaC = models.Team.objects.get(id=int(received['equipaC']))
+        equipaF = models.Team.objects.get(id=int(received['equipaF']))
+        oddV = Decimal(received['oddV']).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
+        oddE = Decimal(received['oddE']).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
+        oddD = Decimal(received['oddD']).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)
+
+        datetime = datetime.datetime.strptime(received['date'] + ' ' + received['time'] , '%Y-%m-%d %H:%M')
+
+        models.Event.objects.create(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF,
+        oddV=oddV, oddE=oddE, oddD=oddD, status=True, date=received['date'], time=received['time'])
 
         return HttpResponse('ok')
     else:

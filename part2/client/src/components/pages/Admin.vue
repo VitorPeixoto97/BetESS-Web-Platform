@@ -27,11 +27,11 @@
                     </div>
                 </div>
                 <div>
-                    <datepicker v-model="novo_evento.data" placeholder="Select Date"></datepicker>
-                    <vue-timepicker v-model="novo_evento.hora" placeholder="Select Time"></vue-timepicker>
+                    <datepicker v-model="novo_evento.datepicker" placeholder="Select Date" @change="selectDate()"></datepicker>
+                    <vue-timepicker v-model="novo_evento.hora" placeholder="Select Time" @change="selectHour()"></vue-timepicker>
                     <input type="checkbox" id="checkbox" v-model="novo_evento.premium">
                     <label for="checkbox">Evento Premium</label>
-                    <button :disabled="checkform()" class="btn btn-lg text-uppercase btn-bet" @click="evento()">NOVO EVENTO</button>
+                    <button :disabled="checkform()" class="btn btn-lg text-uppercase btn-bet" @click="newevento()">NOVO EVENTO</button>
                 </div>
             </v-card>
             </v-container>
@@ -108,29 +108,32 @@ export default {
           },
 
           nova_equipa: {
-              nome: null,
-              simbolo: null
+              nome: '',
+              simbolo: ''
           },
 
           nova_competicao: {
-              name: null,
-              country: null
+              name: '',
+              country: ''
           },
 
           novo_evento: {
               premium: false,
               competicao: 0,
-              equipaC: '',
-              equipaF: '',
+              equipaC: 0,
+              equipaF: 0,
               oddV: 0,
               oddE: 0,
               oddD: 0,
               data: '',
-              hora: {
-                  HH,
-                  mm
-              }
+              hora: ''
           },
+
+          datepicker: new Date(),
+          timepicker: {
+                  HH: null,
+                  mm: null,
+              },
           
           equipaOptions: [],
       }
@@ -152,6 +155,10 @@ export default {
       axios.get("http://localhost:8005/matches/competitions/").then(response => {
         this.competitions = response.data;
       })
+      aux = new Date();
+      this.novo_evento.data = new Date(aux.getFullYear(), aux.getMonth(), aux.getDate())
+      this.novo_evento.hora.HH = aux.getHours()
+      this.novo_evento.hora.mm = aux.getMinutes()
     },
       
     checkLoggedIn() {
@@ -183,19 +190,47 @@ export default {
     },
 
     checkform() {
-        return(this.novo_evento.equipaC != '' && this.novo_evento.equipaF != '' && this.novo_evento.equipaC != this.novo_evento.equipaF
+        return(this.novo_evento.equipaC != 0 && this.novo_evento.equipaF != 0 && this.novo_evento.equipaC != this.novo_evento.equipaF
         && this.novo_evento.oddV != 0 && this.novo_evento.oddE != 0 && this.novo_evento.oddD != 0
-        && this.novo_evento.data != '')
+        && this.novo_evento.data != '' && this.novo_evento.hora != '')
 
     },
 
-    selectCompetition(){
+    selectCompetition() {
         this.equipaOptions = []
         this.equipas.forEach(equipa => {
             if (equipa.competicao == this.novo_evento.competicao)
                 this.equipaOptions.push(equipa)
         });
-    }
+    },
+    
+    selectDate() {
+        this.novo_evento.data = this.datepicker.getFullYear() + '-' + this.datepicker.getMonth() + 1 + '-' + this.datepicker.getDate()
+    },
+
+    selectHour() {
+        this.novo_evento.hora = this.timepicker.HH + ':' + this.timepicker.mm
+    },
+
+    newevento() {
+        axios.post("http://localhost:8005/matches/add_event", JSON.stringify(this.novo_evento)).then(response => {
+          this.$notify({
+            group: 'foo',
+            type: 'success',
+            title: 'Notificação',
+            text: 'Evento registado.'
+          });
+        }).catch(e => {
+          this.$notify({
+            group: 'foo',
+            type: 'error',
+            title: 'Erro',
+            text: e.response.data
+          });
+        });
+    },
+
+
   } 
 }
 </script>

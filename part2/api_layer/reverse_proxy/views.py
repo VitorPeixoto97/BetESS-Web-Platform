@@ -8,7 +8,11 @@ class Login(ProxyView):
 class Bet(ProxyView):
 	upstream = 'http://127.0.0.1:8000/betting/add_bet/'
 
+class Event(ProxyView):
+	upstream = 'http://127.0.0.1:8001/matches/add_event/'
 
+class EventEnd(ProxyView):
+	upstream = 'http://127.0.0.1:8001/matches/end_event/'
 
 #GETS
 class Gets(ProxyView):
