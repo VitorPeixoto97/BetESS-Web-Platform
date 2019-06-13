@@ -1,5 +1,5 @@
 <template>
-  <layout-basic>
+  <admin-layout>
     <div id="app">
         <!--div class="row">
             <div class="column main-column">
@@ -83,19 +83,19 @@
           </v-container>
         </div>
     </div>
-  </layout-basic>
+  </admin-layout>
 </template>
 
 <script> 
 import router from "../../router";
-import LayoutBasic from '../layouts/Basic.vue'
+import AdminLayout from '../layouts/AdminLayout.vue'
 import Datepicker from 'vuejs-datepicker';
 import VueTimepicker from 'vuejs-timepicker'
 import axios from 'axios';
 export default {
-  name: 'Admin',
+  name: 'AdminEventos',
   components: {
-    LayoutBasic,
+    AdminLayout,
     Datepicker,
     VueTimepicker
   },

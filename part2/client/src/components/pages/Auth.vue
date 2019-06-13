@@ -105,7 +105,7 @@ export default {
                   router.push('/eventos');
                 }
                 else
-                  router.push('/adminpage')
+                  router.push('/admineventos')
               }).catch(e => {
                 this.loading = false;
                 this.error = 1;
