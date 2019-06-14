@@ -60,7 +60,7 @@ export default {
   methods: {
     FetchData: function() {
       axios.get("http://localhost:8005/matches/competitions/").then(response => {
-        this.competitions = response.data;
+        this.competicoes = response.data;
       })
     },
       
