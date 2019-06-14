@@ -26,9 +26,9 @@
             <div class="column left-event">
               <p primary-title class="teamname"><b>{{competicao.name}}</b></p>
               <div v-if="selected.id != -1 && competicao.id == selected.id && selected.option == 0">
-                <multiselect v-model="selected.equipa" track-by="id" label="name" placeholder="Select one" :options="equipas" :searchable="false" :allow-empty="false">
-                  <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
-                </multiselect>
+                <multiselect v-model="selected.equipa" track-by="id" :value="id" 
+                  label="name" :options="equipas" :searchable="false" :allow-empty="true" 
+                  :close-on-select="true" :show-labels="false"></multiselect>
                 <button class="btn btn-lg text-uppercase btn-end" :disabled="selected.equipa==-1" @click="addTeam()">CONFIRMAR</button>
               </div>
               <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id || selected.option != 0">
@@ -38,9 +38,9 @@
             <div class="column center-event">
               <p class="teamname"><b>{{competicao.country}}</b></p>
               <div v-if="selected.id != -1 && competicao.id == selected.id  && selected.option == 1">
-                <multiselect v-model="selected.equipa" track-by="id" label="name" placeholder="Select one" :options="equipas" :searchable="false" :allow-empty="false">
-                  <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
-                </multiselect>
+                <multiselect v-model="selected.equipa" track-by="id" :value="id" 
+                  label="name" :options="equipas" :searchable="false" :allow-empty="true"
+                  :close-on-select="true" :show-labels="false"></multiselect>
                 <button class="btn btn-lg text-uppercase btn-bet" :disabled="selected.equipa==-1" @click="removeTeam()">CONFIRMAR</button>
               </div>
               <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id  || selected.option != 1">

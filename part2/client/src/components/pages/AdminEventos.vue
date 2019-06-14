@@ -7,16 +7,16 @@
                   <v-card color="white" class="my-card event">
                     <v-layout row>
                         <div class="column left-event">
-                            <label class="typo__label">Competição</label>
-                            <multiselect v-model="novo_evento.competicao" 
-                                         placeholder="Competição" 
-                                         :options="competicoes" :allow-empty="false" @change="selectCompetition">
+                            <multiselect v-model="novo_evento.competicao" track-by="id" :value="id" label="name" :searchable="false"
+                                         placeholder="Competição" :close-on-select="true" :show-labels="false"
+                                         :options="competicoes" :allow-empty="false" @change="selectCompetition"></multiselect>
+                                         
+                            <multiselect v-model="novo_evento.equipaC" track-by="id" :value="id" label="name" placeholder="Equipa Casa" 
+                                        :options="equipaOptions" :allow-empty="true" :disabled="equipaOptions.length==0"
+                                        :searchable="false" :close-on-select="true" :show-labels="false">
                               <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
                             </multiselect>
-                            <label class="typo__label">Equipa Casa</label>
-                            <multiselect v-model="novo_evento.equipaC" track-by="id" label="name" placeholder="Select one" :options="equipaOptions" :allow-empty="false" :disabled="equipaOptions.length==0">
-                              <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
-                            </multiselect>
+
                             <input v-model.number="novo_evento.oddV" placeholder="1.0">
                         </div>
                         <div class="column center-event">
