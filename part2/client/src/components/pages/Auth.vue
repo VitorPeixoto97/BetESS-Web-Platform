@@ -2,7 +2,7 @@
     <div class="container" id="app">    
       <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-          <img src="../../assets/logo.png" alt="BetESS" style="width:70%; display: block;
+          <img src="../../assets/logo.png" alt="BetESS" style="width:90%; display: block;
   margin: auto; padding-top: 30px;">
           <div class="card card-signin my-5">
             <div class="card-body">
@@ -121,7 +121,7 @@ export default {
             }
         },
         register(){
-
+          this.$router.push('/registar');
         }
     }
 }

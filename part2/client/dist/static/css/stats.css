@@ -160,9 +160,6 @@ body {
   box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
 }
 
-
-
-
 @media only screen and (min-width: 0px) {
   .main-row{
     margin:auto;
@@ -171,6 +168,14 @@ body {
   .main-column{
     width:100%;
     margin:30px auto auto auto;
+  }
+  .user-name{
+    color: #222222;
+    font-size:2em !important;
+    height: 75%; 
+    width:100%;
+    display:flex;
+    justify-content: center;
   }
   .full-column{
     width:100%;
@@ -273,14 +278,6 @@ body {
     width:100%;
     display:flex;
     align-items: center;
-    justify-content: center;
-  }
-  .user-name{
-    color: #222222;
-    font-size:2em !important;
-    height: 75%; 
-    width:100%;
-    display:flex;
     justify-content: center;
   }
   .v-column{

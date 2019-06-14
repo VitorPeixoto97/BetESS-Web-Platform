@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import include, path
 from django.contrib import admin
-from reverse_proxy.views import Gets, Login, Bet, Event, EventEnd
+from reverse_proxy.views import Gets, Login, Bet, Event, EventEnd, Register
 
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^(?P<path>.*)bet/$', Bet.as_view()),
     url(r'^(?P<path>.*)add_event/$', Event.as_view()),
     url(r'^(?P<path>.*)end_event/$', EventEnd.as_view()),
+    url(r'^(?P<path>.*)register/$', Register.as_view()),
 
     #GETS
     url(r'^(?P<path>.*)$', Gets.as_view()),

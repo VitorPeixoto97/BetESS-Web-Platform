@@ -4,8 +4,9 @@ import Router from 'vue-router'
 import Auth from '@/components/pages/Auth'
 import Eventos from '@/components/pages/Eventos'
 import Apostas from '@/components/pages/Apostas'
-import Movimentos from '@/components/pages/Movimentos'
+import Registar from '@/components/pages/Registar'
 import Historico from '@/components/pages/Historico'
+import Movimentos from '@/components/pages/Movimentos'
 import AdminEventos from '@/components/pages/AdminEventos'
 import AdminEquipas from '@/components/pages/AdminEquipas'
 import AdminCompeticoes from '@/components/pages/AdminCompeticoes'
@@ -23,6 +24,11 @@ export default new Router({
       path: '/auth',
       name: 'Auth',
       component: Auth
+    },
+    {
+      path: '/registar',
+      name: 'Registar',
+      component: Registar
     },
     {
       path: '/apostas',

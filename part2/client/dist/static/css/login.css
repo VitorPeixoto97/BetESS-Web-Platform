@@ -19,6 +19,15 @@ body {
   font-size: 1.5rem;
 }
 
+.custom-control-input:checked~.custom-control-label::before {
+  border-color:#FA4C20;
+  background-color:#FA4C20;
+}
+
+.custom-control-label::before {
+  border: #CCC solid 1px;
+}
+
 .card-login-failed {
   margin-top: 2rem;
   font-weight: 200;
@@ -58,6 +67,34 @@ body {
   border-color: #aaaaaa !important;
   background-color: #aaaaaa !important;
   color: #222222 !important;
+}
+
+.btn-minusplus{
+  width:48px;
+  text-align: center;
+  border-color: #CCC;
+  background-color: #FFF !important;
+  color: #222222 !important;
+  font-size: 100%;
+  border-radius: 5rem;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+
+.amount{
+  width:40px;
+  margin-left:4px;
+  margin-right:4px;
+  border: 0px;
+  text-align:center;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding:0px;
+}
+
+.label-coins{
+  margin:12px 20px 10px 15px;
+  color:#777;
 }
 
 .form-label-group input {
@@ -115,12 +152,59 @@ body {
   color: #777;
 }
 
-.btn-google {
-  color: white;
-  background-color: #ea4335;
+.my-card{
+  border-radius:20px; 
+  -webkit-box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
+  -moz-box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
+  box-shadow: 1px 8px 18px -3px rgba(0,0,0,0.31);
 }
 
-.btn-facebook {
-  color: white;
-  background-color: #3b5998;
+@media only screen and (min-width: 0px) {
+  .main-row{
+    margin:auto;
+    width:100%;
+  }
+  .user-name{
+    color: #222222;
+    font-size:2em !important;
+    width:90%;
+    margin:auto;
+    padding-top:20px;
+  }
+  .text{
+    width:90%;
+    margin:auto;
+    padding-top:15px;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+  .event{
+    width:100%;
+    height:230px;
+    margin:auto auto 30px auto;
+    background-color: #FFF;
+  }
 }
+@media only screen and (min-width: 750px) {
+  .main-row{
+    margin:auto;
+    width:100%;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+}
+@media only screen and (min-width: 1500px) {
+  .main-row{
+    margin:auto;
+    width:60%;
+  }
+  .full-column{
+    width:100%;
+    margin:30px auto auto auto;
+  }
+}
+

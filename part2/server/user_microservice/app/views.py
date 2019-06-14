@@ -3,12 +3,14 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.forms.models import model_to_dict
 from django.contrib.auth.models import User, Group
+from django.views.decorators.csrf import csrf_exempt
 from . import models
 from django.contrib.auth.decorators import login_required, permission_required
 import json
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from django.contrib.auth import get_user_model
 
 class IndexView(generic.ListView):
 	template_name = 'index.html'
@@ -19,6 +21,37 @@ class IndexView(generic.ListView):
 class PostsView(ListAPIView):
     authentication_class = (JSONWebTokenAuthentication,) # Don't forget to add a 'comma' after first element to make it a tuple
     permission_classes = (IsAuthenticated,)
+
+@csrf_exempt
+def register(request):
+
+    if request.method=='POST':
+
+        received = json.loads(request.body.decode('utf-8'))
+
+        email = received['username']
+        password = received['password']
+        name = received['name']
+        coins = int(received['coins']) + 5
+        if(received['premium']==False):
+            premium=0
+        else:
+            premium=1
+
+        users = models.User.objects.filter(email=email)
+        admins = models.Admin.objects.filter(email=email)
+
+        if(users.count()>0 or admins.count()>0):
+            return HttpResponseBadRequest(content='Endereço email introduzido já se encontra registado.')
+        elif(coins<10):
+            return HttpResponseBadRequest(content='Tem de depositar no mínimo 5 coins para fazer o registo.')
+        else:
+            models.User.objects.create(email=email, name=name, type=premium, coins=coins)
+            user = get_user_model().objects.create_user(email, email, password)
+            return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='bad form')
+
 
 def index(request):
     context = 'Hello World'
