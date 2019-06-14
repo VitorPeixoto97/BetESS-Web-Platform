@@ -209,3 +209,27 @@ def getActiveEventsView(request):
         new_event['result'] = event.result
         aux.append(new_event)
     return JsonResponse(aux, safe=False)
+
+def gCompetitionTeamsView(request, id, option):
+    teams = []
+    if option == 0:
+        teams = models.Team.objects.all()
+        for team in teams:
+            try:
+                team.competitions.get(id=id)
+                teams.remove(team)
+            except:
+                pass
+    elif option == 1:
+        teams = models.Competition.objects.get(id=id).teams.all()
+        
+
+
+    aux = []
+    for team in teams:
+        new_team = {}
+        new_team['name'] = team.name
+        new_team['simbolo'] = team.simbolo
+        aux.append(new_team)
+
+    return JsonResponse(aux, safe=False)

@@ -13,6 +13,7 @@ urlpatterns = [
     path('add_event/', views.addEventView, name='addEvent'),
     path('end_event/', views.endEventView, name='endEvent'),
     path('competitions/', views.gCompetitionsView, name='All Competitions'),
+    path('competition_teams/<int:id>/<int:option>/', views.gCompetitionTeamsView, name="Team Competitions")
     #path('change_event/', views.cEventView, name='cevent'),
     #path('del_event/<int:id>/', views.dEventView, name='devent'),
     #path('get_events/', views.gEventsView, name='gevento'),

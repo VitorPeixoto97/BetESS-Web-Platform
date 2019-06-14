@@ -1,23 +1,23 @@
 <template>
   <admin-layout>
     <div id="app">
-        <div class="column main-column">
-            <v-container text-xs-center>
-            <v-card color="white" class="my-card event">
-                <div class="row main-row">
-                    <div class="column left-event" align="center">
-                        <input v-model="nova_equipa.name" placeholder="Nova equipa...">
-                    </div>
-                    <div class="column center-event" align="center">
-                        <input v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
-                    </div>
-                    <div class="column right-event" align="center">
-                        <button class="btn btn-lg text-uppercase btn-end" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
-                    </div>
-                </div>
-            </v-card>
-            </v-container>
-        </div>
+      <div class="column main-column">
+        <v-container text-xs-center>
+        <v-card color="white" class="my-card event">
+          <div class="row main-row">
+            <div class="column left-event" align="center">
+              <input v-model="nova_equipa.name" placeholder="Nova equipa...">
+            </div>
+            <div class="column center-event" align="center">
+              <input v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
+            </div>
+            <div class="column right-event" align="center">
+              <button class="btn btn-lg text-uppercase btn-end" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
+            </div>
+          </div>
+        </v-card>
+        </v-container>
+      </div>
 
         <div v-for="equipa in equipas" class="column main-column">
           <v-container text-xs-center>
