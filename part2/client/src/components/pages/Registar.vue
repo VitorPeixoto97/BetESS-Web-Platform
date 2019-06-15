@@ -17,7 +17,6 @@
                     v-model="credentials.username"
                     class="form-control"
                     label="Endereço email"
-                    :rules="rules.username"
                     maxlength="70"
                     required
                     autofocus
@@ -33,8 +32,6 @@
                     v-model="credentials.password"
                     class="form-control"
                     label="Palavra-passe"
-                    :rules="rules.password"
-                    maxlength="20"
                     required
                     autofocus
                   />
@@ -49,7 +46,6 @@
                     v-model="credentials.name"
                     class="form-control"
                     label="Nome"
-                    maxlength="20"
                     required
                     autofocus
                   />
@@ -133,66 +129,84 @@ export default {
         },
         readTerms: false,
         readPremium: false,
-        rules: {
-          username: [
-            v => !!v || "Um email é necessário.",
-            v => (v && v.length > 3) || "Um email deve conter mais do que 3 carateres.",
-          ],
-          password: [
-            v => !!v || "Uma palavra-passe é necessária.",
-            v => (v && v.length > 4) || "Uma palavra-passe deve conter mais do que 4 carateres."
-          ]
-        }
+        error: ''
     }),
     methods: {
-        submit() {
-              if(this.credentials.authorization){
-                axios.post('http://localhost:8005/register/', JSON.stringify(this.credentials)).then(res => {
-                  this.$notify({
-                    group: 'foo',
-                    type: 'success',
-                    title: 'Sucesso',
-                    text: 'Registo efetuado com sucesso.'
-                  });
-                  router.push('/auth');
-                }).catch(e => {
-                  this.$notify({
-                    group: 'foo',
-                    type: 'error',
-                    title: 'Erro',
-                    text: e.response.data
-                  });
-                })
-              }
-              else{
-                this.$notify({
-                  group: 'foo',
-                  type: 'error',
-                  title: 'Aviso',
-                  text: 'Necessita de aceitar os termos e condições para se registar na BetESS.'
-                });
-              }
-        },
-        back(){
-          router.push('/auth')
-        },
-        amountminus(){
-          if(this.credentials.coins>5)
-            this.credentials.coins = this.credentials.coins-1
-        },
-        amountplus(){
-          if(this.credentials.coins<100)
-            this.credentials.coins = this.credentials.coins+1
-        },
-        premium(){
-          if(this.readPremium)
-            this.readPremium=false;
-          else 
-            this.readPremium=true;
-        },
-        termscond(){
-          this.readTerms=true;
+      submit() {
+        if (this.validate()) {
+          if(this.credentials.authorization){
+            axios.post('http://localhost:8005/register/', JSON.stringify(this.credentials)).then(res => {
+              this.$notify({
+                group: 'foo',
+                type: 'success',
+                title: 'Sucesso',
+                text: 'Registo efetuado com sucesso.'
+              });
+              router.push('/auth');
+            }).catch(e => {
+              this.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'Erro',
+                text: e.response.data
+              });
+            })
+          }
+          else{
+            this.$notify({
+              group: 'foo',
+              type: 'error',
+              title: 'Aviso',
+              text: 'Necessita de aceitar os termos e condições para se registar na BetESS.'
+            });
+          }
         }
+        else{
+          this.$notify({
+            group: 'foo',
+            type: 'error',
+            title: 'Aviso',
+            text: this.error
+          });
+        }
+      },
+      back(){
+        router.push('/auth')
+      },
+      amountminus(){
+        if(this.credentials.coins>5)
+          this.credentials.coins = this.credentials.coins-1
+      },
+      amountplus(){
+        if(this.credentials.coins<100)
+          this.credentials.coins = this.credentials.coins+1
+      },
+      premium(){
+        if(this.readPremium)
+          this.readPremium=false;
+        else 
+          this.readPremium=true;
+      },
+      termscond(){
+        this.readTerms=true;
+      },
+      validate(){
+        if(this.credentials.username.length<6){
+          this.error='Endereço email deve ter mais do que 6 carateres.';
+          return false;
+        }
+        else if(this.credentials.password.length<6){
+          this.error='Palavra-passe deve ter mais do que 6 carateres.';
+          return false;
+        }
+        else if(this.credentials.name.length<3){
+          this.error='Nome deve ter mais do que 3 carateres.';
+          return false;
+        }
+        
+        
+        else return true;
+      }
     }
 }
 </script>

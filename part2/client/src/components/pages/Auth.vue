@@ -57,7 +57,6 @@
 <script>
 import main from '../../main.js';
 import axios from 'axios';
-import swal from 'sweetalert2';
 import router from '../../router';
 export default {
     name: 'Auth',
@@ -109,14 +108,6 @@ export default {
               }).catch(e => {
                 this.loading = false;
                 this.error = 1;
-                swal({
-                  type: 'warning',
-                  title: 'Error',
-                  text: 'Wrong username or password',
-                  showConfirmButton:false,
-                  showCloseButton:false,
-                  timer:3000
-                })
               })
             }
         },
