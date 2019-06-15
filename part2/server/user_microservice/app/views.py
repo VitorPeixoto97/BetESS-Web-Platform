@@ -23,10 +23,8 @@ class PostsView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
 @csrf_exempt
-def register(request):
-
+def registerView(request):
     if request.method=='POST':
-
         received = json.loads(request.body.decode('utf-8'))
 
         email = received['username']

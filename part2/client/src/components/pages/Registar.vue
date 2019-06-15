@@ -7,7 +7,7 @@
           <div class="card card-signin my-5">
             <div class="card-body">
               <h5 class="card-title text-center">Registar</h5>
-              <v-form ref="form" class="form-signin" id="login-form" v-model="valid" lazy-validation>
+              <v-form ref="form" class="form-signin" lazy-validation>
                 <div class="form-label-group">
                   <input 
                     type="text"
@@ -64,7 +64,7 @@
                 </div>
 
                 <div style="margin-bottom:12px; margin-top:20px;">
-                  <b-form-checkbox id="inputPremium" v-model="credentials.premium" name="check-button" switch>
+                  <b-form-checkbox id="inputPremium" v-model="credentials.premium" switch>
                     <label class="label-coins" style="margin:auto">Aderir ao pacote Premium.
                       <a @click="premium()" style="cursor: pointer; color:#FF5426"> Ver vantagens</a>
                     </label>
@@ -72,14 +72,14 @@
                 </div>
 
                 <div style="margin-bottom:30px; margin-top:20px;">
-                  <b-form-checkbox id="inputAuth" v-model="credentials.authorization" name="check-button" switch>
+                  <b-form-checkbox id="inputAuth" v-model="credentials.authorization" switch>
                     <label class="label-coins" style="margin:auto">Aceito os termos e condições.
                     <a @click="termscond()" style="cursor: pointer; color:#FF5426"> Ler</a>
                     </label>
                   </b-form-checkbox>
                 </div>
                 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" :disabled="!valid" @click="submit">Registar</button>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" @click="submit">Registar</button>
                 <h6 class="text-center" style=" margin-top:20px;"><a @click="back()" style="cursor: pointer; color:#FF5426">Voltar</a></h6>
               </v-form>
             </div>
@@ -133,8 +133,6 @@ export default {
         },
         readTerms: false,
         readPremium: false,
-        valid:true,
-        loading:false,
         rules: {
           username: [
             v => !!v || "Um email é necessário.",
@@ -148,9 +146,6 @@ export default {
     }),
     methods: {
         submit() {
-          // checking if the input is valid
-            if (this.$refs.form.validate()) {
-              this.loading = true;
               if(this.credentials.authorization){
                 axios.post('http://localhost:8005/register/', JSON.stringify(this.credentials)).then(res => {
                   this.$notify({
@@ -177,7 +172,6 @@ export default {
                   text: 'Necessita de aceitar os termos e condições para se registar na BetESS.'
                 });
               }
-            }
         },
         back(){
           router.push('/auth')
