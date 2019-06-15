@@ -1,5 +1,5 @@
 <template>
-  <layout-basic>
+  <admin-layout>
     <div id="app">
       <div class="row main-row">
         <div v-for="evento in eventos" v-if="evento.status==false" class="column main-column">
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-  </layout-basic>
+  </admin-layout>
 </template>
 
 <script> 

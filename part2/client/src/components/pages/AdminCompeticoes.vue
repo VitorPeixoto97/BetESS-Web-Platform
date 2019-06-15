@@ -19,40 +19,42 @@
         </v-container>
       </div>
 
-      <div v-for="competicao in competicoes" :key="competicao.id" class="column main-column">
-        <v-container text-xs-center>
-        <v-card color="white" class="my-card event">
-          <div class="row">
-            <div class="column left-event">
-              <p primary-title class="teamname"><b>{{competicao.name}}</b></p>
-              <div v-if="selected.id != -1 && competicao.id == selected.id && selected.option == 0">
-                <multiselect v-model="selected.equipa" track-by="id" label="name" :searchable="false" 
-                            placeholder="Equipa" :close-on-select="true" :show-labels="false"
-                            :options="equipas" :allow-empty="true"></multiselect>
-                <button class="btn btn-lg text-uppercase btn-end" :disabled="selected.equipa==null" @click="addTeam()">CONFIRMAR</button>
+      <div class="row main-row">
+        <div v-for="competicao in competicoes" :key="competicao.id" class="column main-column">
+          <v-container text-xs-center>
+          <v-card color="white" class="my-card event">
+            <div class="row">
+              <div class="column left-event">
+                <p primary-title class="teamname"><b>{{competicao.name}}</b></p>
+                <div v-if="selected.id != -1 && competicao.id == selected.id && selected.option == 0">
+                  <multiselect v-model="selected.equipa" track-by="id" label="name" :searchable="false" 
+                              placeholder="Equipa" :close-on-select="true" :show-labels="false"
+                              :options="equipas" :allow-empty="true"></multiselect>
+                  <button class="btn btn-lg text-uppercase btn-end" :disabled="selected.equipa==null" @click="addTeam()">CONFIRMAR</button>
+                </div>
+                <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id || selected.option != 0">
+                    <button class="btn btn-lg text-uppercase btn-end" @click="selectCompetition(competicao.id, 0)">ASSOCIAR EQUIPA</button>
+                </div>
               </div>
-              <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id || selected.option != 0">
-                  <button class="btn btn-lg text-uppercase btn-end" @click="selectCompetition(competicao.id, 0)">ASSOCIAR EQUIPA</button>
+              <div class="column center-event">
+                <p class="teamname"><b>{{competicao.country}}</b></p>
+                <div v-if="selected.id != -1 && competicao.id == selected.id  && selected.option == 1">
+                  <multiselect v-model="selected.equipa" track-by="id" label="name" :searchable="false"
+                    placeholder="Equipa" :close-on-select="true" :show-labels="false" 
+                    :options="equipas"  :allow-empty="true"></multiselect>
+                  <button class="btn btn-lg text-uppercase btn-bet" :disabled="selected.equipa==null" @click="removeTeam()">CONFIRMAR</button>
+                </div>
+                <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id  || selected.option != 1">
+                    <button class="btn btn-lg text-uppercase btn-end" @click="selectCompetition(competicao.id, 1)">REMOVER EQUIPA</button>
+                </div>
               </div>
+              <!-- <div class="column right-event">
+                <button class="btn btn-lg text-uppercase btn-bet" @click="deleteCompetition(competicao.id)">ELIMINAR COMPETICAO</button>
+              </div> -->
             </div>
-            <div class="column center-event">
-              <p class="teamname"><b>{{competicao.country}}</b></p>
-              <div v-if="selected.id != -1 && competicao.id == selected.id  && selected.option == 1">
-                <multiselect v-model="selected.equipa" track-by="id" label="name" :searchable="false"
-                   placeholder="Equipa" :close-on-select="true" :show-labels="false" 
-                  :options="equipas"  :allow-empty="true"></multiselect>
-                <button class="btn btn-lg text-uppercase btn-bet" :disabled="selected.equipa==null" @click="removeTeam()">CONFIRMAR</button>
-              </div>
-              <div class="column center-event" v-if="selected.id == -1 || competicao.id != selected.id  || selected.option != 1">
-                  <button class="btn btn-lg text-uppercase btn-end" @click="selectCompetition(competicao.id, 1)">REMOVER EQUIPA</button>
-              </div>
-            </div>
-            <!-- <div class="column right-event">
-              <button class="btn btn-lg text-uppercase btn-bet" @click="deleteCompetition(competicao.id)">ELIMINAR COMPETICAO</button>
-            </div> -->
-          </div>
-        </v-card>
-        </v-container>
+          </v-card>
+          </v-container>
+        </div>
       </div>
     </div>
   </admin-layout>

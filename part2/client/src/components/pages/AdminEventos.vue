@@ -42,32 +42,34 @@
 
         </div>
 
-        <div v-for="evento in eventos" :key="evento.id" class="column main-column">
-          <v-container text-xs-center>
-          <v-card color="white" class="my-card event">
-            <div class="row">
-              <div class="column left-event">
-                <img class="crest" :src="evento.equipaCsimb">
-                <p primary-title class="teamname"><b>{{evento.equipaC}}</b></p>
-              </div>
-              <div class="column center-event">
-                <p class="teamname"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
-                <div v-if="selected.id != 0 && evento.id == selected.id">
-                    <input v-model="selected.result" placeholder="Resultado">
-                    <button class="btn btn-lg text-uppercase btn-bet" :disabled="!checkresult()" @click="eventEnd()">CONFIRMAR</button>
+        <div class="row main-row">
+          <div v-for="evento in eventos" :key="evento.id" class="column main-column">
+            <v-container text-xs-center>
+            <v-card color="white" class="my-card event">
+              <div class="row">
+                <div class="column left-event">
+                  <img class="crest" :src="evento.equipaCsimb">
+                  <p primary-title class="teamname"><b>{{evento.equipaC}}</b></p>
                 </div>
-                <div class="column center-event" v-if="selected.id == 0 || evento.id != selected.id">
-                    <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
-                    <button class="btn btn-lg text-uppercase btn-end" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
+                <div class="column center-event">
+                  <p class="teamname"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
+                  <div v-if="selected.id != 0 && evento.id == selected.id">
+                      <input v-model="selected.result" placeholder="Resultado">
+                      <button class="btn btn-lg text-uppercase btn-bet" :disabled="!checkresult()" @click="eventEnd()">CONFIRMAR</button>
+                  </div>
+                  <div class="column center-event" v-if="selected.id == 0 || evento.id != selected.id">
+                      <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
+                      <button class="btn btn-lg text-uppercase btn-end" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
+                  </div>
+                </div>
+                <div class="column right-event">
+                  <img class="crest" :src="evento.equipaFsimb">
+                  <p primary-title class="teamname"><b>{{evento.equipaF}}</b></p>
                 </div>
               </div>
-              <div class="column right-event">
-                <img class="crest" :src="evento.equipaFsimb">
-                <p primary-title class="teamname"><b>{{evento.equipaF}}</b></p>
-              </div>
-            </div>
-          </v-card>
-          </v-container>
+            </v-card>
+            </v-container>
+          </div>
         </div>
     </div>
   </admin-layout>

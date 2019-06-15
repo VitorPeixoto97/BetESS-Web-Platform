@@ -19,6 +19,7 @@
         </v-container>
       </div>
 
+      <div class="row main-row">
         <div v-for="equipa in equipas" class="column main-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
@@ -34,6 +35,7 @@
           </v-card>
           </v-container>
         </div>
+      </div>
     </div>
   </admin-layout>
 </template>
