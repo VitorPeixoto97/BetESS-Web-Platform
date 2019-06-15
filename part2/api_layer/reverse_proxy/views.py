@@ -5,6 +5,9 @@ from revproxy.views import ProxyView
 class Login(ProxyView):
 	upstream = 'http://127.0.0.1:8002/auth/obtain/'
 
+class Register(ProxyView):
+	upstream = 'http://127.0.0.1:8002/user/register/'
+
 class Bet(ProxyView):
 	upstream = 'http://127.0.0.1:8000/betting/add_bet/'
 
@@ -14,8 +17,8 @@ class Event(ProxyView):
 class EventEnd(ProxyView):
 	upstream = 'http://127.0.0.1:8001/matches/end_event/'
 
-class Register(ProxyView):
-	upstream = 'http://127.0.0.1:8002/user/register/'
+class Team(ProxyView):
+	upstream = 'http://127.0.0.1:8001/matches/add_team/'
 
 #GETS
 class Gets(ProxyView):

@@ -9,6 +9,22 @@ import json
 from decimal import Decimal, ROUND_HALF_UP
 import datetime
 
+@csrf_exempt 
+def addTeamView(request):
+    if request.method=='POST':
+        received = json.loads(request.body.decode('utf-8'))
+
+        name = received['name']
+        simbolo = received['simbolo']
+        id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
+
+        models.Team.objects.create(id=id, name=name, simbolo=simbolo)
+
+        return HttpResponse('ok')
+    
+    else:
+        return HttpResponseBadRequest(content='bad form')
+
 def cTeamView(request, id, name, simbolo):
     models.Team.objects.filter(id=id).update(name=name, simbolo=simbolo)
     return HttpResponse('ok')
@@ -66,6 +82,9 @@ def addEventView(request):
 def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, oddD, status, result):
     models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
                                                 oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
+
+# def dEventView(request, id):
+#     models.Event.objects.filter(id=id).delete
 
 @csrf_exempt 
 def endEventView(request):
@@ -189,4 +208,28 @@ def getActiveEventsView(request):
         new_event['status'] = event.status
         new_event['result'] = event.result
         aux.append(new_event)
+    return JsonResponse(aux, safe=False)
+
+def gCompetitionTeamsView(request, id, option):
+    teams = []
+    if option == 0:
+        teams = models.Team.objects.all()
+        for team in teams:
+            try:
+                team.competitions.get(id=id)
+                teams.remove(team)
+            except:
+                pass
+    elif option == 1:
+        teams = models.Competition.objects.get(id=id).teams.all()
+        
+
+
+    aux = []
+    for team in teams:
+        new_team = {}
+        new_team['name'] = team.name
+        new_team['simbolo'] = team.simbolo
+        aux.append(new_team)
+
     return JsonResponse(aux, safe=False)

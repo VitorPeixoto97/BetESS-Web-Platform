@@ -4,6 +4,7 @@ import datetime
 class Competition(models.Model):
     name = models.CharField(max_length=200)
     country = models.CharField(max_length=200)
+    teams = models.ManyToManyField('Team', related_name="competitions")
     def __str__(self):
         return self.name
 
@@ -22,8 +23,8 @@ class Event(models.Model):
     oddE = models.DecimalField(max_digits=10, decimal_places=2)
     oddD = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=True)
-    date = models.DateField(default=datetime.date.today)
-    time = models.TimeField(default=datetime.datetime.now().strftime('%H:%M'))
+    date = models.DateField()
+    time = models.TimeField()
     result = models.TextField()
     def __str__(self):
         return self.type

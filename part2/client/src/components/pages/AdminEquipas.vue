@@ -1,15 +1,23 @@
 <template>
   <admin-layout>
     <div id="app">
-        <div>
-            <v-container text-xs-center>
-            <v-card color="white" class="my-card event">
-                <input v-model="nova_equipa.name" placeholder="Nova equipa...">
-                <input v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
-                <button class="btn btn-lg text-uppercase btn-bet" @click="equipa()">NOVA EQUIPA</button>
-            </v-card>
-            </v-container>
-        </div>
+      <div class="column main-column">
+        <v-container text-xs-center>
+        <v-card color="white" class="my-card event">
+          <div class="row main-row">
+            <div class="column left-event" align="center">
+              <input v-model="nova_equipa.name" placeholder="Nova equipa...">
+            </div>
+            <div class="column center-event" align="center">
+              <input v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
+            </div>
+            <div class="column right-event" align="center">
+              <button class="btn btn-lg text-uppercase btn-end" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
+            </div>
+          </div>
+        </v-card>
+        </v-container>
+      </div>
 
         <div v-for="equipa in equipas" class="column main-column">
           <v-container text-xs-center>
@@ -17,12 +25,10 @@
             <div class="row">
               <div class="column left-event">
                 <img class="crest" :src="equipa.simbolo">
-              </div>
-              <div class="column center-event">
-                <p primary-title class="teamname"><b>{{equipa.name}}</b></p>>
+                <p primary-title class="teamname"><b>{{equipa.name}}</b></p>
               </div>
               <!-- <div class="column right-event">
-                <button class="btn btn-lg text-uppercase btn-bet" @click="deleteTeam(equipa.id)">ELIMINAR EQUIPA</button>
+                <button class="btn btn-lg text-uppercase btn-end" @click="deleteTeam(equipa.id)">ELIMINAR EQUIPA</button>
               </div> -->
             </div>
           </v-card>
@@ -46,7 +52,7 @@ export default {
           equipas: null,
 
           nova_equipa: {
-              nome: '',
+              name: '',
               simbolo: ''
           },
       }
@@ -75,20 +81,22 @@ export default {
     // },
 
     checkform() {
-        axios.get(this.nova_equipa.simbolo).catch(response => {return false})
-        return(this.nova_equipa.nome != '')
+        var nameregex = RegExp('^[a-zA-z ]+$');
+        var imgregex = RegExp('^.+\.(jpeg|jpg|gif|png)$')
+        return(nameregex.test(this.nova_equipa.name) && imgregex.test(this.nova_equipa.simbolo))
 
     },
 
     equipa() {
-        axios.post("http://localhost:8005/matches/add_team", JSON.stringify(this.nova_equipa)).then(response => {
-          this.$notify({
-            group: 'foo',
-            type: 'success',
-            title: 'Notificação',
-            text: 'Evento registado.'
-          });
-          this.$router.go()
+        axios.get(this.nova_equipa.simbolo).then( response => {
+            axios.post("http://localhost:8005/team/", JSON.stringify(this.nova_equipa)).then(response => {
+                this.$notify({
+                    group: 'foo',
+                    type: 'success',
+                    title: 'Notificação',
+                    text: 'Evento registado.'
+                });
+                this.$router.go()
         }).catch(e => {
           this.$notify({
             group: 'foo',
@@ -97,6 +105,14 @@ export default {
             text: e.response.data
           });
         });
+        }).catch(response => {
+            this.$notify({
+                group: 'foo',
+                type: 'error',
+                title: 'Erro',
+                text: 'Imagem inválida.'
+            })
+        })
     },
 
 

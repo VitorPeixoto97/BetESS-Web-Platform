@@ -1,61 +1,49 @@
 <template>
   <admin-layout>
     <div id="app">
-        <!--div class="row">
-            <div class="column main-column">
+        <div class="row">
+            <div class="column" align="center">
                 <v-container text-xs-center>
-                <v-card color="white" class="my-card event">
-                    <div class="row">
+                  <v-card color="white" class="my-card event">
+                    <v-layout row>
                         <div class="column left-event">
-                            <label class="typo__label">Competição</label>
-                            <multiselect v-model="novo_evento.competicao" track-by="id" label="name" placeholder="Select one" :options="competicoes" :allow-empty="false" @change="selectCompetition"></multiselect>
-                            <label class="typo__label">Equipa Casa</label>
-                            <multiselect v-model="novo_evento.equipaC" track-by="id" label="name" placeholder="Select one" :options="equipaOptions" :allow-empty="false"></multiselect>
+                            <multiselect v-model="novo_evento.competicao" track-by="id" :value="id" label="name" :searchable="false"
+                                         placeholder="Competição" :close-on-select="true" :show-labels="false"
+                                         :options="competicoes" :allow-empty="false" @change="selectCompetition"></multiselect>
+                                         
+                            <multiselect v-model="novo_evento.equipaC" track-by="id" :value="id" label="name" placeholder="Equipa Casa" 
+                                        :options="equipaOptions" :allow-empty="true" :disabled="equipaOptions.length==0"
+                                        :searchable="false" :close-on-select="true" :show-labels="false">
+                              <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
+                            </multiselect>
+
                             <input v-model.number="novo_evento.oddV" placeholder="1.0">
                         </div>
                         <div class="column center-event">
-                            <p>VS</p>
                             <input v-model.number="novo_evento.oddE" placeholder="1.0">
+                            <button :disabled="!checkform()" class="btn btn-lg text-uppercase btn-bet" @click="newevento()">NOVO EVENTO</button>
                         </div>
                         <div class="column right-event">
                             <label class="typo__label">Equipa Visitante</label>
-                            <multiselect v-model="novo_evento.equipaF" track-by="id" label="name" placeholder="Select one" :options="equipaOptions" :allow-empty="false"></multiselect>
+                            <multiselect v-model="novo_evento.equipaF" track-by="id" label="name" placeholder="Select one" :options="equipaOptions" :allow-empty="false" :disabled="equipaOptions.length==0">
+                              <template slot="singleLabel" slot-scope="{ option }"><strong>{{ option.name }}</strong></template>
+                            </multiselect>
                             <input v-model.number="novo_evento.oddD" placeholder="1.0">
                         </div>
-                        <div>
+                        <div class="column center-event">
                             <datepicker v-model="novo_evento.datepicker" placeholder="Select Date" @change="selectDate()"></datepicker>
-                            <vue-timepicker v-model="novo_evento.hora" placeholder="Select Time" @change="selectHour()"></vue-timepicker>
+                            <vue-timepicker v-model="novo_evento.hora" placeholder="Select Time" format="HH:mm" @change="selectHour()" :minute-interval="5"></vue-timepicker>
                             <input type="checkbox" id="checkbox" v-model="novo_evento.premium">
                             <label for="checkbox">Evento Premium</label>
-                            <button :disabled="checkform()" class="btn btn-lg text-uppercase btn-bet" @click="newevento()">NOVO EVENTO</button>
                         </div>
-                    </div>
-                </v-card>
+                    </v-layout>
+                  </v-card>
                 </v-container>
             </div>
 
         </div>
-        
-        <!div>
-            <v-container text-xs-center>
-            <v-card color="white" class="my-card event">
-                <input v-model="nova_equipa.name" placeholder="Nova equipa...">
-                <button class="btn btn-lg text-uppercase btn-bet" @click="equipa()">NOVA EQUIPA</button>
-            </v-card>
-            </v-container>
-        </div>
 
-        <!--div>
-            <v-container text-xs-center>
-            <v-card color="white" class="my-card event">
-                <input v-model="nova_competicao.name" placeholder="Nova competicao...">
-                <input v-model="nova_competicao.country" placeholder="País...">
-                <button class="btn btn-lg text-uppercase btn-bet" :disabled="nova_competicao.name != null && nova_competicao.coutry != null" @click="competicao()">NOVA COMPETICAO</button>
-            </v-card>
-            </v-container>
-        </div-->
-
-        <div v-for="evento in eventos" class="column main-column">
+        <div v-for="evento in eventos" :key="evento.id" class="column main-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
             <div class="row">
@@ -71,7 +59,7 @@
                 </div>
                 <div class="column center-event" v-if="selected.id == 0 || evento.id != selected.id">
                     <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
-                    <button class="btn btn-lg text-uppercase btn-bet" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
+                    <button class="btn btn-lg text-uppercase btn-end" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
                 </div>
               </div>
               <div class="column right-event">
@@ -91,19 +79,21 @@ import router from "../../router";
 import AdminLayout from '../layouts/AdminLayout.vue'
 import Datepicker from 'vuejs-datepicker';
 import VueTimepicker from 'vuejs-timepicker'
+import Multiselect from 'vue-multiselect'
 import axios from 'axios';
 export default {
   name: 'AdminEventos',
   components: {
     AdminLayout,
     Datepicker,
-    VueTimepicker
+    VueTimepicker,
+    Multiselect
   },
   data() {
       return {
           eventos: null,
-          equipas: null,
-          competicoes: null,
+          equipas: [],
+          competicoes: [],
 
           selected: {
             id: 0,
@@ -112,33 +102,20 @@ export default {
             equipaF: '',
           },
 
-          nova_equipa: {
-              nome: '',
-              simbolo: ''
-          },
-
-          nova_competicao: {
-              name: '',
-              country: ''
-          },
-
           novo_evento: {
               premium: false,
-              competicao: 0,
-              equipaC: 0,
-              equipaF: 0,
+              competicao: {},
+              equipaC: {},
+              equipaF: {},
               oddV: 0,
               oddE: 0,
               oddD: 0,
               data: '',
-              hora: ''
+              hora: {
+                HH: null,
+                mm: null
+              }
           },
-
-        //   datepicker: new Date(),
-        //   timepicker: {
-        //           HH: "0",
-        //           mm: "0",
-        //       },
           
           equipaOptions: [],
       }
@@ -153,17 +130,23 @@ export default {
     FetchData: function() {
       axios.get("http://localhost:8005/matches/active_events/").then(response => {
         this.eventos = response.data;
+        axios.get("http://localhost:8005/matches/teams/").then(response => {
+          this.equipas = response.data;
+          axios.get("http://localhost:8005/matches/competitions/").then(response => {
+            this.competitions = response.data;
+          })
+        })
       })
-      axios.get("http://localhost:8005/matches/teams/").then(response => {
-        this.equipas = response.data;
-      })
-      axios.get("http://localhost:8005/matches/competitions/").then(response => {
-        this.competitions = response.data;
-      })
+      
       var aux = new Date();
       this.novo_evento.data = new Date(aux.getFullYear(), aux.getMonth(), aux.getDate())
-    //   this.novo_evento.hora.HH = aux.getHours().toString()
-    //   this.novo_evento.hora.mm = aux.getMinutes().toString()
+      if(aux.getHours().toString().length < 2)
+        this.novo_evento.hora.HH = '0' + aux.getHours()
+      else this.novo_evento.hora.HH = aux.getHours()
+      if(aux.getMinutes().toString().length < 2)
+        this.novo_evento.hora.mm = '0' + Math.ceil(aux.getMinutes()/5.0) * 5
+      else this.novo_evento.hora.mm = Math.ceil(aux.getMinutes()/5.0) * 5
+
     },
       
     checkLoggedIn() {
