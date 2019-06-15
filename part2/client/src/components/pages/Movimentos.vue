@@ -1,6 +1,6 @@
 <template>
   <layout-basic>
-    <div id="app">
+    <div id="app" style="padding-bottom:100px;">
       <div class="row main-row">
         <div class="column full-column">
           <v-container text-xs-center>

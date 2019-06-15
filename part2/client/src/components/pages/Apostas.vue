@@ -1,7 +1,6 @@
-
 <template>
   <layout-basic>
-    <div id="app">
+    <div id="app" style="padding-bottom:100px;">
       <div class="row main-row">
         <div v-for="aposta in apostas" v-if="get(aposta.event).status==true" class="column main-column">
           <v-container text-xs-center>

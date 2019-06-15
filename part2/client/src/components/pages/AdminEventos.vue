@@ -1,76 +1,83 @@
 <template>
   <admin-layout>
-    <div id="app">
-        <div class="row">
-            <div class="column" align="center">
-                <v-container text-xs-center>
-                  <v-card color="white" class="my-card event">
-                    <v-layout row>
-                        <div class="column left-event">
-                            <multiselect v-model="novo_evento.competicao" track-by="id" label="name" :searchable="false"
-                                         placeholder="Competição" :close-on-select="true" :show-labels="false"
-                                         :options="competicoes" :allow-empty="false" @input="selectCompetition()"></multiselect>
+    <div id="app" style="padding-bottom:100px;">
+      <div class="row main-row" style="padding:0px 15px 0px 15px;">
+        <div class="column full-column">
+            <v-card  style="color:#FFF; height:240px;" class="my-card event">
+              <v-container>
+                
+                <div class="row" style="width:98%; padding-top:30px; margin:auto;">
+                  <multiselect v-model="novo_evento.competicao" track-by="id" label="name" :searchable="false"
+                               placeholder="Competição" :close-on-select="true" :show-labels="false"
+                               :options="competicoes" :allow-empty="false" style="width:30%;">
+                  </multiselect>
+
+                  <datepicker style="color:#333; width:15%;" v-model="data" :bootstrap-styling="true" placeholder="Select Date" format="yyyy-MM-dd" @change="selectDate()"></datepicker>
+                  <vue-timepicker style="width:auto;"v-model="hora" placeholder="Select Time" format="HH:mm" @change="selectHour()" :minute-interval="5"></vue-timepicker>
+
+                  <b-form-checkbox id="checkbox" class="checkbox-premium" v-model="novo_evento.premium" switch>
+                    <label class="label-coins" style="margin:auto">Evento Premium</label>
+                  </b-form-checkbox>
+
+                </div>
+
+                <div class="row" style="width:98%; padding-top:30px; margin:auto;">
                                          
-                            <multiselect v-model="novo_evento.equipaC" track-by="id" label="name" :searchable="false"
-                                        placeholder="Equipa Casa" :close-on-select="true" :show-labels="false"
-                                        :options="equipas" :allow-empty="false" :disabled="equipas.length==0">
-                            </multiselect>
+                  <multiselect v-model="novo_evento.equipaC" track-by="id" label="name" :searchable="false"
+                               placeholder="Equipa Casa" :close-on-select="true" :show-labels="false"
+                               :options="equipas" :allow-empty="false" :disabled="equipas.length==0" style="width:25%;">
+                  </multiselect>
 
-                            <input v-model.number="novo_evento.oddV" placeholder="1.00">
-                        </div>
-                        <div class="column center-event">
-                            <input v-model.number="novo_evento.oddE" placeholder="1.00">
-                            <button :disabled="!checkform()" class="btn btn-lg text-uppercase btn-bet" @click="newevento()">NOVO EVENTO</button>
-                        </div>
-                        <div class="column right-event">
-                            <multiselect v-model="novo_evento.equipaF" track-by="id" label="name" :searchable="false"
-                                        placeholder="Equipa Visitante" :close-on-select="true" :show-labels="false"
-                                        :options="equipas" :allow-empty="false" :disabled="equipas.length==0">
-                            </multiselect>
-                            <input v-model.number="novo_evento.oddD" placeholder="1.00">
-                        </div>
-                        <div class="column center-event">
-                            <datepicker v-model="data" placeholder="Select Date" format="yyyy-MM-dd" @change="selectDate()"></datepicker>
-                            <vue-timepicker v-model="hora" placeholder="Select Time" format="HH:mm" @change="selectHour()" :minute-interval="5"></vue-timepicker>
-                            <input type="checkbox" id="checkbox" :true-value="true" :false-value="false" v-model="novo_evento.premium">
-                            <label for="checkbox">Evento Premium</label>
-                        </div>
-                    </v-layout>
-                  </v-card>
+                  <input v-model.number="novo_evento.oddV" class="form-control" placeholder="Odd 1" style="width:10%">
+                  <input v-model.number="novo_evento.oddE" class="form-control" placeholder="Odd X" style="width:10%">
+                  <input v-model.number="novo_evento.oddD" class="form-control" placeholder="Odd 2" style="width:10%">
+
+                
+                  <multiselect v-model="novo_evento.equipaF" track-by="id" label="name" :searchable="false"
+                               placeholder="Equipa Visitante" :close-on-select="true" :show-labels="false"
+                               :options="equipas" :allow-empty="false" :disabled="equipas.length==0" style="width:25%;">
+                  </multiselect>
+                  
+                </div>
+                <div class="row" style="width:98%; padding-top:30px; margin:auto;">
+                  <button :disabled="!checkform()" class="btn btn-lg text-uppercase btn-movim" style="width:200px; margin:auto" @click="newevento()">NOVO EVENTO</button>
+                </div>
+                  
                 </v-container>
-            </div>
-
+            </v-card>
         </div>
 
-        <div class="row main-row">
-          <div v-for="evento in eventos" :key="evento.id" class="column main-column">
-            <v-container text-xs-center>
-            <v-card color="white" class="my-card event">
-              <div class="row">
-                <div class="column left-event">
-                  <img class="crest" :src="evento.equipaCsimb">
-                  <p primary-title class="teamname"><b>{{evento.equipaC}}</b></p>
+      </div>
+
+      <div class="row main-row">
+        <div v-for="evento in eventos" :key="evento.id" class="column main-column">
+          <v-container text-xs-center>
+          <v-card color="white" class="my-card event">
+            <div class="row">
+              <div class="column left-event">
+                <img class="crest" :src="evento.equipaCsimb">
+                <p primary-title class="teamname"><b>{{evento.equipaC}}</b></p>
+              </div>
+              <div class="column center-event">
+                <p class="teamname"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
+                <div v-if="selected.id != 0 && evento.id == selected.id">
+                    <input class="form-control" style="width:25%; display:inline" v-model="selected.result" placeholder="Resultado">
+                    <button class="btn btn-lg text-uppercase btn-primary btn-confirm-score" :disabled="!checkresult()" @click="eventEnd()">CONFIRMAR</button>
                 </div>
-                <div class="column center-event">
-                  <p class="teamname"><b>{{evento.competition}}</b> | {{evento.date}} | {{evento.time}}</p>
-                  <div v-if="selected.id != 0 && evento.id == selected.id">
-                      <input v-model="selected.result" placeholder="Resultado">
-                      <button class="btn btn-lg text-uppercase btn-bet" :disabled="!checkresult()" @click="eventEnd()">CONFIRMAR</button>
-                  </div>
-                  <div class="column center-event" v-if="selected.id == 0 || evento.id != selected.id">
-                      <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
-                      <button class="btn btn-lg text-uppercase btn-end" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
-                  </div>
-                </div>
-                <div class="column right-event">
-                  <img class="crest" :src="evento.equipaFsimb">
-                  <p primary-title class="teamname"><b>{{evento.equipaF}}</b></p>
+                <div class="row" v-if="selected.id == 0 || evento.id != selected.id">
+                  <!-- <button class="btn btn-lg text-uppercase btn-bet" @click="eventCancel(evento.id, evento.equipaC, evento.equipaF)">CANCELAR EVENTO</button> -->
+                  <button class="btn btn-lg text-uppercase btn-primary" @click="eventSelect(evento.id, evento.equipaC, evento.equipaF)">TERMINAR EVENTO</button>
                 </div>
               </div>
-            </v-card>
-            </v-container>
-          </div>
+              <div class="column right-event">
+                <img class="crest" :src="evento.equipaFsimb">
+                <p primary-title class="teamname"><b>{{evento.equipaF}}</b></p>
+              </div>
+            </div>
+          </v-card>
+          </v-container>
         </div>
+      </div>
     </div>
   </admin-layout>
 </template>
@@ -134,7 +141,10 @@ export default {
         this.eventos = response.data;
         axios.get("http://localhost:8005/matches/competitions/").then(response => {
           this.competicoes = response.data;
-        })
+        });
+        axios.get("http://localhost:8005/matches/teams/").then(response => {
+          this.equipas = response.data;
+        });
       })
       
       var aux = new Date();
@@ -186,9 +196,8 @@ export default {
     },
 
     checkform() {
-        return(this.novo_evento.equipaC != 0 && this.novo_evento.equipaF != 0 && this.novo_evento.equipaC != this.novo_evento.equipaF
-        && this.novo_evento.oddV != null && this.novo_evento.oddE != null && this.novo_evento.oddD != null
-        && this.novo_evento.oddV > 1 && this.novo_evento.oddE > 1 && this.novo_evento.oddD > 1
+        return(this.novo_evento.equipaC != null && this.novo_evento.equipaF != null && this.novo_evento.equipaC != this.novo_evento.equipaF
+        && this.novo_evento.oddV>1 && this.novo_evento.oddE>1 && this.novo_evento.oddD>1
         && this.data != '' && this.hora != '')
 
     },
@@ -197,13 +206,6 @@ export default {
         var regex = RegExp('^\\s*\\d+-\\d+\\s*$');
 
         return regex.test(this.selected.result)
-    },
-
-    selectCompetition() {
-        this.equipas = []
-        axios.get("http://localhost:8005/matches/competition_teams/" + this.novo_evento.competicao.id + "/").then(response => {
-          this.equipas = response.data;
-        });
     },
     
     selectDate() {
@@ -238,5 +240,5 @@ export default {
 }
 </script>
 
-<style src="../../../dist/static/css/admin.css">
+<style src="../../../dist/static/css/stats.css">
 
