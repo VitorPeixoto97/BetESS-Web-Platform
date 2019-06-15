@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^(?P<path>.*)login/$', Login.as_view()),
     url(r'^(?P<path>.*)register/$', Register.as_view()),
     url(r'^(?P<path>.*)bet/$', Bet.as_view()),
-    url(r'^(?P<path>.*)add_event/$', Event.as_view()),
+    url(r'^(?P<path>.*)event/$', Event.as_view()),
     url(r'^(?P<path>.*)end_event/$', EventEnd.as_view()),
     url(r'^(?P<path>.*)team/$', Team.as_view()),
 
