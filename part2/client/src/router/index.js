@@ -10,6 +10,7 @@ import Movimentos from '@/components/pages/Movimentos'
 import AdminEventos from '@/components/pages/AdminEventos'
 import AdminEquipas from '@/components/pages/AdminEquipas'
 import AdminCompeticoes from '@/components/pages/AdminCompeticoes'
+import AdminHistorico from '@/components/pages/AdminHistorico'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ export default new Router({
       path: '/admincompeticoes',
       name: 'AdminCompeticoes',
       component: AdminCompeticoes
+    },
+    {
+      path: '/adminhistorico',
+      name: 'AdminHistorico',
+      component: AdminHistorico
     }
   ]
 })
