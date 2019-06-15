@@ -1,30 +1,28 @@
 <template>
   <admin-layout>
-    <div id="app">
-      <div class="column main-column">
-        <v-container text-xs-center>
-        <v-card color="white" class="my-card event">
-          <div class="row main-row">
-            <div class="column left-event" align="center">
-              <input v-model="nova_equipa.name" placeholder="Nova equipa...">
-            </div>
-            <div class="column center-event" align="center">
-              <input v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
-            </div>
-            <div class="column right-event" align="center">
-              <button class="btn btn-lg text-uppercase btn-end" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
-            </div>
-          </div>
-        </v-card>
-        </v-container>
+    <div id="app" style="padding-bottom:100px;">
+      <div class="row main-row" style="padding:0px 15px 0px 15px;">
+        <div class="column full-column">
+          <v-card  style="color:#FFF; height:80px;" class="my-card event">
+            <v-container>
+              <div class="row inside-row">
+                  <input class="form-control" style="width:25%;" v-model="nova_equipa.name" placeholder="Nova equipa...">
+                
+                  <input class="form-control" style="width:25%;" v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
+                
+                  <button class="btn btn-lg text-uppercase btn-primary" style="display:inline; width:20%;" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
+              </div>
+            </v-container>
+          </v-card>
+        </div>
       </div>
 
       <div class="row main-row">
-        <div v-for="equipa in equipas" class="column main-column">
+        <div v-for="equipa in equipas" class="column club-column">
           <v-container text-xs-center>
           <v-card color="white" class="my-card event">
             <div class="row">
-              <div class="column left-event">
+              <div class="column" style="margin:10px auto auto auto">
                 <img class="crest" :src="equipa.simbolo">
                 <p primary-title class="teamname"><b>{{equipa.name}}</b></p>
               </div>
@@ -83,22 +81,22 @@ export default {
     // },
 
     checkform() {
-        var nameregex = RegExp('^[a-zA-z ]+$');
         var imgregex = RegExp('^.+\.(jpeg|jpg|gif|png)$')
-        return(nameregex.test(this.nova_equipa.name) && imgregex.test(this.nova_equipa.simbolo))
-
+        return(imgregex.test(this.nova_equipa.simbolo))
     },
 
     equipa() {
-        axios.get(this.nova_equipa.simbolo).then( response => {
+      axios.get(this.nova_equipa.simbolo).then( response => {
             axios.post("http://localhost:8005/team/", JSON.stringify(this.nova_equipa)).then(response => {
                 this.$notify({
                     group: 'foo',
                     type: 'success',
                     title: 'Notificação',
-                    text: 'Evento registado.'
+                    text: 'Equipa registada.'
                 });
-                this.$router.go()
+                this.FetchData();
+                this.nova_equipa.name='';
+                this.nova_equipa.simbolo='';
         }).catch(e => {
           this.$notify({
             group: 'foo',
@@ -122,5 +120,5 @@ export default {
 }
 </script>
 
-<style src="../../../dist/static/css/admin.css">
+<style src="../../../dist/static/css/stats.css">
 

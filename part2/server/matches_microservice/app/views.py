@@ -16,12 +16,14 @@ def addTeamView(request):
 
         name = received['name']
         simbolo = received['simbolo']
-        id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
 
-        models.Team.objects.create(id=id, name=name, simbolo=simbolo)
-
-        return HttpResponse('ok')
-    
+        teams = models.Team.objects.filter(name=name)
+        if(teams.count()>0):
+            return HttpResponseBadRequest(content='Essa equipa já se encontra registada!')
+        else:
+            id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
+            models.Team.objects.create(id=id, name=name, simbolo=simbolo)
+            return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bad form')
 
@@ -34,7 +36,7 @@ def gTeamView(request, id):
     return JsonResponse(model_to_dict(team))
 
 def gTeamsView(request):
-    teams = models.Team.objects.all()
+    teams = models.Team.objects.all().order_by('name')
     aux = []
     for team in teams:
         new_team = {}
@@ -53,7 +55,7 @@ def gCompetitionView(request, id):
     return JsonResponse(model_to_dict(competition))
 
 def gCompetitionsView(request):
-    competitions = models.Competition.objects.all()
+    competitions = models.Competition.objects.all().order_by('name')
     aux = []
     for competition in competitions:
         new_competition = {}
