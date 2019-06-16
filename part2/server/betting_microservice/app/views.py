@@ -61,7 +61,13 @@ def getUserBets(userid):
 
 def delBetView(request, id):
     bet = get_object_or_404(models.Bet, id=id)
+    user = bet.user
+    amount = bet.amount
+
     bet.delete()
+
+    messaging.send_message('bet_cancel;'+ str(user) + ';' + str(amount))
+
     return HttpResponse('ok')
 
 @csrf_exempt 

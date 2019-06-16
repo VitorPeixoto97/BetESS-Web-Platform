@@ -96,15 +96,13 @@ export default {
     },
 
     cancelBet(aposta){
-      axios.get("http://localhost:8005/user/add_coins/" + this.$session.get('user').id + "/" + aposta.amount + "/").then(response => {
-        axios.get("http://localhost:8005/betting/del_bet/" + aposta.id + "/").then(response => {
-          this.$notify({
-            group: 'foo',
-            type: 'success',
-            title: 'Notificação',
-            text: 'Aposta removida! O seu dinheiro foi reembolsado.'
-          });
-        }).catch(e => {});
+      axios.get("http://localhost:8005/betting/del_bet/" + aposta.id + "/").then(response => {
+        this.$notify({
+          group: 'foo',
+          type: 'success',
+          title: 'Notificação',
+          text: 'Aposta removida! O seu dinheiro será reembolsado.'
+        });
       }).catch(e => {
         this.$notify({
           group: 'foo',
