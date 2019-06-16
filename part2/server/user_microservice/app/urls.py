@@ -10,7 +10,4 @@ urlpatterns = [
     path('add_coins/<int:userid>/<int:amount>/', views.addCoinsView, name="Add Coins"),
     path('admin_info/<str:email>/', views.infoAdminView, name='Admin Info'),
     path('register/', views.registerView, name='Register'),
-    #path('admin/<str:email>/<str:nome>/<str:password>/', views.adminView, name='admin'),
-    #path('user/<string:email>/<str:username>/<str:name>/<str:password>/', views.UserView, name='user'),
-    #path('change_user/<int:id>/<string:email>/<str:username>/<str:name>/<str:password>/<float:coins>/', views.cUserView, name='cuser'),
 ]

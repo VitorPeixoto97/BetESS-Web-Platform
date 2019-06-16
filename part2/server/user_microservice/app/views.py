@@ -44,7 +44,8 @@ def registerView(request):
         elif(coins<10):
             return HttpResponseBadRequest(content='Tem de depositar no mínimo 5 coins para fazer o registo.')
         else:
-            models.User.objects.create(email=email, name=name, type=premium, coins=coins)
+            id = max(models.User.objects.all().values_list('id', flat=True)) + 1
+            models.User.objects.create(id=id, email=email, name=name, type=premium, coins=coins)
             user = get_user_model().objects.create_user(email, email, password)
             return HttpResponse('ok')
     else:
@@ -54,23 +55,6 @@ def registerView(request):
 def index(request):
     context = 'Hello World'
     return render(request, 'server/index.html', context)
-
-'''
-def loginView(request):
-    form = forms.LoginForm(request.POST)
-    if form.is_valid():
-        user = authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password'])
-        if user is not None:
-            login(request, user)
-            return HttpResponse('ok')
-        else:
-            return HttpResponseBadRequest(content='invalid user')
-    else:
-        return HttpResponseBadRequest(content='bad form')
-
-def logoutView(request):
-    logout(request)
-'''
 
 def gUsersView(request):
     users = models.User.objects.all()
@@ -92,7 +76,8 @@ def userView(request, username, email, password, name, coins):
         if admin.email == email:
             existe = True
     if not existe:
-        models.User.objects.create(username=username, email=email, password=password, name=name, coins=coins+10)
+        id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
+        models.User.objects.create(id=id, username=username, email=email, password=password, name=name, coins=coins+10)
         return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='user already exists')

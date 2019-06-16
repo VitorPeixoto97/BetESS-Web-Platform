@@ -14,8 +14,4 @@ urlpatterns = [
     path('end_event/', views.endEventView, name='endEvent'),
     path('competitions/', views.gCompetitionsView, name='All Competitions'),
     path('add_competition/', views.addCompetitionView, name='Add Competition'),
-    #path('change_event/', views.cEventView, name='cevent'),
-    #path('del_event/<int:id>/', views.dEventView, name='devent'),
-    #path('get_events/', views.gEventsView, name='gevento'),
-    #path('get_event/<int:id>/', views.gEventView, name='gevent'),
 ]

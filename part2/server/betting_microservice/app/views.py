@@ -18,11 +18,9 @@ from decimal import Decimal
 class IndexView(generic.ListView):
 	template_name = 'index.html'
 	context_object_name = 'user_list'
-	#def get_queryset(self):
-		#return models.Clube.objects.order_by('-nome')[:5]
 
 class PostsView(ListAPIView):
-    authentication_class = (JSONWebTokenAuthentication,) # Don't forget to add a 'comma' after first element to make it a tuple
+    authentication_class = (JSONWebTokenAuthentication,) 
     permission_classes = (IsAuthenticated,)
 
 def index(request):
@@ -46,8 +44,6 @@ def gBetsView(request):
 
 def getUserBetsView(request, user):
     aux = getUserBets(user)
-
-    #FILTRAR APOSTAS CUJOS EVENTOS JA TENHAM SIDO TERMINADOS.
 
     return JsonResponse(aux, safe=False)
 
@@ -95,7 +91,8 @@ def addBetView(request):
         if(jaapostou):
             return HttpResponseBadRequest('Já apostou nesse evento!')
         else:
-            models.Bet.objects.create(result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
+            id = max(models.Bet.objects.all().values_list('id', flat=True)) + 1
+            models.Bet.objects.create(id=id, result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
 
             messaging.send_message('bet_made;' + str(usr['id']) + ';' + str(amount))
 
@@ -139,17 +136,14 @@ def gNotificationsView(request):
         aux.append(model_to_dict(notif))
     return JsonResponse(aux, safe=False)
 
-#def notifView(request, message):
 def notifView(user, message):
     existe = False
     for notif in models.Notification.objects.all():
         if notif.id == id:
             existe = True
     if not existe:
-        models.Notification.objects.create(user=user, message=message)
-        #return HttpResponse('ok')
-    #else:
-        #return HttpResponseBadRequest(content='notif already exists')
+        id = max(models.Notification.objects.all().values_list('id', flat=True)) + 1
+        models.Notification.objects.create(id=id, user=user, message=message)
 
 def dNotificationView(request, id):
     notif = get_object_or_404(models.Notification, id=id)
@@ -180,7 +174,8 @@ def endBets(event, result, equipaC, equipaF):
                 bet.profit=Decimal('0.00')
                 bet.save()
 
-            models.Notification.objects.create(message=message, bet=bet, user=bet.user)
+            id = max(models.Notification.objects.all().values_list('id', flat=True)) + 1
+            models.Notification.objects.create(id=id, message=message, bet=bet, user=bet.user)
 
 
         return users
