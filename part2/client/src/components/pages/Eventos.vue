@@ -126,7 +126,6 @@ export default {
       }
       else{
         axios.post("http://localhost:8005/bet/", JSON.stringify(this.selected)).then(response => {
-          axios.get("http://localhost:8005/user/remove_coins/" + this.$session.get('user').id + "/" + this.selected.amount + "/").then(response => {}).catch(e => {});
           this.$notify({
             group: 'foo',
             type: 'success',

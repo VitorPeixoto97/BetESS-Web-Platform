@@ -83,3 +83,5 @@ def send_message(message, user_queue='user_queue'):
             delivery_mode = 2, # make message persistent
         ),
         body=message)
+
+    connection.close()

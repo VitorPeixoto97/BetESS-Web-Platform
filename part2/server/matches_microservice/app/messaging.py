@@ -17,5 +17,4 @@ def send_message(message, bet_queue='bet_queue'):
         ),
         body=message)
 
-def bet_callback(ch, method, properties, body):
-    print('confirmação de bet_queue')
+    connection.close()

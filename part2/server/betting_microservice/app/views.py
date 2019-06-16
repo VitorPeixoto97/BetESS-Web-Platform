@@ -97,6 +97,9 @@ def addBetView(request):
             return HttpResponseBadRequest('Já apostou nesse evento!')
         else:
             models.Bet.objects.create(result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
+
+            messaging.send_message('bet_made;' + str(usr['id']) + ';' + str(amount))
+
             return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bad form')
