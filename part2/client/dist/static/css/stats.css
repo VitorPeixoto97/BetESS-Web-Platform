@@ -44,7 +44,6 @@ body {
   height:30px;
   border-color: #CC2030 !important;
   background-color: #CC2030 !important;
-  color: #FFF !important;
   font-size: 100%;
   border-radius: 5rem;
   font-weight: bold;
@@ -53,6 +52,14 @@ body {
   position:absolute;
   margin-left:-7px;
   margin-top:-7px;
+}
+
+.btn-red-dismiss{
+  color: #CC2030 !important;
+}
+
+.btn-red-dismiss:hover{
+  color: #FFF !important;
 }
 
 .btn-primary{
@@ -92,6 +99,14 @@ body {
   position:absolute;
   margin-left:-7px;
   margin-top:-7px;
+}
+
+.btn-green-dismiss{
+  color: #20BB50;
+}
+
+.btn-green-dismiss:hover{
+  color: #FFF;
 }
 
 .btn-cancelbet:hover{

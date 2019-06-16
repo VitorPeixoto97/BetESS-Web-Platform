@@ -30,9 +30,8 @@ def index(request):
     return render(request, 'server/index.html', context)
 
 def infoBetView(request, id):
-  bet = models.Bet.objects.get(id=id)
-
-  return JsonResponse(model_to_dict(bet))
+    bet = models.Bet.objects.get(id=id)
+    return JsonResponse(model_to_dict(bet))
 
 def gBetView(request, id):
     bet = get_object_or_404(models.Bet, id=id)
@@ -127,6 +126,8 @@ def gNotificationView(request, id):
 def gNotificationUserView(request, user):
     notifs = models.Notification.objects.filter(user=user)
     aux = []
+    if(notifs.count()==0):
+        return JsonResponse(aux, safe=False)
     for notif in notifs:
         aux.append(model_to_dict(notif))
     return JsonResponse(aux, safe=False)
@@ -171,7 +172,7 @@ def endBets(event, result, equipaC, equipaF):
         users = []
         for bet in models.Bet.objects.filter(event=event):
             if bet.result == result:
-                message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Ganhou ' + str(bet.profit) + ' coins da sua aposta!'
+                message = equipaC + ' ' + word(result) + ' contra ' + equipaF + '! Ganhou ' + str(bet.profit) + '€!'
                 users.append(str(bet.user) + '-' + str(bet.profit))
             else: 
                 print('loser: ' + str(bet.id))

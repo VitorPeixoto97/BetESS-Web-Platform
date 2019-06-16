@@ -6,6 +6,7 @@ import Eventos from '@/components/pages/Eventos'
 import Apostas from '@/components/pages/Apostas'
 import Registar from '@/components/pages/Registar'
 import Historico from '@/components/pages/Historico'
+import Notificacoes from '@/components/pages/Notificacoes'
 import Movimentos from '@/components/pages/Movimentos'
 import AdminEventos from '@/components/pages/AdminEventos'
 import AdminEquipas from '@/components/pages/AdminEquipas'
@@ -39,6 +40,11 @@ export default new Router({
       path: '/movimentos',
       name: 'Movimentos',
       component: Movimentos
+    },
+    {
+      path: '/notificacoes',
+      name: 'Notificações',
+      component: Notificacoes
     },
     {
       path: '/historico',
