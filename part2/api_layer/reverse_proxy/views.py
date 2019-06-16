@@ -20,6 +20,10 @@ class EventEnd(ProxyView):
 class Team(ProxyView):
 	upstream = 'http://127.0.0.1:8001/matches/add_team/'
 
+class Competition(ProxyView):
+	upstream = 'http://127.0.0.1:8001/matches/add_competition/'
+
+
 #GETS
 class Gets(ProxyView):
 	upstream = 'http://127.0.0.1:8000/'

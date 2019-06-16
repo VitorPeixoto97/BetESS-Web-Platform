@@ -9,7 +9,6 @@ import Historico from '@/components/pages/Historico'
 import Movimentos from '@/components/pages/Movimentos'
 import AdminEventos from '@/components/pages/AdminEventos'
 import AdminEquipas from '@/components/pages/AdminEquipas'
-import AdminCompeticoes from '@/components/pages/AdminCompeticoes'
 import AdminHistorico from '@/components/pages/AdminHistorico'
 
 Vue.use(Router)
@@ -55,11 +54,6 @@ export default new Router({
       path: '/adminequipas',
       name: 'AdminEquipas',
       component: AdminEquipas
-    },
-    {
-      path: '/admincompeticoes',
-      name: 'AdminCompeticoes',
-      component: AdminCompeticoes
     },
     {
       path: '/adminhistorico',

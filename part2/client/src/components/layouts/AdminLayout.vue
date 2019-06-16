@@ -9,7 +9,6 @@
           <div style="margin: 0 auto; width:100%; background-color:#FF5426;">
             <md-bottom-bar-item id="eventos"      @click="eventos"      md-label="Eventos"       md-icon="explore"></md-bottom-bar-item>
             <md-bottom-bar-item id="equipas"      @click="equipas"      md-label="Equipas"       md-icon="people"></md-bottom-bar-item>
-            <md-bottom-bar-item id="competicoes"  @click="competicoes"  md-label="Competições"   md-icon="star"></md-bottom-bar-item>
             <md-bottom-bar-item id="historico"    @click="historico"    md-label="Histórico"     md-icon="history"></md-bottom-bar-item>
             <md-bottom-bar-item id="logout"       @click="logout"       md-label="Sair"          md-icon="power_settings_new"></md-bottom-bar-item>
           </div>
@@ -40,10 +39,6 @@
       equipas() {
         this.$session.set('activeTab',"equipas")
         this.$router.push('/adminequipas')
-      },
-      competicoes() {
-        this.$session.set('activeTab',"competicoes")
-        this.$router.push('/admincompeticoes')
       },
       historico() {
         this.$session.set('activeTab',"historico")

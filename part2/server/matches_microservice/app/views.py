@@ -46,6 +46,24 @@ def gTeamsView(request):
         aux.append(new_team)
     return JsonResponse(aux, safe=False)
 
+@csrf_exempt 
+def addCompetitionView(request):
+    if request.method=='POST':
+        received = json.loads(request.body.decode('utf-8'))
+
+        name = received['name']
+        pais = received['country']
+
+        comps = models.Competition.objects.filter(name=name)
+        if(comps.count()>0):
+            return HttpResponseBadRequest(content='Essa competição já se encontra registada!')
+        else:
+            id = max(models.Competition.objects.all().values_list('id', flat=True)) + 1
+            models.Competition.objects.create(id=id, name=name, country=pais)
+            return HttpResponse('ok')
+    else:
+        return HttpResponseBadRequest(content='bad form')
+
 def cCompetitionView(request, id, name, country):
     models.Competition.objects.filter(id=id).update(name=name, country=country)
     return HttpResponse('ok')
@@ -138,7 +156,6 @@ def endEventView(request):
     else:
         return HttpResponseBadRequest(content='bad form')
             
-
 def getEventView(request, id):
     event = get_object_or_404(models.Event, id=id)
 
@@ -231,57 +248,4 @@ def getActiveEventsView(request):
         new_event['status'] = event.status
         new_event['result'] = event.result
         aux.append(new_event)
-    return JsonResponse(aux, safe=False)
-
-def gCompetitionTeamsView(request, id):
-    teams = []
-    teams = models.Competition.objects.get(id=id).teams.all()
-
-    aux = []
-    for team in teams:
-        new_team = {}
-        new_team['id'] = team.id
-        new_team['name'] = team.name
-        new_team['simbolo'] = team.simbolo
-        aux.append(new_team)
-
-    return JsonResponse(aux, safe=False)
-        
-
-def gNotCompetitionTeamsView(request, id):
-    aux = []
-    teams = models.Team.objects.all()
-    for team in teams:
-        try:
-            team.competitions.get(id=id)
-        except:
-            new_team = {}
-            new_team['id'] = team.id
-            new_team['name'] = team.name
-            new_team['simbolo'] = team.simbolo
-            aux.append(new_team)
-
-    return JsonResponse(aux, safe=False)
-
-def CompetitionTeamView(request, idcomp, idteam):
-    team = get_object_or_404(models.Team, id=idteam)
-
-    try:
-        competition = models.Competition.objects.get(id=idcomp)
-    except:
-        return HttpResponseBadRequest('Invalid Competition')
-
-    competition.teams.add(team)
-
-    return HttpResponse('ok')
-
-def dCompetitionTeamView(request, idcomp, idteam):
-    team = get_object_or_404(models.Team, id=idteam)
-
-    
-    competition = get_object_or_404(models.Competition, id=idcomp)
-    
-    
-    competition.teams.remove(team)
-
-    return HttpResponse('ok')
+    return JsonResponse(aux, safe=False)    

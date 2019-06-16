@@ -6,11 +6,27 @@
           <v-card  style="color:#FFF; height:80px;" class="my-card event">
             <v-container>
               <div class="row inside-row">
-                  <input class="form-control" style="width:25%;" v-model="nova_equipa.name" placeholder="Nova equipa...">
+                  <input class="form-control" style="width:25%;" v-model="nova_equipa.name" placeholder="Nome">
                 
-                  <input class="form-control" style="width:25%;" v-model="nova_equipa.simbolo" placeholder="URL de logótipo...">
+                  <input class="form-control" style="width:25%;" v-model="nova_equipa.simbolo" placeholder="Símbolo (URL)">
                 
-                  <button class="btn btn-lg text-uppercase btn-primary" style="display:inline; width:20%;" v-on:click="equipa()" :disabled="!checkform()">NOVA EQUIPA</button>
+                  <button class="btn btn-lg text-uppercase btn-primary" style="display:inline; width:20%;" v-on:click="equipa()" :disabled="!checkform()">ADICIONAR EQUIPA</button>
+              </div>
+            </v-container>
+          </v-card>
+        </div>
+      </div>
+
+      <div class="row main-row" style="padding:0px 15px 0px 15px;">
+        <div class="column full-column">
+          <v-card  style="color:#FFF; height:80px;" class="my-card event">
+            <v-container>
+              <div class="row inside-row">
+                  <input class="form-control" style="width:25%;" v-model="nova_competicao.name" placeholder="Nome">
+                
+                  <input class="form-control" style="width:25%;" v-model="nova_competicao.country" placeholder="País">
+                
+                  <button class="btn btn-lg text-uppercase btn-primary" style="display:inline; width:30%;" v-on:click="competicao()" :disabled="!checkformCompeticao()">ADICIONAR COMPETIÇÃO</button>
               </div>
             </v-container>
           </v-card>
@@ -55,6 +71,11 @@ export default {
               name: '',
               simbolo: ''
           },
+
+          nova_competicao: {
+              name: '',
+              country: ''
+          }
       }
   },
 
@@ -83,6 +104,11 @@ export default {
     checkform() {
         var imgregex = RegExp('^.+\.(jpeg|jpg|gif|png)$')
         return(imgregex.test(this.nova_equipa.simbolo))
+    },
+    checkformCompeticao() {
+        if(this.nova_competicao.name.length>0 && this.nova_competicao.country.length>0)
+          return true;
+        else return false;
     },
 
     equipa() {
@@ -113,6 +139,24 @@ export default {
                 text: 'Imagem inválida.'
             })
         })
+    },
+
+    competicao() {
+        axios.post("http://localhost:8005/competition/", JSON.stringify(this.nova_competicao)).then(response => {
+          this.$notify({
+            group: 'foo',
+            type: 'success',
+            title: 'Notificação',
+            text: 'Competição registada.'
+          });
+        }).catch(e => {
+          this.$notify({
+            group: 'foo',
+            type: 'error',
+            title: 'Erro',
+            text: e.response.data
+          });
+        });
     },
 
 

@@ -40,7 +40,7 @@
                   
                 </div>
                 <div class="row" style="width:98%; padding-top:30px; margin:auto;">
-                  <button :disabled="!checkform()" class="btn btn-lg text-uppercase btn-movim" style="width:200px; margin:auto" @click="newevento()">NOVO EVENTO</button>
+                  <button :disabled="!checkform()" class="btn btn-lg text-uppercase btn-movim" style="width:220px; margin:auto" @click="newevento()">ADICIONAR EVENTO</button>
                 </div>
                   
                 </v-container>
@@ -177,13 +177,13 @@ export default {
 
     eventEnd(){
 
-        axios.post("http://localhost:8005/end_event/", JSON.stringify(this.selected)).then(response => {
-            this.$notify({
+        axios.post("http://localhost:8005/event_end/", JSON.stringify(this.selected)).then(response => {
+          this.$notify({
             group: 'foo',
             type: 'success',
             title: 'Notificação',
-            text: 'Evento Terminado.'
-            });
+            text: 'Evento terminado com sucesso.'
+          });
         }).catch(e => {
             this.$notify({
             group: 'foo',
@@ -192,7 +192,7 @@ export default {
             text: e.response.data
             });
         });
-        this.$router.go()
+        this.FetchData();
     },
 
     checkform() {
