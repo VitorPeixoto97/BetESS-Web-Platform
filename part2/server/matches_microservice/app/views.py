@@ -82,15 +82,6 @@ def gCompetitionsView(request):
         new_competition['country'] = competition.country
         aux.append(new_competition)
     return JsonResponse(aux, safe=False)
-    #     new_competition['teams'] = []
-    #     for team in competition.teams.all():
-    #         new_team = {}
-    #         new_team['id'] = team.id
-    #         new_team['name'] = team.name
-    #         new_team['simbolo'] = team.simbolo
-    #         new_competition['teams'].append(new_team)
-    #     aux.append(new_competition)
-    # return JsonResponse(aux, safe=False)
 
 @csrf_exempt
 def addEventView(request):
@@ -113,7 +104,8 @@ def addEventView(request):
 
         date = datetime.datetime.strptime(received['data'] + ' ' + received['hora'] , '%Y-%m-%d %H:%M')
 
-        models.Event.objects.create(type=tipo, competition=competition, equipaC=equipaC, equipaF=equipaF,
+        id = max(models.Event.objects.all().values_list('id', flat=True)) + 1
+        models.Event.objects.create(id=id, type=tipo, competition=competition, equipaC=equipaC, equipaF=equipaF,
         oddV=oddV, oddE=oddE, oddD=oddD, status=True, date=date.date(), time=date.time())
 
         return HttpResponse('ok')
@@ -123,9 +115,6 @@ def addEventView(request):
 def cEventView(request, id, type, competition, equipaC, equipaF, oddV, oddE, oddD, status, result):
     models.Event.objects.filter(id=id).update(type=type, competition=competition, equipaC=equipaC, equipaF=equipaF, 
                                                 oddV=oddV, oddE=oddE, oddD=oddD, status=status, result=result)
-
-# def dEventView(request, id):
-#     models.Event.objects.filter(id=id).delete
 
 @csrf_exempt 
 def endEventView(request):
@@ -183,8 +172,6 @@ def getEventsView(request, usertype):
     if(usertype == 1):
         events = models.Event.objects.filter(status=True).order_by('date')
     else: events = models.Event.objects.filter(type=0, status=True).order_by('date')
-
-    #FILTRAR EVENTOS ONDE O USER JA TENHA APOSTADO
 
     aux = []
     for event in events:

@@ -2,7 +2,6 @@ import pika
 import uuid
 import threading
 from . import views
-from django.http import HttpResponseBadRequest
 
 class RabbitMessaging:
     def __init__(self, bet_queue='bet_queue', user_queue='user_queue'):
