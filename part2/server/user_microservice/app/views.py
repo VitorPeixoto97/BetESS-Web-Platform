@@ -47,9 +47,9 @@ def registerView(request):
             id = 1
             ids = models.User.objects.all().values_list('id', flat=True)
             if len(ids) != 0:
-                id = max(ids) + 1
-            models.User.objects.create(id=id, email=email, name=name, type=premium, coins=coins)
+                id = max(ids) + 1                
             user = get_user_model().objects.create_user(email, email, password)
+            models.User.objects.create(id=id, email=email, name=name, type=premium, coins=coins)
             return HttpResponse('ok')
     else:
         return HttpResponseBadRequest(content='bad form')
