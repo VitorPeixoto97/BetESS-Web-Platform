@@ -21,7 +21,10 @@ def addTeamView(request):
         if(teams.count()>0):
             return HttpResponseBadRequest(content='Essa equipa já se encontra registada!')
         else:
-            id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
+            id = 1
+            ids = models.Team.objects.all().values_list('id', flat=True)
+            if len(ids) != 0:
+                id = max(ids) + 1
             models.Team.objects.create(id=id, name=name, simbolo=simbolo)
             return HttpResponse('ok')
     else:
@@ -58,7 +61,10 @@ def addCompetitionView(request):
         if(comps.count()>0):
             return HttpResponseBadRequest(content='Essa competição já se encontra registada!')
         else:
-            id = max(models.Competition.objects.all().values_list('id', flat=True)) + 1
+            id = 1
+            ids = models.Competition.objects.all().values_list('id', flat=True)
+            if len(ids) != 0:
+                id = max(ids) + 1
             models.Competition.objects.create(id=id, name=name, country=pais)
             return HttpResponse('ok')
     else:
@@ -104,7 +110,10 @@ def addEventView(request):
 
         date = datetime.datetime.strptime(received['data'] + ' ' + received['hora'] , '%Y-%m-%d %H:%M')
 
-        id = max(models.Event.objects.all().values_list('id', flat=True)) + 1
+        id = 1
+        ids = models.Event.objects.all().values_list('id', flat=True)
+        if len(ids) != 0:
+            id = max(ids) + 1
         models.Event.objects.create(id=id, type=tipo, competition=competition, equipaC=equipaC, equipaF=equipaF,
         oddV=oddV, oddE=oddE, oddD=oddD, status=True, date=date.date(), time=date.time())
 

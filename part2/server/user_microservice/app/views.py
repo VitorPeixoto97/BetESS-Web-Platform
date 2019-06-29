@@ -44,7 +44,10 @@ def registerView(request):
         elif(coins<10):
             return HttpResponseBadRequest(content='Tem de depositar no mínimo 5 coins para fazer o registo.')
         else:
-            id = max(models.User.objects.all().values_list('id', flat=True)) + 1
+            id = 1
+            ids = models.User.objects.all().values_list('id', flat=True)
+            if len(ids) != 0:
+                id = max(ids) + 1
             models.User.objects.create(id=id, email=email, name=name, type=premium, coins=coins)
             user = get_user_model().objects.create_user(email, email, password)
             return HttpResponse('ok')
@@ -76,7 +79,10 @@ def userView(request, username, email, password, name, coins):
         if admin.email == email:
             existe = True
     if not existe:
-        id = max(models.Team.objects.all().values_list('id', flat=True)) + 1
+        id = 1
+        ids = models.Team.objects.all().values_list('id', flat=True)
+        if len(ids) != 0:
+            id = max(ids) + 1
         models.User.objects.create(id=id, username=username, email=email, password=password, name=name, coins=coins+10)
         return HttpResponse('ok')
     else:

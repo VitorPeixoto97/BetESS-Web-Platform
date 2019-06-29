@@ -91,7 +91,10 @@ def addBetView(request):
         if(jaapostou):
             return HttpResponseBadRequest('Já apostou nesse evento!')
         else:
-            id = max(models.Bet.objects.all().values_list('id', flat=True)) + 1
+            id = 1
+            ids = models.Bet.objects.all().values_list('id', flat=True)
+            if len(ids) != 0:
+                id = max(ids) + 1
             models.Bet.objects.create(id=id, result=res, amount=amount, odd=odd, profit=prof, event=received['id'], user=usr['id'])
 
             messaging.send_message('bet_made;' + str(usr['id']) + ';' + str(amount))
@@ -142,7 +145,10 @@ def notifView(user, message):
         if notif.id == id:
             existe = True
     if not existe:
-        id = max(models.Notification.objects.all().values_list('id', flat=True)) + 1
+        id = 1
+        ids = models.Notification.objects.all().values_list('id', flat=True)
+        if len(ids) != 0:
+            id = max(ids) + 1
         models.Notification.objects.create(id=id, user=user, message=message)
 
 def dNotificationView(request, id):
@@ -174,7 +180,10 @@ def endBets(event, result, equipaC, equipaF):
                 bet.profit=Decimal('0.00')
                 bet.save()
 
-            id = max(models.Notification.objects.all().values_list('id', flat=True)) + 1
+            id = 1
+            ids = models.Notification.objects.all().values_list('id', flat=True)
+            if len(ids) != 0:
+                id = max(ids) + 1
             models.Notification.objects.create(id=id, message=message, bet=bet, user=bet.user)
 
 
