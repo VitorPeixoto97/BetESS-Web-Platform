@@ -6,3 +6,8 @@
 [Daniel Maia](https://github.com/SilentLynx)
 
 [Vitor Peixoto](https://github.com/VitorPeixoto97)
+
+# Classification
+
+* Part 1 - 13.0
+* Part 2 - 17.0
